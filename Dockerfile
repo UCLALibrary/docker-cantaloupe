@@ -1,6 +1,7 @@
 ARG CANTALOUPE_VERSION=4.0.2
 FROM maven:3.6.0-jdk-11 AS MAVEN_TOOL_CHAIN
 ARG CANTALOUPE_VERSION
+ENV CANTALOUPE_VERSION=$CANTALOUPE_VERSION
 RUN mkdir -p /build && \
     cd /build && \
     if [ "$CANTALOUPE_VERSION" = 'latest' ] ; then curl -OL https://github.com/medusa-project/cantaloupe/archive/develop.zip; else curl -OL https://github.com/medusa-project/cantaloupe/releases/download/v$CANTALOUPE_VERSION/Cantaloupe-$CANTALOUPE_VERSION.zip; fi
@@ -11,6 +12,7 @@ RUN if [ "$CANTALOUPE_VERSION" = 'latest' ]; then unzip develop.zip cantaloupe-d
 
 FROM openjdk:10-slim
 ARG CANTALOUPE_VERSION
+ENV CANTALOUPE_VERSION=$CANTALOUPE_VERSION
 
 EXPOSE 8182
 
