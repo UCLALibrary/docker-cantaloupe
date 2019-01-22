@@ -20,7 +20,7 @@ VOLUME /imageroot
 
 # Update packages and install tools
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends wget unzip graphicsmagick curl imagemagick libopenjp2-tools ffmpeg python
+    apt-get install -y --no-install-recommends wget unzip graphicsmagick curl imagemagick libopenjp2-tools ffmpeg python && \
     rm -rf /var/lib/apt/lists/* ### this command prevents future tinkering with apt
 
 # Run non privileged
