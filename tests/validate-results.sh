@@ -32,7 +32,8 @@ echo "starting tests with container_id=${container_id} ..."
 
 #smoke test, this will die if the container doesn't start up or if /etc/cantaloupe.properties doesn't exist in the container
 echo "smoke test..."
-if [ docker exec --tty "${container_id}" env TERM=xterm ls /etc/cantaloupe.properties > /dev/null 2>&1 ] ; then
+if docker exec --tty "${container_id}" env TERM=xterm ls /etc/cantaloupe.properties > /dev/null 2>&1
+then
   echo "...passed"
 else
   die "container id $container_id failed to start" "$?"
@@ -41,15 +42,19 @@ fi
 # verify that port 8182 is exposed in the container, NOTE this doesn't guarantee anything is listening
 echo "is port 8182 exposed on container_id=${container_id} ?..."
 exposed_ports="$(docker inspect --format='{{range $p, $conf := .Config.ExposedPorts}} {{$p}} {{end}}' $container_id)"
-if [[ "${exposed_ports}" =~ '8182' ]] ; then
+if [[ "${exposed_ports}" =~ '8182' ]]
+then
   echo "...passed"
 else
   die "port 8182 is not exposed in container_id $container_id" "$?"
 fi
 
 echo "is port 8182 listening on container_id=${container_id} ?..."
+portListening=$(docker exec --tty "${container_id}" env TERM=xterm ss -tunl | grep -c '8182')
 # verify port 8182 is listening on the container
-if [ docker exec --tty "${container_id}" env TERM=xterm ss -tunl | grep 8182 > /dev/null 2>&1 ] ; then
+echo "portListening=$portListening"
+if [[ $portListening -gt 0 ]]
+then
   echo "...passed"
 else
   die "port 8182 is not listening on container_id $container_id" "$?"
