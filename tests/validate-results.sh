@@ -30,7 +30,7 @@ die () {
 container_id="$(cat $1)"
 
 #smoke test, this will die if the container doesn't start up or if /etc/cantaloupe.properties doesn't exist in the container
-docker exec --tty "${container_id}" env TERM=xterm ls /etc/cantaloupe.properties >> /dev/null 2>&1 || die "$1" "$?"
+docker exec --tty "${container_id}" env TERM=xterm ls /etc/cantaloupe.properties >> /dev/null 2>&1 || die "container id $container_id failed to start" "$?"
 
 # verify that port 8182 is exposed in the container, NOTE this doesn't guarantee anything is listening
 exposed_ports="$(docker inspect --format='{{range $p, $conf := .Config.ExposedPorts}} {{$p}} {{end}}' $container_id)"
