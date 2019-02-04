@@ -38,4 +38,8 @@ if ! [[ "${exposed_ports}" =~ '8182' ]] ; then
   die "port 8182 is not exposed in container_id $container_id" "$?"
 fi
 
+# verify port 8182 is listening on the container
+docker exec --tty "${container_id}" env TERM=xterm ss -tunl | grep :8182 >> /dev/null 2>&1 || die "port 8182 is not listening on container_id $container_id" "$?"
+
+
 printf "${GREEN}Tests ran successfully!${NC}\n"
