@@ -49,15 +49,15 @@ else
   die "port 8182 is not exposed in container_id $container_id" "$?"
 fi
 
-echo "is port 8182 listening on container_id=${container_id} ?..."
-portListening=$(docker exec --tty "${container_id}" env TERM=xterm ss -tunl | grep -c '8182')
-# verify port 8182 is listening on the container
-echo "portListening=$portListening"
-if [[ $portListening -gt 0 ]]
+echo "is port 8182 listening on localhost ?..."
+portListeningLocalhost=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8182)
+# verify port 8182 is listening on the host
+echo "portListeningLocalhost=$portListeningLocalhost"
+if [ "${portListeningLocalhost}" == "200" ]
 then
   echo "...passed"
 else
-  die "port 8182 is not listening on container_id $container_id" "$?"
+  die "port 8182 is not listening on localhost" "$?"
 fi
 
 
