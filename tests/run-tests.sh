@@ -5,32 +5,60 @@ GREEN='\033[1;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-# Our tests need Docker installed
-hash docker 2>/dev/null || { echo >&2 "I require Docker to be installed to run tests. Aborting."; exit 1; }
+# An informational message in case a test fails
+die () {
+  local message=$1
+  echo ""
+  printf "${RED}Tests failed!${NC}\n"
+  echo ""
+  echo "$message" >&2
 
-# Place to store container ID so tests can use it
-CONTAINER_ID=$(mktemp)
+  if [ "$TRAVIS" != 'true' ]; then
+    printf "  ${GREEN}To clean up the testing container, run:${NC}\n"
+    echo "    docker rm -f \"$container_id\""
+    echo ""
+    printf "  ${GREEN}To clean up all system containers, run:${NC}\n"
+    echo "    docker rm -f \$(docker ps -a -q)"
+    echo ""
+  fi
 
-# Clean up any stale test artifacts
-docker rm -f melon
+  exit $2
+}
 
-# Build the project
-docker build -t cantaloupe .
+# These are the actual tests we run
 
-# Run the project so it can be tested (will fail if docker-cantaloupe is already running)
-docker run -d -p 8182:8182 -e "ENDPOINT_ADMIN_SECRET=secret" -e "ENDPOINT_ADMIN_ENABLED=true" --name melon -v testimages:/imageroot cantaloupe > "${CONTAINER_ID}"
+container_id=$(cat "${TMPDIR-/tmp}/travis_container_id")
+echo "starting tests with container_id=${container_id} ..."
 
-# Run the tests
-source tests/validate-results.sh "$CONTAINER_ID"
+#smoke test, this will die if the container doesn't start up or if /etc/cantaloupe.properties doesn't exist in the container
+echo "smoke test..."
+if docker exec --tty "${container_id}" env TERM=xterm ls /etc/cantaloupe.properties > /dev/null 2>&1
+then
+  echo "...passed"
+else
+  die "container id $container_id failed to start" "$?"
+fi
 
-# Some hints about what to do with the test resources
-echo ""
-echo "For further in-container testing, run:"
-echo "  docker exec -it \"$(cat ${CONTAINER_ID})\" bash"
-echo ""
-echo "To clean up the testing container, run:"
-echo "  docker rm -f \"$(cat ${CONTAINER_ID})\""
-echo ""
-echo "To clean up all system containers, run:"
-echo "  docker rm -f \$(docker ps -a -q)"
-echo ""
+# verify that port 8182 is exposed in the container, NOTE this doesn't guarantee anything is listening
+echo "is port 8182 exposed on container_id=${container_id} ?..."
+exposed_ports="$(docker inspect --format='{{range $p, $conf := .Config.ExposedPorts}} {{$p}} {{end}}' $container_id)"
+if [[ "${exposed_ports}" =~ '8182' ]]
+then
+  echo "...passed"
+else
+  die "port 8182 is not exposed in container_id $container_id" "$?"
+fi
+
+echo "is port 8182 listening on localhost ?..."
+portListeningLocalhost=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8182)
+# verify port 8182 is listening on the host
+echo "portListeningLocalhost=$portListeningLocalhost"
+if [ "${portListeningLocalhost}" == "200" ]
+then
+  echo "...passed"
+else
+  die "port 8182 is not listening on localhost" "$?"
+fi
+
+
+printf "${GREEN}Tests ran successfully!${NC}\n"

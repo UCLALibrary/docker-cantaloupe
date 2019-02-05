@@ -4,6 +4,7 @@ services:
 - docker
 
 script:
+- tests/setup-tests.sh
 - tests/run-tests.sh
 
 after_success:
