@@ -13,7 +13,6 @@ RUN mkdir -p /build && \
       cd cantaloupe && \
       if [ "$LATEST_SAFE_COMMIT" != 'latest' ] ; then \
         git checkout -b "$LATEST_SAFE_COMMIT" "$LATEST_SAFE_COMMIT" ; \
-        sleep 1m ; \
       fi && \
       mvn -DskipTests=true clean package && \
       mv target/cantaloupe-?.?-SNAPSHOT.zip "/build/Cantaloupe-${CANTALOUPE_VERSION}.zip" ; \
