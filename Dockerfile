@@ -1,18 +1,18 @@
 ARG CANTALOUPE_VERSION=4.0.3
 # LATEST_SAFE_COMMIT should be 'latest' or a commit hash; it is a defense against a broken upstream
-ARG LATEST_SAFE_COMMIT=latest
+ARG COMMIT_REF=latest
 FROM maven:3.6.0-jdk-11 AS MAVEN_TOOL_CHAIN
 ARG CANTALOUPE_VERSION
-ARG LATEST_SAFE_COMMIT
+ARG COMMIT_REF
 ENV CANTALOUPE_VERSION=$CANTALOUPE_VERSION
-ENV LATEST_SAFE_COMMIT=$LATEST_SAFE_COMMIT
+ENV COMMIT_REF=$COMMIT_REF
 RUN mkdir -p /build && \
     cd /build && \
     if [ "$CANTALOUPE_VERSION" = 'latest' ] ; then \
       git clone https://github.com/medusa-project/cantaloupe.git && \
       cd cantaloupe && \
-      if [ "$LATEST_SAFE_COMMIT" != 'latest' ] ; then \
-        git checkout -b "$LATEST_SAFE_COMMIT" "$LATEST_SAFE_COMMIT" ; \
+      if [ "$COMMIT_REF" != 'latest' ] ; then \
+        git checkout -b "$COMMIT_REF" "$COMMIT_REF" ; \
       fi && \
       mvn -DskipTests=true clean package && \
       mv target/cantaloupe-?.?-SNAPSHOT.zip "/build/Cantaloupe-${CANTALOUPE_VERSION}.zip" ; \
@@ -20,7 +20,7 @@ RUN mkdir -p /build && \
       curl -OL https://github.com/medusa-project/cantaloupe/releases/download/v$CANTALOUPE_VERSION/Cantaloupe-$CANTALOUPE_VERSION.zip; \
     fi
 
-FROM openjdk:10-slim
+FROM openjdk:11-slim
 ARG CANTALOUPE_VERSION
 ENV CANTALOUPE_VERSION=$CANTALOUPE_VERSION
 
