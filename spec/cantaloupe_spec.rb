@@ -58,20 +58,12 @@ describe docker_build(dockerfile, tag: image_tag + '_test') do
         it { should be_grouped_into 'root' }
       end
 
-      # Check to see that OpenJPEG is installed
-      describe file('/usr/bin/opj_compress') do
-        it { should be_file }
-        it { should be_mode 755 }
-        it { should be_owned_by 'root'}
-        it { should be_grouped_into 'root' }
+      describe package('libopenjp2-tools') do
+        it { should be_installed.with_version('2.3.0-1') }
       end
 
-      # Check to see that Java is installed
-      describe file('/usr/lib/jvm/java-11-openjdk-amd64/bin/java') do
-        it { should be_file }
-        it { should be_mode 755 }
-        it { should be_owned_by 'root'}
-        it { should be_grouped_into 'root' }
+      describe package('openjdk-11-jre-headless') do
+        it { should be_installed }
       end
     end
   end
