@@ -57,6 +57,13 @@ describe docker_build(dockerfile, tag: image_tag + '_test') do
         it { should be_owned_by 'cantaloupe'}
         it { should be_grouped_into 'root' }
       end
+
+      describe file('/usr/bin/opj_compress') do
+        it { should be_file }
+        it { should be_mode 755 }
+        it { should be_owned_by 'root'}
+        it { should be_grouped_into 'root' }
+      end
     end
   end
 end
