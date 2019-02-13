@@ -51,7 +51,7 @@ RUN cd /usr/local \
  && rm -rf /usr/local/cantaloupe-$CANTALOUPE_VERSION/deps
 
 COPY docker-entrypoint.sh /usr/local/bin/
-COPY cantaloupe.properties.tmpl /etc/cantaloupe.properties.tmpl
+COPY configs/cantaloupe.properties-$CANTALOUPE_VERSION.tmpl /etc/cantaloupe.properties.tmpl
 COPY cantaloupe.properties.default /etc/cantaloupe.properties.default
 RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe \
  && touch /etc/cantaloupe.properties \
