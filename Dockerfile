@@ -30,7 +30,7 @@ VOLUME /imageroot
 
 # Update packages and install tools
 #  Removing /var/lib/apt/lists/* prevents using `apt` unless you do `apt update` first
-RUN apt-get update -qq -y && \
+RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -qq --no-install-recommends wget unzip graphicsmagick curl imagemagick \
       libopenjp2-tools ffmpeg python openjdk-11-jdk-headless < /dev/null > /dev/null && \
