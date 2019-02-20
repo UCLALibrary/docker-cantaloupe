@@ -22,10 +22,7 @@ elsif version == 'dev'
   # this is required because we need to use --build-arg, and DockerSpec does not
   # currently support --build-ARG, see https://github.com/zuazo/dockerspec/issues/14
   success = system('docker build --build-arg CANTALOUPE_VERSION=' + version + commit_ref + '-t ' + image_tag + ' .')
-
-  unless success
-    raise 'Failed to create dev docker-cantaloupe container for testing'
-  end
+  raise 'Failed to create dev docker-cantaloupe container for testing' unless success
 else
   raise('No CANTALOUPE_VERSION set')
 end
