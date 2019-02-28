@@ -6,10 +6,9 @@ ARG CANTALOUPE_VERSION
 ARG COMMIT_REF
 ENV CANTALOUPE_VERSION=$CANTALOUPE_VERSION
 ENV COMMIT_REF=$COMMIT_REF
-WORKDIR /build
+WORKDIR /build/cantaloupe
 RUN if [ "$CANTALOUPE_VERSION" = 'dev' ] ; then \
-      git clone --quiet https://github.com/medusa-project/cantaloupe.git && \
-      cd cantaloupe && \
+      git clone --quiet https://github.com/medusa-project/cantaloupe.git . && \
       if [ "$COMMIT_REF" != 'latest' ] ; then \
         git checkout -b "$COMMIT_REF" "$COMMIT_REF" ; \
       fi && \
