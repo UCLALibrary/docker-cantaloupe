@@ -31,15 +31,15 @@ VOLUME /imageroot
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -qq --no-install-recommends \
-    libopenjp2-tools \
-    openjdk-11-jre-headless \
-    wget \
-    unzip \
-    graphicsmagick \
-    curl \
-    imagemagick \
-    ffmpeg \
-    python \
+    libopenjp2-tools=2.3.0-1 \
+    openjdk-11-jre-headless=11.0.1+13-3ubuntu3.18.10.1 \
+    wget=1.19.5-1ubuntu1 \
+    unzip=6.0-21ubuntu1 \
+    graphicsmagick=1.3.30+hg15796-1 \
+    curl=7.61.0-1ubuntu2.3 \
+    imagemagick=8:6.9.10.8+dfsg-1ubuntu2 \
+    ffmpeg=7:4.0.2-2 \
+    python=2.7.15-3 \
     < /dev/null > /dev/null && \
     rm -rf /var/lib/apt/lists/*
 
