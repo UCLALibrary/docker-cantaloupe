@@ -65,7 +65,7 @@ describe docker_build(dockerfile, tag: image_tag + '_test') do
       end
 
       describe package('openjdk-11-jre-headless') do
-        it { is_expected.to be_installed.with_version('11.0.1+13-3ubuntu3.18.10.1') }
+        it { is_expected.to be_installed.with_version('11.0.2+9-3ubuntu1~18.10.3') }
       end
 
       describe package('wget') do
