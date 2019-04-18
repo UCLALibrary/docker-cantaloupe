@@ -1,10 +1,5 @@
 ###########################################################################
-# Sample Cantaloupe configuration file
-#
-# Copy this file to `cantaloupe.properties` and edit as desired.
-#
-# Keys may change from version to version. See the "Upgrading" section of
-# the website.
+# Template configuration file for Cantaloupe
 #
 # Most changes will take effect without restarting. Those that won't are
 # marked with "!!".
