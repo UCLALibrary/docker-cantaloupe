@@ -76,7 +76,6 @@ FilesystemSource.BasicLookupStrategy.path_suffix = $CANTALOUPE_FILESYSTEMSOURCE_
 # HttpSource
 #----------------------------------------
 
-#HttpSource.trust_all_certs = $CANTALOUPE_HTTPSOURCE_TRUST_ALL_CERTS
 HttpSource.allow_insecure = $CANTALOUPE_HTTPSOURCE_ALLOW_INSECURE
 HttpSource.request_timeout = $CANTALOUPE_HTTPSOURCE_REQUEST_TIMEOUT
 HttpSource.lookup_strategy = $CANTALOUPE_HTTPSOURCE_LOOKUP_STRATEGY
@@ -156,17 +155,6 @@ processor.ManualSelectionStrategy.pdf = $CANTALOUPE_MANUAL_PROCESSOR_PDF
 processor.ManualSelectionStrategy.png = $CANTALOUPE_MANUAL_PROCESSOR_PNG
 processor.ManualSelectionStrategy.tif = $CANTALOUPE_MANUAL_PROCESSOR_TIF
 processor.ManualSelectionStrategy.webp = $CANTALOUPE_MANUAL_PROCESSOR_WEBP
-
-### AV: Not sure if below is needed anymore for cantaloupe 5.x, will test
-#processor.bmp = $CANTALOUPE_PROCESSOR_BMP
-#processor.dcm = $CANTALOUPE_PROCESSOR_DCM
-#processor.gif = $CANTALOUPE_PROCESSOR_GIF
-#processor.jp2 = $CANTALOUPE_PROCESSOR_JP2
-#processor.jpg = $CANTALOUPE_PROCESSOR_JPG
-#processor.pdf = $CANTALOUPE_PROCESSOR_PDF
-#processor.png = $CANTALOUPE_PROCESSOR_PNG
-#processor.tif = $CANTALOUPE_PROCESSOR_TIF
-#processor.webp = $CANTALOUPE_PROCESSOR_WEBP
 
 
 # Fall back to this processor for any formats not assigned above.
