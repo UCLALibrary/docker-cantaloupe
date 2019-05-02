@@ -43,6 +43,7 @@ phases:
          else
            TAG="latest" ;
          fi
+      - echo "$DOCKERHUB_PASSWORD $DOCKERHUB_USERNAME"
       - echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
       - docker tag "${REG_USERNAME}/cantaloupe_${BUILD_VERSION}" "${REG_USERNAME}/${REG_PROJECT}:${TAG}"
       - docker push "${REG_USERNAME}/${REG_PROJECT}:${TAG}"
