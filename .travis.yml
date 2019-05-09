@@ -1,6 +1,10 @@
 language: ruby
 
 env:
+  global:
+  - JAI_JAR="jai-codec-1.1.3.jar"
+  # Boo third party repos but transitive deps are transitive deps :-(
+  - JAI_REPO="https://repository.jboss.org/maven2"
   matrix:
   - "CANTALOUPE_VERSION=stable"
   - "CANTALOUPE_VERSION=dev"
@@ -11,6 +15,10 @@ services:
 # Upgrade Docker to the current version
 before_install:
 - .travis/upgrade.sh
+- curl "$JAI_REPO/com/sun/media/jai-codec/1.1.3/$JAI_JAR" > "/tmp/$JAI_JAR"
+- >
+  mvn install:install-file -Dfile="/tmp/$JAI_JAR" -DgroupId="com.sun.media" \
+    -DartifactId="jai-codec" -Dversion="1.1.3" -Dpackaging="jar"
 
 before_script:
 - bundle exec rubocop
