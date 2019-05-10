@@ -103,7 +103,7 @@ FROM ubuntu:18.10
 ARG CANTALOUPE_VERSION
 ENV CANTALOUPE_VERSION=$CANTALOUPE_VERSION
 ENV CONFIG_FILE="/etc/cantaloupe.properties"
-ENV JAVA_HEAP="-Xmx2g"
+ENV JAVA_HEAP_SIZE="2g"
 
 EXPOSE 8182
 
@@ -172,4 +172,4 @@ RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe && \
 USER cantaloupe
 WORKDIR /home/cantaloupe
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["sh", "-c", "java -Dcantaloupe.config=$CONFIG_FILE $JAVA_HEAP -jar /usr/local/cantaloupe/cantaloupe-*.war"]
+CMD ["sh", "-c", "java -Dcantaloupe.config=$CONFIG_FILE -Xmx$JAVA_HEAP_SIZE -jar /usr/local/cantaloupe/cantaloupe-*.war"]
