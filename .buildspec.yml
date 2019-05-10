@@ -2,7 +2,6 @@ version: 0.2
 
 env:
   variables:
-    KAKADU_VERSION: "v7_A_7-01903E"
     JRUBY_VERSION: "9.2.7.0"
     MAVEN_REPO: "https://repo1.maven.org/maven2"
     BUILD_VERSION: "stable"
@@ -43,6 +42,7 @@ phases:
          else
            TAG="latest" ;
          fi
+      - docker images
       - echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
       - docker tag "${REG_USERNAME}/cantaloupe_${BUILD_VERSION}" "${REG_USERNAME}/${REG_PROJECT}:${TAG}"
       - docker push "${REG_USERNAME}/${REG_PROJECT}:${TAG}"
