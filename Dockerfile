@@ -117,6 +117,7 @@ RUN apt-get update -qq && \
     ffmpeg=7:4.0.4-0ubuntu1 \
     python=2.7.15-3 \
     < /dev/null > /dev/null && \
+    mkdir -p /opt/libjpeg-turbo/lib && ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib && \
     rm -rf /var/lib/apt/lists/*
 
 # Run Cantaloupe non-privileged
