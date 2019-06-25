@@ -68,7 +68,6 @@ RUN if [ ! -z "$KAKADU_VERSION" ]; then \
       DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends \
         openjdk-11-jdk-headless=11.0.3+7-1ubuntu2~18.10.1  \
         gcc=4:8.3.0-1ubuntu1.1 \
-        libturbojpeg \
         make=4.2.1-1.2 \
         libtiff-tools=4.0.9-6ubuntu0.2 \
         libtiff5=4.0.9-6ubuntu0.2 \
@@ -108,6 +107,7 @@ RUN apt-get update -qq && \
     libtiff5=4.0.9-6ubuntu0.2 \
     libtiff5-dev=4.0.9-6ubuntu0.2 \
     libopenjp2-tools=2.3.0-1 \
+    libturbojpeg \
     openjdk-11-jre-headless=11.0.3+7-1ubuntu2~18.10.1  \
     wget=1.19.5-1ubuntu1.1 \
     unzip=6.0-21ubuntu1 \
