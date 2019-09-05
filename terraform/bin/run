@@ -35,10 +35,10 @@ then
     terraform destroy -var-file="${LOCAL_SECRETS}"
   else
     terraform plan -out ${PLAN_FILE} -var-file="${LOCAL_SECRETS}" 
-#    terraform apply -auto-approve ${PLAN_FILE}
+    terraform apply -auto-approve ${PLAN_FILE}
   fi
 else
   terraform plan -out ${PLAN_FILE}
-#  terraform apply -auto-approve ${PLAN_FILE}
+  terraform apply -auto-approve ${PLAN_FILE}
 fi
 
