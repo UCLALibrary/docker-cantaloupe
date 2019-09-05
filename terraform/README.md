@@ -1,6 +1,13 @@
-# aws_terraform_module_fargate [![Build Status](https://travis-ci.com/UCLALibrary/aws_terraform_module_fargate.svg?branch=master)](https://travis-ci.com/UCLALibrary/aws_terraform_module_fargate)
+# Cantaloupe Terraform Deployment
 
 ## Prerequisites for using docker-cantaloupe terraform
+In order to deploy successfully, you'll need the following prerequisites:
+* Terraform Enterprise (Free/Paid) Account
+  * Create an organization or use your own account name as your organization
+* Terraform Enterprise (Free Tier) Token
+  * Generate a user token from: https://app.terraform.io/app/settings/tokens
+* Create a `backend.hcl` file by replacing the values found in the `backend.hcl.sample` file
+* The [Terraform software](https://www.terraform.io/downloads.html) installed on your machine.
 * Supply a prefix to name your AWS resources with. Usually an alias similar to your username will suffice
   * `ephemeral_app_name = "joebruin"`
 * VPC Setup
@@ -74,7 +81,7 @@ cpu                               = "1024"
 image_url                         = "registry.hub.docker.com/uclalibrary/cantaloupe-ucla:4.1.1"
 listening_port                    = 8182
 disable_load_balancer             = 1
-dockerhub_credentials_secrets_arn = "arn:aws:secretsmanager:us-west-2:0123456789:secret:dockerhub_registry_auth-r9WAkJ"
+dockerhub_credentials_secrets_arn = "arn:aws:secretsmanager:us-west-2:0123456789:secret:dockerhub-auth-example"
 
 # Cantaloupe Container Environment Variables
 cantaloupe_admin_secret                 = "enteryouradminpassword"
@@ -109,7 +116,7 @@ cpu                               = "1024"
 image_url                         = "registry.hub.docker.com/uclalibrary/cantaloupe-ucla:4.1.1"
 listening_port                    = 8182
 disable_load_balancer             = 1
-dockerhub_credentials_secrets_arn = "arn:aws:secretsmanager:us-west-2:0123456789:secret:dockerhub_registry_auth-r9WAkJ"
+dockerhub_credentials_secrets_arn = "arn:aws:secretsmanager:us-west-2:0123456789:secret:dockerhub-auth-example"
 
 # Cantaloupe Container Environment Variables
 cantaloupe_admin_secret                 = "enteryouradminpassword"
