@@ -47,12 +47,13 @@
       * `cantaloupe_s3_source_access_key`
       * `cantaloupe_s3_source_secret_key`
       * `cantaloupe_s3_source_endpoint`
+      * OPTIONAL:  Modifying this will configure cantaloupe for the specified bucket to use: `cantaloupe_s3_source_bucket`
       * `cantaloupe_s3_source_basiclookup_suffix`
       * `cantaloupe_source_static`
       * `cantaloupe_heapsize`
 
 
-## Launching private cantaloupe image with S3Source configured
+## Launching private cantaloupe image with preconfigured S3 bucket
 Create `terraform.tfvars` in this directory
 ```
 # Naming prefix
@@ -73,7 +74,7 @@ cpu                               = "1024"
 image_url                         = "registry.hub.docker.com/uclalibrary/cantaloupe-ucla:4.1.1"
 listening_port                    = 8182
 disable_load_balancer             = 1
-dockerhub_credentials_secrets_arn = "arn:aws:secretsmanager:us-west-2:0123456789:secret:docker-auth-example"
+dockerhub_credentials_secrets_arn = "arn:aws:secretsmanager:us-west-2:0123456789:secret:dockerhub_registry_auth-r9WAkJ"
 
 # Cantaloupe Container Environment Variables
 cantaloupe_admin_secret                 = "enteryouradminpassword"
@@ -84,10 +85,54 @@ cantaloupe_s3_source_bucket             = "s3_bucket"
 cantaloupe_s3_source_basiclookup_suffix = ".jpx"
 cantaloupe_source_static                = "S3Source"
 cantaloupe_heapsize                     = "2g"
+
 ```
 
-Run the task
+## Launching private cantaloupe image with auto-created S3 bucket
+Create `terraform.tfvars` in this directory
+```
+# Naming prefix
+ephemeral_app_name = "joebruin"
+
+# VPC Variables
+vpc_cidr_block            = "10.10.0.0/16"
+subnet_init_value         = 1
+subnet_count              = 1
+
+# Firewall Setup
+ingress_port    = [8181, 8182]
+ingress_allowed = ["0.0.0.0/0"]
+
+# Cantaloupe Container Definitions
+memory                            = "2048"
+cpu                               = "1024"
+image_url                         = "registry.hub.docker.com/uclalibrary/cantaloupe-ucla:4.1.1"
+listening_port                    = 8182
+disable_load_balancer             = 1
+dockerhub_credentials_secrets_arn = "arn:aws:secretsmanager:us-west-2:0123456789:secret:dockerhub_registry_auth-r9WAkJ"
+
+# Cantaloupe Container Environment Variables
+cantaloupe_admin_secret                 = "enteryouradminpassword"
+cantaloupe_s3_source_access_key         = "s3_access_key"
+cantaloupe_s3_source_secret_key         = "s3_secret_key"
+cantaloupe_s3_source_endpoint           = "s3_endpoint"
+cantaloupe_s3_source_basiclookup_suffix = ".jpx"
+cantaloupe_source_static                = "S3Source"
+cantaloupe_heapsize                     = "2g"
+
+```
+
+
+To deploy cantaloupe ephemeral environment after configuring `terraform.tfvars`
 ```
 bin/run
 ```
+
+To destroy cantaloupe ephemeral environment
+```
+bin/run destroy
+```
+
+
+
 
