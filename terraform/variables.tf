@@ -15,7 +15,7 @@ variable "sg_groups" { default = null }
 
 # Fargate ECS IAM Configurations(required)
 variable "dockerhub_credentials_secrets_arn" { default = "" }
-variable "fargate_ecs_task_execution_role_arn" {}
+variable "fargate_ecs_task_execution_role_arn" { default = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy" }
 
 # Cantaloupe S3 Src Bucket Configuration
 variable "force_destroy_src_bucket" { default = "false" }
@@ -23,7 +23,6 @@ variable "force_destroy_src_bucket" { default = "false" }
 # Cantaloupe Application Settings
 variable "memory" { default = "2048" }
 variable "cpu" { default = "1024" }
-variable "registry_auth_arn" {}
 variable "image_url" {}
 variable "listening_port" {}
 variable "disable_load_balancer" { default = 0 }
@@ -48,6 +47,7 @@ variable "cantaloupe_s3_cache_bucket" { default = "something" }
 variable "cantaloupe_s3_source_access_key" { default = "something" }
 variable "cantaloupe_s3_source_secret_key" { default = "something" }
 variable "cantaloupe_s3_source_endpoint" { default = "us-west-2" }
+variable "cantaloupe_s3_source_bucket" { default = "" }
 variable "cantaloupe_s3_source_basiclookup_suffix" { default = ".jpx" }
 variable "cantaloupe_source_static" { default = "S3Source" }
 variable "cantaloupe_heapsize" { default = "2g" }
