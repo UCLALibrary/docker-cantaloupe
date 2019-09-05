@@ -47,7 +47,7 @@
       * `cantaloupe_s3_source_access_key`
       * `cantaloupe_s3_source_secret_key`
       * `cantaloupe_s3_source_endpoint`
-      * OPTIONAL:  Modifying this will configure cantaloupe for the specified bucket to use: `cantaloupe_s3_source_bucket`
+      * OPTIONAL: `cantaloupe_s3_source_bucket` Modifying this will configure cantaloupe to use the specified bucket
       * `cantaloupe_s3_source_basiclookup_suffix`
       * `cantaloupe_source_static`
       * `cantaloupe_heapsize`
@@ -122,7 +122,7 @@ cantaloupe_heapsize                     = "2g"
 
 ```
 
-
+## Running the Terraform Deployment
 To deploy cantaloupe ephemeral environment after configuring `terraform.tfvars`
 ```
 bin/run
@@ -133,6 +133,14 @@ To destroy cantaloupe ephemeral environment
 bin/run destroy
 ```
 
-
-
+## Visible AWS Resource names
+With the defined prefix provided earlier, you should be able to see the following resources created in AWS. It is recommended that you login to your IAM console and verify that these exists.
+```
+  fargate_ecs_role_name    = "${var.ephemeral_app_name}-cantaloupe-ephemeral-fargate-ecs-role"
+  fargate_cluster_name     = "${var.ephemeral_app_name}-cantaloupe-ephemeral-fargate-cluster"
+  fargate_service_name     = "${var.ephemeral_app_name}-cantaloupe-ephemeral-fargate-service"
+  fargate_definition_name  = "${var.ephemeral_app_name}-cantaloupe-ephemeral-fargate-definition"
+  cantaloupe_s3_src_bucket = "${var.ephemeral_app_name}-cantaloupe-ephemeral-src-bucket"
+  sg_name                  = "${var.ephemeral_app_name}-cantaloupe-ephemeral-security-group"
+```
 
