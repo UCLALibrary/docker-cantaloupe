@@ -113,3 +113,11 @@ module "cantaloupe_fargate" {
   container_definitions   = "${data.template_file.fargate_cantaloupe_definition.rendered}"
 }
 
+resource "null_resource" "get_cantaloupe_public_ip" {
+  provisioner "local-exec" {
+    command = "while [ -z $IP ]; do IP=$(aws ec2 describe-network-interfaces --network-interface-id $(aws ecs describe-tasks --cluster ${local.fargate_cluster_name} --tasks $(aws ecs list-tasks --cluster ${local.fargate_cluster_name} | jq --raw-output '.taskArns[]') | jq --raw-output '.tasks[].attachments[].details[] | select(.name==\"networkInterfaceId\")' | jq --raw-output '.value') | jq --raw-output '.NetworkInterfaces[].Association.PublicIp'); if [[ ! -z $IP ]]; then echo $IP > cantaloupe_ip; echo $IP; else sleep 1; fi; done"
+    interpreter = ["bash", "-c"]
+  }
+
+  depends_on = [module.cantaloupe_fargate]
+}
