@@ -153,5 +153,5 @@ With the defined prefix provided earlier, you should be able to see the followin
 ```
 
 ## Retrieving the public IP of your deployed container in Fargate
-Terraform will output the public IP of your Fargate Cantaloupe Container in the output. If you missed this, the IP is stored in cantaloupe_ip.
+Terraform will output the public IP of your Fargate Cantaloupe container in the output. If you missed this, the IP is stored in file called `cantaloupe_ip`.
 
