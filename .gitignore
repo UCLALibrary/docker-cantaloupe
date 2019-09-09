@@ -4,6 +4,7 @@ terraform/.terraform
 terraform/backend.hcl
 terraform/terraform.tfvars
 terraform/plan.out
+terraform/cantaloupe_ip
 
 # We exclude our README so that that does get checked into version control
 !kakadu/README.txt
