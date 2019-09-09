@@ -44,7 +44,7 @@ The current docker-compose.yml defines fixed environment variables in .docker-co
     export SHARED_IMAGE_DIR=/tmp/imageshare; docker-compose up -d
 
 ### Deployment to AWS
-We currently use [Terraform](https://terraform.io) to deploy our containers. Please view our [Terraform Documentation](terraform/README.d) for more info.
+We currently use [Terraform](https://terraform.io) to deploy our containers. Please view our [Terraform Documentation](terraform/README.md) for more info.
 
 ### How to run the tests
 
