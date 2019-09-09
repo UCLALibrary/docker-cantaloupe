@@ -153,5 +153,5 @@ With the defined prefix provided earlier, you should be able to see the followin
 ```
 
 ## Retrieving the public IP of your deployed container in Fargate
-Unfortunately, there isn't a way for terraform to output the public IP of a Fargate task. You'll have to login to the IAM console and view an individual task to retrieve the public IP. You
+Terraform will output the public IP of your Fargate Cantaloupe Container in the output. If you missed this, the IP is stored in cantaloupe_ip.
 
