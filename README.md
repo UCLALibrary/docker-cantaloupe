@@ -44,8 +44,7 @@ The current docker-compose.yml defines fixed environment variables in .docker-co
     export SHARED_IMAGE_DIR=/tmp/imageshare; docker-compose up -d
 
 ### Deployment to AWS
-
-Currently we are deploying this container to AWS Fargate for testing purposes. The configuration and setup are being done using Terraform. The configuration files can be found in the [mitlib-terraform](https://github.com/MITLibraries/mitlib-terraform) GitHub Repository. JPEG2000 images are being stored and called from an S3 bucket for processing. These files are being uploaded manually to the S3 bucket for now.
+We currently use [Terraform](https://terraform.io) to deploy our containers. Please view our [Terraform Documentation](terraform/README.d) for more info.
 
 ### How to run the tests
 
