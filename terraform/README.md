@@ -39,7 +39,7 @@ In order to deploy successfully, you'll need the following prerequisites:
       * `listening_port = 8181`
       * `disable_load_balancer = 1`
     * Environment Variables supplied to container
-      * The current templates sets up the following environment variables. These variables are rendered in `templates/env_vars.properties.tpl`. If you want to add more environment variables to pass into the container, please create a new template file or modify the existing. For values to set, you'll want to refer to the cantaloupe properties example. An example can be found [here](https://github.com/UCLALibrary/docker-cantaloupe/blob/master/configs/cantaloupe.properties.default-4.1.2).
+      * The current templates sets up the following environment variables. These variables are rendered in `templates/env_vars.properties.tpl`. If you want to add more environment variables to pass into the container, please create a new template file or modify the existing. For values to set, you'll want to refer to the cantaloupe properties example. An example can be found [here](https://github.com/UCLALibrary/docker-cantaloupe/blob/master/configs/cantaloupe.properties.default-4.1.3).
         * `cantaloupe_enable_admin`
         * `cantaloupe_admin_secret`
         * `cantaloupe_enable_cache_server`
