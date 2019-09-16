@@ -25,7 +25,7 @@ phases:
       - echo "Setting PATH to include JRuby bins..."
       - export PATH="/tmp/jruby-$JRUBY_VERSION/bin:$PATH"
       - echo "Installing Bundler..."
-      - gem install bundler rake
+      - gem install bundler -v '2.0.2' rake
   build:
     commands:
       - echo "Entered the build phase..."
