@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    JRUBY_VERSION: "9.2.7.0"
+    JRUBY_VERSION: "9.2.8.0"
     MAVEN_REPO: "https://repo1.maven.org/maven2"
     BUILD_VERSION: "stable"
     RELEASES: "https://api.github.com/repos/cantaloupe-project/cantaloupe/releases/latest"
@@ -25,7 +25,8 @@ phases:
       - echo "Setting PATH to include JRuby bins..."
       - export PATH="/tmp/jruby-$JRUBY_VERSION/bin:$PATH"
       - echo "Installing Bundler..."
-      - gem install bundler rake
+      - gem install bundler -v '2.0.1'
+      - gem install rake
   build:
     commands:
       - echo "Entered the build phase..."
