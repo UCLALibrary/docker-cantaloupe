@@ -2,6 +2,9 @@ FROM <%= reg_username %>cantaloupe_<%= cantaloupe_version %>
 
 USER root
 
+# this is only for testing purposes, it is not included in the dockerhub images
+ENV DELEGATE_URL = "https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb"
+
 # Install additional packages required for integration tests and packages used by our kakadu
 # build... the latter will have specific versions attached to them to confirm those versions
 # are still available.
