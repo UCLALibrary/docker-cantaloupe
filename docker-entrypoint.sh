@@ -27,5 +27,11 @@ EOT
 # Write our merged properties file to /etc directory
 $PYTHON -c "$SCRIPT" >> $PROPERTIES
 
+# If we have a DELEGATE_URL, grab it
+if [[ -v DELEGATE_URL && ! -z DELEGATE_URL ]]; then
+  curl "${DELEGATE_URL}" > /usr/local/cantaloupe/delegates.rb
+  chown cantaloupe /usr/local/cantaloupe/delegates.rb
+fi
+
 # Replaces parent process so signals are processed correctly
 exec "$@"
