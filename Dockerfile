@@ -157,7 +157,7 @@ COPY "configs/cantaloupe.properties.tmpl-$CANTALOUPE_VERSION" /etc/cantaloupe.pr
 COPY "configs/cantaloupe.properties.default-$CANTALOUPE_VERSION" /etc/cantaloupe.properties.default
 RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe && \
     touch "$CONFIG_FILE" && \
-    chown -R cantaloupe /var/log/cantaloupe /var/cache/cantaloupe "$CONFIG_FILE" /usr/local/bin/docker-entrypoint.sh /usr/local/cantaloupe
+    chown -R cantaloupe /var/log/cantaloupe /var/cache/cantaloupe "$CONFIG_FILE" /usr/local/bin/docker-entrypoint.sh /usr/local/cantaloupe-$CANTALOUPE_VERSION
 
 # Wrap things up with the entrypoint and command that the container runs
 USER cantaloupe

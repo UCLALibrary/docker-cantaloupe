@@ -71,7 +71,6 @@ describe docker_build(dockerfile, tag: image_tag + '_test') do
         it { is_expected.to be_file }
         it { is_expected.to be_mode(644) }
         it { is_expected.to be_owned_by('cantaloupe') }
-        it { is_expected.to be_grouped_into('root') }
       end
 
       # dpkg -s libopenjp2-tools openjdk-11-jre-headless wget unzip graphicsmagick curl imagemagick ffmpeg
