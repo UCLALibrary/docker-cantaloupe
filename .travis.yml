@@ -3,7 +3,7 @@ language: ruby
 env:
   matrix:
   - "CANTALOUPE_VERSION=stable"
-  # - "CANTALOUPE_VERSION=dev" #temporarily disabling the dev build due to a failing download of the JAI repo
+  - "CANTALOUPE_VERSION=dev"
 
 services:
 - docker

@@ -34,7 +34,7 @@ RUN if [ "$CANTALOUPE_VERSION" = 'dev' ] ; then \
       if [ "$COMMIT_REF" != 'latest' ] ; then \
         git checkout -b "$COMMIT_REF" "$COMMIT_REF" ; \
       fi && \
-
+      \
       # Janky, but third party repos and transitive dependences... what can you do?
       curl "${JAI_REPO}/javax/media/jai_codec/${JAI_VERSION}/${JAI_JAR}" > "/tmp/${JAI_JAR}" && \
       curl "${JAI_REPO}/javax/media/jai_core/${JAI_VERSION}/${JAI_CORE_JAR}" > "/tmp/${JAI_CORE_JAR}" && \
@@ -45,7 +45,7 @@ RUN if [ "$CANTALOUPE_VERSION" = 'dev' ] ; then \
         -DartifactId="jai_core" -Dversion="$JAI_VERSION" -Dpackaging="jar" && \
       mvn -q install:install-file -Dfile="/tmp/${JAI_IMAGEIO_JAR}" -DgroupId="javax.media" \
         -DartifactId="jai_imageio" -Dversion="$JAI_IMAGEIO_VERSION" -Dpackaging="jar" && \
-
+      \
       mvn -DskipTests=true -q clean package && \
       mv target/cantaloupe-?.?-SNAPSHOT.zip "/build/Cantaloupe-${CANTALOUPE_VERSION}.zip" ; \
     else \
@@ -117,7 +117,8 @@ RUN apt-get update -qq && \
     ffmpeg=7:4.0.4-0ubuntu1 \
     python=2.7.15-3 \
     < /dev/null > /dev/null && \
-    mkdir -p /opt/libjpeg-turbo/lib && ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib/libturbojpeg.so && \
+    mkdir -p /opt/libjpeg-turbo/lib && \
+    ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib/libturbojpeg.so && \
     rm -rf /var/lib/apt/lists/*
 
 # Run Cantaloupe non-privileged
@@ -157,7 +158,8 @@ COPY "configs/cantaloupe.properties.tmpl-$CANTALOUPE_VERSION" /etc/cantaloupe.pr
 COPY "configs/cantaloupe.properties.default-$CANTALOUPE_VERSION" /etc/cantaloupe.properties.default
 RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe && \
     touch "$CONFIG_FILE" && \
-    chown -R cantaloupe /var/log/cantaloupe /var/cache/cantaloupe "$CONFIG_FILE" /usr/local/bin/docker-entrypoint.sh /usr/local/cantaloupe-$CANTALOUPE_VERSION
+    chown -R cantaloupe /var/log/cantaloupe /var/cache/cantaloupe "$CONFIG_FILE" /usr/local/bin/docker-entrypoint.sh \
+      /usr/local/cantaloupe
 
 # Wrap things up with the entrypoint and command that the container runs
 USER cantaloupe
