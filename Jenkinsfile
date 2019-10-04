@@ -41,6 +41,7 @@ pipeline {
         }
       }
     }
+  }
   post {
     always {
       // send build result notifications
@@ -54,3 +55,4 @@ pipeline {
     }
   }
 }
+
