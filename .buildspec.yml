@@ -12,7 +12,7 @@ env:
     REG_USERNAME: "services.docker.registry.username"
     REG_PROJECT: "cantaloupe.docker.registry.project"
     AUTH_TOKEN: "cantaloupe.version.auth.token"
-    KAKADU_VERSION: "kakadu.version"
+    KAKADU_VERSION: "services.kakadu.version"
 
 phases:
   install:
