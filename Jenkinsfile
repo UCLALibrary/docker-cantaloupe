@@ -24,7 +24,7 @@ pipeline {
             credentialsType: "jenkins",
             sourceControlType: "project",
             sourceVersion: "${DOCKER_CANTALOUPE_GIT_BRANCH}",
-            envVariables: "[ { BUILD_VERSION, "stable" } ]"
+            envVariables: "[ { BUILD_VERSION, stable } ]"
           )
           }
         }
@@ -37,7 +37,7 @@ pipeline {
             credentialsType: "jenkins",
             sourceControlType: "project",
             sourceVersion: "${DOCKER_CANTALOUPE_GIT_BRANCH}",
-            envVariables: "[ { BUILD_VERSION, "dev" } ]"
+            envVariables: "[ { BUILD_VERSION, dev } ]"
           )
           }
         }
