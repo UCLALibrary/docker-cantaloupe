@@ -12,7 +12,7 @@ docker_env = { 'ENDPOINT_ADMIN_SECRET' => 'secret', 'ENDPOINT_ADMIN_ENABLED' => 
 
 # First we build either a 'stable' or 'dev' Cantaloupe image, depending on our ENV property
 if version == 'stable'
-  expected_version = '4.1.3'
+  expected_version = '4.1.4'
   kakadu_version = ENV.key?('KAKADU_VERSION') ? ' --build-arg KAKADU_VERSION=' + ENV['KAKADU_VERSION'] : ''
 
   # Build the _stable version of cantaloupe by calling docker here via a system call
