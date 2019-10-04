@@ -47,7 +47,7 @@ pipeline {
     always {
       // send build result notifications
       slackSend (
-      channel: #softwardev-services-firehose,
+      channel: "#softwaredev-services-firehose",
       color: "#8B0000",
       replyBroadcast: true,
       message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${currentBuild.currentResult} after ${currentBuild.durationString.replace(' and counting', '')} (<${env.RUN_DISPLAY_URL}|open>)\nGit Commit: ${GIT_COMMIT_HASH}",
