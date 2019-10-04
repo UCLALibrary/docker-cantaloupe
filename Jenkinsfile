@@ -47,7 +47,7 @@ pipeline {
       slackSend (
       channel: "#softwaredev-services-firehose",
       color: "#FFFF00",
-      message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${currentBuild.currentResult} after ${currentBuild.durationString} (<${env.BUILD_URL}|open>)\Git Commit: ${GIT_COMMIT_HASH}",
+      message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${currentBuild.currentResult} after ${currentBuild.durationString} (<${env.BUILD_URL}|open>)\nGit Commit: ${GIT_COMMIT_HASH}",
       tokenCredentialId: "95231ecb-a041-445b-84c0-870db41e2ba8",
       teamDomain: "uclalibrary"
       )
