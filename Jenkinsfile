@@ -16,17 +16,6 @@ pipeline {
   stages {
     stage("Build cantaloupe-ucla") {
       parallel {
-        stage("Notify Slack Channel") {
-          steps {
-            slackSend(
-            channel: "#softwaredev-services-firehose",
-            color: "#8B0000",
-            tokenCredentialId: "95231ecb-a041-445b-84c0-870db41e2ba8",
-            teamDomain: "uclalibrary",
-            message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started (<${env.RUN_DISPLAY_URL}|open>)\nGit Commit: ${GIT_COMMIT_HASH}"
-            )
-          }
-        }
         stage("Building stable") {
           steps {
             awsCodeBuild(
