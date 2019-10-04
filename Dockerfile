@@ -1,5 +1,5 @@
 # The default Cantaloupe version for our build
-ARG CANTALOUPE_VERSION="4.1.3"
+ARG CANTALOUPE_VERSION="4.1.4"
 
 # Kakadu is optional; if there it should be your licensed kakadu software directory's name
 ARG KAKADU_VERSION=
