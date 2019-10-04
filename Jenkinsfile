@@ -25,8 +25,8 @@ pipeline {
             sourceControlType: "project",
             sourceVersion: "${DOCKER_CANTALOUPE_GIT_BRANCH}",
           )
+          }
         }
-      }
         stage("Building dev") {
           steps {
             awsCodeBuild(
@@ -37,10 +37,10 @@ pipeline {
             sourceControlType: "project",
             sourceVersion: "${DOCKER_CANTALOUPE_GIT_BRANCH}",
           )
+          }
         }
       }
     }
-  }
   post {
     always {
       // send build result notifications
