@@ -4,8 +4,9 @@ pipeline {
     stage("Notify Slack Channel") {
       steps {
         // send build started notifications
+        def slackResponse = slackSend(channel: "#softwaredev-services-firehose", color: "#8B0000", message: "Cantaloupe-ucla docker build started", tokenCredentialId: "95231ecb-a041-445b-84c0-870db41e2ba8", teamDomain: "uclalibrary")
         slackSend (
-          channel: "#softwaredev-services-firehose",
+          channel: slackResponse.threadId,
           color: "#8B0000",
           message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Started (<${env.RUN_DISPLAY_URL}|open>)\nGit Commit: ${GIT_COMMIT_HASH}",
           tokenCredentialId: "95231ecb-a041-445b-84c0-870db41e2ba8",
@@ -48,8 +49,9 @@ pipeline {
     always {
       // send build result notifications
       slackSend (
-      channel: "#softwaredev-services-firehose",
+      channel: slackResponse.threadId,
       color: "#8B0000",
+      replyBroadcast: true,
       message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${currentBuild.currentResult} after ${currentBuild.durationString.replace(' and counting', '')} (<${env.RUN_DISPLAY_URL}|open>)\nGit Commit: ${GIT_COMMIT_HASH}",
       tokenCredentialId: "95231ecb-a041-445b-84c0-870db41e2ba8",
       teamDomain: "uclalibrary"
