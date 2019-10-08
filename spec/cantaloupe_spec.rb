@@ -7,8 +7,13 @@ reg_username = ENV.key?('REG_USERNAME') ? ENV['REG_USERNAME'] + '/' : ''
 version = ENV['CANTALOUPE_VERSION']
 dockerfile = create_test_dockerfile(reg_username)
 image_tag = reg_username + 'cantaloupe_' + version
+delegate_url = ENV.key?('DELEGATE_URL') ? ENV['DELEGATE_URL'] : ''
 
 docker_env = { 'ENDPOINT_ADMIN_SECRET' => 'secret', 'ENDPOINT_ADMIN_ENABLED' => 'true' }
+
+if ENV.key?('DELEGATE_URL')
+  docker_env['DELEGATE_URL'] = delegate_url
+end
 
 # First we build either a 'stable' or 'dev' Cantaloupe image, depending on our ENV property
 if version == 'stable'

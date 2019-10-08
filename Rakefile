@@ -15,6 +15,20 @@ task :test_stable do
   abort 'Stable spec failed' unless RSpec::Core::Runner.run(['spec/cantaloupe_spec.rb']).zero?
 end
 
+desc 'Test the stable version with a DELEGATE_URL'
+task :test_stable_with_delegate do
+  ENV['DELEGATE_URL'] = 'https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb'
+  ENV['CANTALOUPE_VERSION'] = 'stable'
+  abort 'Stable spec failed' unless RSpec::Core::Runner.run(['spec/cantaloupe_spec.rb']).zero?
+end
+
+desc 'Test the develop version with a DELEGATE_URL'
+task :test_dev_with_delegate do
+  ENV['DELEGATE_URL'] = 'https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb'
+  ENV['CANTALOUPE_VERSION'] = 'dev'
+  abort 'Dev spec failed' unless RSpec::Core::Runner.run(['spec/cantaloupe_spec.rb']).zero?
+end
+
 # Run our docker-cantaloupe tests with different ENVs
 task default: %i[rubocop test]
 

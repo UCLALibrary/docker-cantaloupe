@@ -3,7 +3,10 @@ language: ruby
 env:
   matrix:
   - "CANTALOUPE_VERSION=stable"
+  - "CANTALOUPE_VERSION=stable_with_delegate"
   - "CANTALOUPE_VERSION=dev"
+  - "CANTALOUPE_VERSION=dev_with_delegate"
+
 
 services:
 - docker
