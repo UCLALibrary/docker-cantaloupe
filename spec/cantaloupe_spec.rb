@@ -11,9 +11,7 @@ delegate_url = ENV.key?('DELEGATE_URL') ? ENV['DELEGATE_URL'] : ''
 
 docker_env = { 'ENDPOINT_ADMIN_SECRET' => 'secret', 'ENDPOINT_ADMIN_ENABLED' => 'true' }
 
-if ENV.key?('DELEGATE_URL')
-  docker_env['DELEGATE_URL'] = delegate_url
-end
+docker_env['DELEGATE_URL'] = delegate_url if ENV.key?('DELEGATE_URL')
 
 # First we build either a 'stable' or 'dev' Cantaloupe image, depending on our ENV property
 if version == 'stable'
