@@ -3,9 +3,9 @@ language: ruby
 env:
   matrix:
   - "CANTALOUPE_VERSION=stable"
-  - "CANTALOUPE_VERSION=stable_with_delegate"
+  - "CANTALOUPE_VERSION=stable DELEGATE_URL='https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb'"
   - "CANTALOUPE_VERSION=dev"
-  - "CANTALOUPE_VERSION=dev_with_delegate"
+  - "CANTALOUPE_VERSION=dev DELEGATE_URL='https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb'"
 
 
 services:
