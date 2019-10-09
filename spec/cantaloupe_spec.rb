@@ -7,11 +7,11 @@ reg_username = ENV.key?('REG_USERNAME') ? ENV['REG_USERNAME'] + '/' : ''
 version = ENV['CANTALOUPE_VERSION']
 dockerfile = create_test_dockerfile(reg_username)
 image_tag = reg_username + 'cantaloupe_' + version
-delegate_url = ENV.key?('DELEGATE_URL') ? ENV['DELEGATE_URL'] : ''
 
-docker_env = { 'ENDPOINT_ADMIN_SECRET' => 'secret', 'ENDPOINT_ADMIN_ENABLED' => 'true' }
-
-docker_env['DELEGATE_URL'] = delegate_url if ENV.key?('DELEGATE_URL')
+docker_env = {
+  'ENDPOINT_ADMIN_SECRET' => 'secret', 'ENDPOINT_ADMIN_ENABLED' => 'true',
+  'DELEGATE_URL' => ENV.key?('DELEGATE_URL') ? ENV['DELEGATE_URL'] : ''
+}
 
 # First we build either a 'stable' or 'dev' Cantaloupe image, depending on our ENV property
 if version == 'stable'
@@ -70,10 +70,12 @@ describe docker_build(dockerfile, tag: image_tag + '_test') do
         it { is_expected.to be_grouped_into('root') }
       end
 
-      describe file('/usr/local/cantaloupe/delegates.rb') if ENV.key?('DELEGATE_URL') do
-        it { is_expected.to be_file }
-        it { is_expected.to be_mode(644) }
-        it { is_expected.to be_owned_by('cantaloupe') }
+      if ENV['DELEGATE_URL']
+        describe file('/usr/local/cantaloupe/delegates.rb') do
+          it { is_expected.to be_file }
+          it { is_expected.to be_mode(644) }
+          it { is_expected.to be_owned_by('cantaloupe') }
+        end
       end
 
       # dpkg -s libopenjp2-tools openjdk-11-jre-headless wget unzip graphicsmagick curl imagemagick ffmpeg
