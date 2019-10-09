@@ -70,7 +70,7 @@ describe docker_build(dockerfile, tag: image_tag + '_test') do
         it { is_expected.to be_grouped_into('root') }
       end
 
-      describe file('/usr/local/cantaloupe/delegates.rb') do
+      describe file('/usr/local/cantaloupe/delegates.rb') if ENV.key?('DELEGATE_URL') do
         it { is_expected.to be_file }
         it { is_expected.to be_mode(644) }
         it { is_expected.to be_owned_by('cantaloupe') }
