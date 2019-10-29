@@ -4,7 +4,7 @@
 # A simple little Bash script to deploy our Docker image to DockerHub.
 #
 
-if [[ "$TRAVIS_BRANCH" == 'master' && "$TRAVIS_PULL_REQUEST" == 'false' ]]; then
+if [[ "$TRAVIS_BRANCH" == 'master' && "$TRAVIS_PULL_REQUEST" == 'false' && ! -v DELEGATE_URL ]]; then
   # To check for existing tags easily, we'll enable experimental features
   mkdir ~/.docker
   echo '{"experimental": "enabled"}' > ~/.docker/config.json
