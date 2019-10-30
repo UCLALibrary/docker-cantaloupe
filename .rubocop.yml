@@ -11,9 +11,6 @@ Layout/AlignHash:
 Security:
   Enabled: true
 
-Rails/OutputSafety:
-  Enabled: true
-
 Style/MutableConstant:
   Enabled: true
 

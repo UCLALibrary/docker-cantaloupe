@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dockerspec/serverspec'
 require 'dockerspec/infrataster'
 require 'spec_helper'
