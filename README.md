@@ -81,15 +81,15 @@ One useful application for this Docker-Cantaloupe project is to use it as a deve
       -e "CANTALOUPE_SOURCE_DELEGATE=true" \
       -e "CANTALOUPE_S3SOURCE_LOOKUP_STRATEGY=BasicLookupStrategy" \
       -e "CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_PATH_SUFFIX=.jpx" \
-      -e "CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME=ksclarke-kakadu-converter-jp2s" \
-      -e "CANTALOUPE_S3SOURCE_SECRET_KEY=" \
-      -e "CANTALOUPE_S3SOURCE_ACCESS_KEY_ID=" \
+      -e "CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME=getyourown" \
+      -e "CANTALOUPE_S3SOURCE_SECRET_KEY=getyourown" \
+      -e "CANTALOUPE_S3SOURCE_ACCESS_KEY_ID=getyourown" \
       -e "CANTALOUPE_S3SOURCE_ENDPOINT=s3.amazonaws.com" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_ENABLED=true" \
-      -e "CIPHER_TEXT=Authenticated" \
-      -e "CIPHER_KEY=ThisPasswordIsReallyHardToGuess!" \
+      -e "CIPHER_TEXT=this-is-important" \
+      -e "CIPHER_KEY=ooh-plaintext-secrets" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME=/var/log/cantaloupe/cantaloupe.log" \
-      -e "DELEGATE_URL=https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/IIIF-526/lib/delegates.rb" \
+      -e "DELEGATE_URL=https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb" \
       --name melon -v /sinai:/imageroot uclalibrary/cantaloupe-ucla:4.1.4
 
 ### How to set up a dev/test environment for a Cantaloupe delegate script, option 2: use docker-compose
