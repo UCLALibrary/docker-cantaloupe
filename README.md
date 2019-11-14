@@ -68,6 +68,41 @@ The additional build-arg that needs to be supplied to the build is `KAKADU_VERSI
 
 If you encounter any problems with the build using your kakadu source code, we would be interested in hearing about them.
 
+### How to set up a dev/test environment for a Cantaloupe delegate script, option 1: use docker run
+
+One useful application for this Docker-Cantaloupe project is to use it as a development environment for a Cantaloupe delegates.rb script. Here is one way to set up such an environment, using a docker run command:
+
+    docker run -d -p 8182:8182 \
+      -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=secret" \
+      -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" \
+      -e "CANTALOUPE_DELEGATE_SCRIPT_ENABLED=true" \
+      -e "CANTALOUPE_DELEGATE_SCRIPT_PATHNAME=/usr/local/cantaloupe/delegates.rb" \
+      -e "CANTALOUPE_DELEGATE_SCRIPT_CACHE_ENABLED=false" \
+      -e "CANTALOUPE_SOURCE_DELEGATE=true" \
+      -e "CANTALOUPE_S3SOURCE_LOOKUP_STRATEGY=BasicLookupStrategy" \
+      -e "CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_PATH_SUFFIX=.jpx" \
+      -e "CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME=getyourown" \
+      -e "CANTALOUPE_S3SOURCE_SECRET_KEY=getyourown" \
+      -e "CANTALOUPE_S3SOURCE_ACCESS_KEY_ID=getyourown" \
+      -e "CANTALOUPE_S3SOURCE_ENDPOINT=s3.amazonaws.com" \
+      -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_ENABLED=true" \
+      -e "CIPHER_TEXT=this-is-important" \
+      -e "CIPHER_KEY=ooh-plaintext-secrets" \
+      -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME=/var/log/cantaloupe/cantaloupe.log" \
+      -e "DELEGATE_URL=https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb" \
+      --name melon -v /sinai:/imageroot uclalibrary/cantaloupe-ucla:4.1.4
+
+### How to set up a dev/test environment for a Cantaloupe delegate script, option 2: use docker-compose
+
+There is an alternate docker-compose file in this project, test-delegate-docker-compose.yml, which sources ENV variable from the .docker-compose-test-delegate.env file. Be sure to modify that file to specify appropriate credentials. Then, run this command:
+
+    docker-compose -f test-delegate-docker-compose.yml up
+
+The test-delegate-docker-compose.yml configuration file includes a local volume mount, which mounts the
+working directory's cantaloupe_home folder as the Docker-Cantaloupe container's CANTALOUPE_HOME folder.
+This will allow you to work on the delegates.rb file in whatever IDE or code editor you prefer on your
+workstation, and then test the results on the running Docker-Compose environment.
+
 ### TODO
 
  Updating to ImageMagick 7. There is a commented out setup in the Dockerfile if we need to compile from source. Hopefully by the time ImageMagick 6 is no longer supported by Cantaloupe there will be an official Debian package we can use.
