@@ -13,7 +13,7 @@ gem 'rubocop-rspec', '~> 1.22.2', require: false
 # We add these because they need cross-platform distinctions
 gem 'jaro_winkler', '~> 1.5.2', platforms: %i[jruby ruby]
 gem 'mini_portile2', '~> 2.4.0', platforms: :ruby
-gem 'nokogiri', '~> 1.10.1', platforms: %i[jruby ruby]
+gem 'nokogiri', '~> 1.10.5', platforms: %i[jruby ruby]
 gem 'websocket-driver', '~> 0.7.0', platforms: %i[jruby ruby]
 
 #
