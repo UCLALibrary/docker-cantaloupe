@@ -1,5 +1,5 @@
 # The default Cantaloupe version for our build
-ARG CANTALOUPE_VERSION="4.1.4"
+ARG CANTALOUPE_VERSION="4.1.5"
 
 # Kakadu is optional; if there it should be your licensed kakadu software directory's name
 ARG KAKADU_VERSION=
@@ -54,7 +54,7 @@ RUN if [ "$CANTALOUPE_VERSION" = 'dev' ] ; then \
     fi
 
 # The second stage of our multi-stage build builds the kakadu libraries and binaries
-FROM ubuntu:18.10 AS KAKADU_TOOL_CHAIN
+FROM ubuntu:19.10 AS KAKADU_TOOL_CHAIN
 
 ARG KAKADU_VERSION
 ENV KAKADU_VERSION="$KAKADU_VERSION"
@@ -66,13 +66,13 @@ WORKDIR /build/kakadu/"$KAKADU_VERSION"/make
 RUN if [ ! -z "$KAKADU_VERSION" ]; then \
       apt-get update -qq && \
       DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends \
-        openjdk-11-jdk-headless=11.0.3+7-1ubuntu2~18.10.1  \
-        gcc=4:8.3.0-1ubuntu1.2 \
+        openjdk-11-jdk-headless=11.0.7+10-2ubuntu2~19.10  \
+        gcc=4:9.2.1-3.1ubuntu1 \
         make=4.2.1-1.2 \
-        libtiff-tools=4.0.9-6ubuntu0.2 \
-        libtiff5=4.0.9-6ubuntu0.2 \
-        libtiff5-dev=4.0.9-6ubuntu0.2 \
-        build-essential=12.5ubuntu2 && \
+        libtiff-tools=4.0.10+git191003-1 \
+        libtiff5=4.0.10+git191003-1 \
+        libtiff5-dev=4.0.10+git191003-1 \
+        build-essential=12.8ubuntu1 && \
       make -f Makefile-$BUILD_ARCH && \
       mkdir /build/kakadu/lib && \
       mkdir /build/kakadu/bin && \
@@ -88,7 +88,7 @@ RUN if [ ! -z "$KAKADU_VERSION" ]; then \
     fi
 
 # The third and final stage of our multi-stage build pulls all the pieces together
-FROM ubuntu:18.10
+FROM ubuntu:19.10
 ARG CANTALOUPE_VERSION
 ENV CANTALOUPE_VERSION=$CANTALOUPE_VERSION
 ENV CONFIG_FILE="/etc/cantaloupe.properties"
@@ -103,19 +103,19 @@ VOLUME /imageroot
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -qq --no-install-recommends \
-    libtiff-tools=4.0.9-6ubuntu0.2 \
-    libtiff5=4.0.9-6ubuntu0.2 \
-    libtiff5-dev=4.0.9-6ubuntu0.2 \
-    libopenjp2-tools=2.3.0-1 \
-    libturbojpeg=2.0.0-0ubuntu2 \
-    openjdk-11-jre-headless=11.0.3+7-1ubuntu2~18.10.1  \
-    wget=1.19.5-1ubuntu1.1 \
-    unzip=6.0-21ubuntu1 \
-    graphicsmagick=1.3.30+hg15796-1 \
-    curl=7.61.0-1ubuntu2.4 \
-    imagemagick=8:6.9.10.8+dfsg-1ubuntu2 \
-    ffmpeg=7:4.0.4-0ubuntu1 \
-    python=2.7.15-3 \
+    libtiff-tools=4.0.10+git191003-1 \
+    libtiff5=4.0.10+git191003-1 \
+    libtiff5-dev=4.0.10+git191003-1 \
+    libopenjp2-tools=2.3.0-2build0.19.10.1 \
+    libturbojpeg=2.0.3-0ubuntu1 \
+    openjdk-11-jre-headless=11.0.7+10-2ubuntu2~19.10  \
+    wget=1.20.3-1ubuntu1 \
+    unzip=6.0-25ubuntu1 \
+    graphicsmagick=1.4+really1.3.33+hg16115-1 \
+    curl=7.65.3-1ubuntu3 \
+    imagemagick=8:6.9.10.23+dfsg-2.1ubuntu3.1 \
+    ffmpeg=7:4.1.4-1build2 \
+    python=2.7.17-1 \
     < /dev/null > /dev/null && \
     mkdir -p /opt/libjpeg-turbo/lib && \
     ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib/libturbojpeg.so && \

@@ -17,7 +17,7 @@ docker_env = {
 
 # First we build either a 'stable' or 'dev' Cantaloupe image, depending on our ENV property
 if version == 'stable'
-  expected_version = '4.1.4'
+  expected_version = '4.1.5'
   kakadu_version = ENV.key?('KAKADU_VERSION') ? ' --build-arg KAKADU_VERSION=' + ENV['KAKADU_VERSION'] : ''
 
   # Build the _stable version of cantaloupe by calling docker here via a system call
@@ -82,43 +82,43 @@ describe docker_build(dockerfile, tag: image_tag + '_test') do
 
       # dpkg -s libopenjp2-tools openjdk-11-jre-headless wget unzip graphicsmagick curl imagemagick ffmpeg
       describe package('libopenjp2-tools') do
-        it { is_expected.to be_installed.with_version('2.3.0-1') }
+        it { is_expected.to be_installed.with_version('2.3.0-2build0.19.10.1') }
       end
 
       describe package('openjdk-11-jre-headless') do
-        it { is_expected.to be_installed.with_version('11.0.3+7-1ubuntu2~18.10.1') }
+        it { is_expected.to be_installed.with_version('11.0.7+10-2ubuntu2~19.10') }
       end
 
       describe package('wget') do
-        it { is_expected.to be_installed.with_version('1.19.5-1ubuntu1.1') }
+        it { is_expected.to be_installed.with_version('1.20.3-1ubuntu1') }
       end
 
       describe package('unzip') do
-        it { is_expected.to be_installed.with_version('6.0-21ubuntu1') }
+        it { is_expected.to be_installed.with_version('6.0-25ubuntu1') }
       end
 
       describe package('graphicsmagick') do
-        it { is_expected.to be_installed.with_version('1.3.30+hg15796-1') }
+        it { is_expected.to be_installed.with_version('1.4+really1.3.33+hg16115-1') }
       end
 
       describe package('curl') do
-        it { is_expected.to be_installed.with_version('7.61.0-1ubuntu2.4') }
+        it { is_expected.to be_installed.with_version('7.65.3-1ubuntu3') }
       end
 
       describe package('imagemagick') do
-        it { is_expected.to be_installed.with_version('8:6.9.10.8+dfsg-1ubuntu2') }
+        it { is_expected.to be_installed.with_version('8:6.9.10.23+dfsg-2.1ubuntu3.1') }
       end
 
       describe package('ffmpeg') do
-        it { is_expected.to be_installed.with_version('7:4.0.4-0ubuntu1') }
+        it { is_expected.to be_installed.with_version('7:4.1.4-1build2') }
       end
 
       describe package('python') do
-        it { is_expected.to be_installed.with_version('2.7.15-3') }
+        it { is_expected.to be_installed.with_version('2.7.17-1') }
       end
 
       describe package('libturbojpeg') do
-        it { is_expected.to be_installed.with_version('2.0.0-0ubuntu2') }
+        it { is_expected.to be_installed.with_version('2.0.3-0ubuntu1') }
       end
 
       if ENV['KAKADU_VERSION']
