@@ -1,6 +1,6 @@
 require: rubocop-rspec
 
-LineLength:
+Metrics/LineLength:
   Max: 120
 
 # See https://github.com/rubocop-hq/rubocop/issues/6410
