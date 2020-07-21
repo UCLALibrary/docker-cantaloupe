@@ -1,10 +1,16 @@
 # Ignore the Kakadu source code (it's proprietary and can't be checked in)
+src/main/docker/kakadu/*
 kakadu/*
-terraform/.terraform
-terraform/backend.hcl
-terraform/terraform.tfvars
-terraform/plan.out
-terraform/cantaloupe_ip
 
-# We exclude our README so that that does get checked into version control
-!kakadu/README.txt
+# Some build tools that are automatically generated
+src/main/tools/eclipse/
+src/main/tools/travis/
+
+# Test image files which are downloaded at build time
+src/test/resources/images/*.tif
+src/test/resources/images/*.png
+src/test/resources/images/*.jpg
+src/test/resources/images/*.gif
+
+# We ignore Maven's build directory
+target/

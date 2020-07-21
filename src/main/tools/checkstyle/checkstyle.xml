@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+  "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!-- Checkstyle-Configuration: FreeLibrary Description: Checkstyle configuration for the FreeLibrary projects -->
+<module name="Checker">
+  <property name="severity" value="warning" />
+  <module name="LineLength">
+    <property name="max" value="120" />
+    <property name="fileExtensions" value="java, py, sh, txt"/>
+  </module>
+  <module name="TreeWalker">
+    <module name="RedundantImport" />
+    <module name="RedundantModifier" />
+    <module name="UnusedImports" />
+    <module name="AvoidStarImport">
+      <property name="excludes" value="j2html.TagCreator,org.junit.Assert,com.google.common.base.Preconditions"/>
+    </module>
+    <module name="ConstantName" />
+    <module name="EqualsHashCode" />
+    <module name="StringLiteralEquality" />
+    <module name="SuperClone" />
+    <module name="IllegalImport" />
+    <module name="DefaultComesLast" />
+    <module name="InnerTypeLast" />
+    <module name="UpperEll" />
+    <module name="MemberName">
+      <property name="format" value="^(my|is|has)[A-Z0-9][a-zA-Z0-9]*$" />
+    </module>
+    <!-- Below checks to make sure there are no stray main methods -->
+    <module name="UncommentedMain" />
+    <module name="UnnecessaryParentheses" />
+    <module name="DeclarationOrder" />
+    <module name="SuperFinalize" />
+    <module name="EmptyStatement" />
+    <module name="SingleSpaceSeparator" />
+    <module name="EqualsAvoidNull" />
+    <module name="FinalClass" />
+    <module name="EmptyCatchBlock">
+      <property name="exceptionVariableName" value="expected" />
+    </module>
+    <module name="BooleanExpressionComplexity">
+      <property name="max" value="4" />
+    </module>
+    <module name="JavadocType">
+      <property name="excludeScope" value="anoninner" />
+      <property name="scope" value="public" />
+      <property name="allowUnknownTags" value="true" />
+    </module>
+    <module name="JavadocMethod">
+      <property name="scope" value="public" />
+    </module>
+    <module name="NeedBraces" />
+    <module name="LeftCurly" />
+    <module name="RightCurly" />
+    <module name="WhitespaceAround">
+      <property name="tokens"
+        value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, EQUAL, GE, GT, LAND, LE, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN, TYPE_EXTENSION_AND" />
+    </module>
+    <module name="Indentation">
+      <property name="throwsIndent" value="8" />
+    </module>
+    <module name="SuppressWarningsHolder" />
+    <module name="FinalLocalVariable" />
+    <module name="FinalParameters" />
+    <module name="GenericWhitespace" />
+    <module name="MissingDeprecated" />
+    <module name="MultipleStringLiterals">
+      <property name="allowedDuplicates" value="1" />
+    </module>
+    <module name="MissingSwitchDefault" />
+    <module name="MultipleVariableDeclarations" />
+    <module name="ParameterName">
+      <property name="format" value="^a[a-zA-Z0-9]+$" />
+    </module>
+    <module name="ModifierOrder" />
+    <module name="IllegalThrows" />
+    <module name="HideUtilityClassConstructor" />
+    <module name="MultipleVariableDeclarations" />
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="BEGIN GENERATED CODE" />
+      <property name="onCommentFormat" value="END GENERATED CODE" />
+    </module>
+  </module>
+  <module name="SuppressionFilter">
+    <property name="file" value="src/main/tools/checkstyle/checkstyle-suppressions.xml" />
+  </module>
+  <module name="FileTabCharacter">
+    <property name="eachLine" value="true" />
+    <property name="fileExtensions" value="java,css,js,xml,xq" />
+  </module>
+  <module name="RegexpSingleline">
+    <property name="format" value="(?&lt;!\*)\s+$|\*\s\s+$" />
+    <property name="message" value="Trailing whitespace" />
+    <property name="fileExtensions" value="java,css,js,xml,html" />
+  </module>
+  <module name="SuppressWarningsFilter" />
+  <module name="NewlineAtEndOfFile">
+    <property name="fileExtensions" value="java,css,js,xml,html" />
+  </module>
+</module>

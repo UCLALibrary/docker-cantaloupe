@@ -1,84 +1,68 @@
-## Docker Container for Cantaloupe IIIF server
-[![Build Status](https://travis-ci.com/UCLALibrary/docker-cantaloupe.svg?branch=master)](https://travis-ci.com/UCLALibrary/docker-cantaloupe) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0339f09b793a4f3ea37e09f5e1c3b66b)](https://www.codacy.com/app/UCLALibrary/docker-cantaloupe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UCLALibrary/docker-cantaloupe&amp;utm_campaign=Badge_Grade)
+## A Docker image for the Cantaloupe IIIF image server
+[![Build Status](https://travis-ci.com/UCLALibrary/docker-cantaloupe.svg?branch=main)](https://travis-ci.com/UCLALibrary/docker-cantaloupe) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0339f09b793a4f3ea37e09f5e1c3b66b)](https://www.codacy.com/app/UCLALibrary/docker-cantaloupe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UCLALibrary/docker-cantaloupe&amp;utm_campaign=Badge_Grade)
 
-Rudimentary containerization of the [Cantaloupe server](https://cantaloupe-project.github.io/cantaloupe), which bakes in a local filesystem 'resolver' (the means by which requested images are found) to a Docker data volume.
+This project builds a Docker image for the [Cantaloupe IIIF image server](https://cantaloupe-project.github.io/cantaloupe). If you're interested in using a prebuilt Cantaloupe Docker image, you can find one on [UCLA Library's DockerHub account](https://hub.docker.com/repository/docker/uclalibrary/cantaloupe).
 
-### Create the image
+We used to build this project using Ruby, but to simplify our process we've recently switched to using Maven. One result of this change is that the Dockerfile no longer stands on its own, independent of the Maven build. The new Dockerfile is filtered using build time variables.
 
-    docker build -t cantaloupe .
+Instructions on how to perform a build (with or without the proprietary Kakadu library) follow. By default, the build uses a file system image resolver. This can be changed at runtime with modifications to the container's environmental variables.
 
-This invocation will download the 4.1.4 (current at time of writing) release of the software. To override for
-newer (or older) versions:
+### Create the Docker image
 
-    docker build --build-arg CANTALOUPE_VERSION=<desired version> -t cantaloupe .
+To build the current stable version of Cantaloupe (i.e., 4.1.x), run:
 
-_Note:_ if you want to build a version other than 4.1.4, 4.1 you will need to supply a Cantaloupe properties `template` and `defaults` file in the `configs` directory. These files should be named with the Cantaloupe version you are interested in building. If the version you need is close to one of the supplied version files, you can probably just copy that file and edit as appropriate.
+    mvn verify
 
-To build the latest development snapshot of Cantaloupe, use the following:
+_We use `verify` instead of `package` because there are tests in the verify stage that will be run against the newly build container to make sure it's built and configured like it should be._
 
-    docker build --build-arg CANTALOUPE_VERSION="dev" -t cantaloupe .
+To build the latest development version of Cantaloupe (i.e., 5.0-SNAPSHOT), use the following:
 
-If the upstream Cantaloupe project is broken, you can also build a last known good commit (or a previous tag or working branch). To do this, supply a `COMMIT_REF` argument with a commit hash, tag, or branch name:
+    mvn verify -DdevBuild
 
-    docker build --build-arg CANTALOUPE_VERSION="dev" --build-arg COMMIT_REF="437a72d7" -t cantaloupe .
+The stable version of the build creates a Docker container with pinned versions of the pre-requisite software. The development build uses whatever the latest versions are in the base container that's used. This means, when the stable build no longer works (because the pinned versions are obsolete), the development version can still be run. Once that image is built, a person can shell into the container, see what the current versions are, and update the pinned versions in the Maven POM file accordingly.
 
-### Run the container
+_Hint: If you want to run a build without a Docker cache, add `-Ddocker.noCache` to your mvn command; for instance: `mvn verify -Ddocker.noCache`_
 
- First you will need to set the environment variables required to run Cantaloupe. If you would like to test additional settings, ensure the cantaloupe.properties.tmpl template has the variable configured or you have set it as an environment variable.
+### Run the Cantaloupe container
 
-    docker run -d -p 8182:8182 --name melon -v /path/to/your/images:/imageroot cantaloupe
+The simplest way to run the newly built Cantaloupe container (for development purposes) is to use the Maven Docker plugin. To do that, run:
 
-will run the container in the background until _docker stop_ is called, looking in specified directory for image files.
+    mvn docker:start
 
- You can also run the container with environmental variables supplied on the command line like:
+This will output logging that will tell you what random port Cantaloupe has been started on (e.g. http://localhost:32772). If you visit the URL found in the logging output in your browser, you will see the Cantaloupe landing page; and, if you haven't changed the default image.root location, you can test the server by visiting:
 
-    docker run -d -p 8182:8182 \
-      -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=[my_secret_password]" \
-      -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" \
-      --name melon -v testimages:/imageroot cantaloupe
+    http://localhost:[YOUR_PORT]/iiif/2/test.tif/info.json
 
-### Run the container using docker-compose
+or
 
-The current docker-compose.yml defines fixed environment variables in .docker-compose.env. As of now, the environment file just contains configurations for the administrative endpoint. This compose file currently does not build a local image. It only grabs the latest tag on of uclalibrary/cantaloupe. Please change the SHARED_IMAGE_DIR env variable to your associated image path to be shared with the local cantaloupe container. Run the following to start the container with compose:
+    http://localhost:[YOUR_PORT]/iiif/2/test.tif/full/full/0/default.jpg
 
-    export SHARED_IMAGE_DIR=/tmp/imageshare; docker-compose up -d
+If you'd like to change the location where Cantaloupe will look for images (to your own test images), you can start the container by using:
 
-### Deployment to AWS
-We currently use [Terraform](https://terraform.io) to deploy our containers. Please view our [Terraform Documentation](terraform/README.md) for more info.
+    mvn docker:start -Dimage.root=/path/to/your/imageroot
 
-### How to run the tests
+To stop the Cantaloupe container, when you are done testing, you need to run:
 
-We are using [DockerSpec](https://github.com/zuazo/dockerspec) to test our Dockerfiles. This requires that you have Ruby and Bundler installed. Once you do, you can run the following to install the testing dependencies:
+    mvn docker:stop
 
-    bundle
+If you would like the access the administrative user interface while running in test mode, start the server with this additional argument:
 
-And, after that, you can type the following to run the tests:
+    mvn docker:start -Dadmin.password=SecretPassword
 
-    rake
+This method is only intended for testing. When running Cantaloupe on a server, the administrative password, if used, should be supplied via an environmental property that overrides the value in Cantaloupe's configuration file.
 
-If you want to run just the tests for the "dev" or "stable" builds, you can run either `rake test_dev` or `rake test_stable`.
-
-### Optional stuff
-
-It is possible, if you have a kakadu license, to have the build also build and configure kakadu for use with your Cantaloupe server. To do this, you will need to place the source code directory that Kakadu Software has given you (it has your license as its name) into this project's `kakadu` directory. When you do this, and supply and additional build-arg to the build, you will cause kakadu to be installed and configured on your image. If you'd like a peak at the CodeBuild configuration we use to build kakadu, look at the `.buildspec.yml` file. Since kakadu is proprietary software and we can't make the source code available publicly, this build takes place in private on our AWS infrastructure.
-
-The additional build-arg that needs to be supplied to the build is `KAKADU_VERSION`. Its value would be your kakadu license code, which also has the release version of kakadu included in its name. This will look something like:
-
-    docker build --build-arg KAKADU_VERSION=v7_A_7-21061X -t cantaloupe .
-
-If you encounter any problems with the build using your kakadu source code, we would be interested in hearing about them.
-
-### How to set up a dev/test environment for a Cantaloupe delegate script, option 1: use docker run
-
-One useful application for this Docker-Cantaloupe project is to use it as a development environment for a Cantaloupe delegates.rb script. Here is one way to set up such an environment, using a docker run command:
+In addition to running a test Cantaloupe server using the Maven Docker plugin, you can also run the container through the standard `docker run` method. To do this, use environmental variables to override properties from the configuration file. An example of doing this looks like:
 
     docker run -d -p 8182:8182 \
       -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=secret" \
       -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" \
-      -e "CANTALOUPE_DELEGATE_SCRIPT_ENABLED=true" \
-      -e "CANTALOUPE_DELEGATE_SCRIPT_PATHNAME=/usr/local/cantaloupe/delegates.rb" \
-      -e "CANTALOUPE_DELEGATE_SCRIPT_CACHE_ENABLED=false" \
-      -e "CANTALOUPE_SOURCE_DELEGATE=true" \
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:4.1.6-1 &nbsp; # or latest version
+
+Here is another, more complex, example:
+
+    docker run -d -p 8182:8182 \
+      -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=secret" \
+      -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" \
       -e "CANTALOUPE_S3SOURCE_LOOKUP_STRATEGY=BasicLookupStrategy" \
       -e "CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_PATH_SUFFIX=.jpx" \
       -e "CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME=getyourown" \
@@ -86,23 +70,54 @@ One useful application for this Docker-Cantaloupe project is to use it as a deve
       -e "CANTALOUPE_S3SOURCE_ACCESS_KEY_ID=getyourown" \
       -e "CANTALOUPE_S3SOURCE_ENDPOINT=s3.amazonaws.com" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_ENABLED=true" \
-      -e "CIPHER_TEXT=this-is-important" \
-      -e "CIPHER_KEY=ooh-plaintext-secrets" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME=/var/log/cantaloupe/cantaloupe.log" \
-      -e "DELEGATE_URL=https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb" \
-      --name melon -v /sinai:/imageroot uclalibrary/cantaloupe-ucla:4.1.4
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:4.1.6-1 &nbsp; # or latest version
 
-### How to set up a dev/test environment for a Cantaloupe delegate script, option 2: use docker-compose
+There are, of course, other ways to run Docker without having to supply all these environmental variables on the command line. One might want to use a Docker Compose file, Terraform configs, or Kubernetes.
 
-There is an alternate docker-compose file in this project, test-delegate-docker-compose.yml, which sources ENV variable from the .docker-compose-test-delegate.env file. Be sure to modify that file to specify appropriate credentials. Then, run this command:
+### Using Kakadu for JPEG-2000 support
 
-    docker-compose -f test-delegate-docker-compose.yml up
+This build will also allow you to install the Kakadu JPEG-2000 library inside the newly built Cantaloupe image. This requires that you have a license to use Kakadu, and that you have the Kakadu source code accessible from a different Git repository (this should be private since the code is proprietary). This repository must have the versioned directory name, that Kakadu Software Pty Ltd distributes to licensees, at its root (e.g., something like: `v7_A_7-01642E`).
 
-The test-delegate-docker-compose.yml configuration file includes a local volume mount, which mounts the
-working directory's cantaloupe_home folder as the Docker-Cantaloupe container's CANTALOUPE_HOME folder.
-This will allow you to work on the delegates.rb file in whatever IDE or code editor you prefer on your
-workstation, and then test the results on the running Docker-Compose environment.
+To run a build that includes Kakadu, supply two additional build parameters: the repository and the version number; this will looks something like:
 
-### TODO
+    mvn verify -Dkakadu.git.repo=scm:git:git@github.com:uclalibrary/kakadu.git -Dkakadu.version=v7_A_7-01642E
 
- Updating to ImageMagick 7. There is a commented out setup in the Dockerfile if we need to compile from source. Hopefully by the time ImageMagick 6 is no longer supported by Cantaloupe there will be an official Debian package we can use.
+Once you've done this, you'll see the following warning:
+
+    warning: adding embedded git repository: src/main/docker/kakadu
+    hint: You've added another git repository inside your current repository.
+    hint: Clones of the outer repository will not contain the contents of
+    hint: the embedded repository and will not know how to obtain it.
+    hint: If you meant to add a submodule, use:
+    hint: 
+    hint:   git submodule add <url> src/main/docker/kakadu
+    hint: 
+    hint: If you added this path by mistake, you can remove it from the
+    hint: index with:
+    hint: 
+    hint:   git rm --cached src/main/docker/kakadu
+    hint: 
+    hint: See "git help submodule" for more information.
+
+This is what you want. You do not want to add your Kakadu code as a submodule since the repository is private and should not be linked to the Docker Cantaloupe code.
+
+UCLA developers only need to supply the correct `kakadu.version` v7 value. The build is set up to use our private Kakadu GitHub repository by default. Non-UCLA users should not supply `kakadu.version` without also supplying `kakadu.git.repo`, since the UCLA Kakadu repository is a private repo.
+
+It's important to remember that if you build a Docker container with `kakadu.version`, you must also supply that same argument when you run the `mvn docker:start` and `mvn docker:stop` commands. This will look something like:
+
+    mvn docker:start -Dkakadu.version=v7_A_7-01903E
+
+or
+
+    mvn docker:stop -Dkakadu.version=v7_A_7-01903E
+
+You do not need to supply the `kakadu.git.repo` argument when just starting or stopping your previously built Kakadu-enabled containers. That's only needed at the point of building them.
+
+### Deploying with Kubernetes
+
+Locally, we deploy Cantaloupe with Kubernetes. We're working on some documentation to fill in here with instructions on how you, too, can do this.
+
+### Contact
+
+We use an internal ticketing system, but we've left the GitHub issues open in case you'd like to file a ticket or make a suggestion. You can also contact <a href="mailto:ksclarke@ksclarke.io">Kevin S. Clarke</a>, directly, if you have a question about the project.

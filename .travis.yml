@@ -1,34 +1,35 @@
-language: ruby
+language: java
 
 env:
-  matrix:
-  - "CANTALOUPE_VERSION=stable"
-  - "CANTALOUPE_VERSION=stable DELEGATE_URL='https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb'"
-  - "CANTALOUPE_VERSION=dev"
-  - "CANTALOUPE_VERSION=dev DELEGATE_URL='https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb'"
-
+- BUILD_TYPE=""
+- BUILD_TYPE="-DdevBuild"
+- BUILD_TYPE="" ADDED_LIBS="-Dkakadu.version=${KAKADU_VERSION}"
+- BUILD_TYPE="-DdevBuild" ADDED_LIBS="-Dkakadu.version=${KAKADU_VERSION}"
 
 services:
 - docker
 
-# Upgrade Docker to the current version
 before_install:
-- .travis/upgrade.sh
+- >-
+  openssl aes-256-cbc -K $encrypted_3fc12ce230ac_key -iv $encrypted_3fc12ce230ac_iv
+  -in src/test/resources/kakadu_github_key.enc -out kakadu_github_key -d
+- chmod 600 kakadu_github_key
+- eval $(ssh-agent -s)
+- ssh-add kakadu_github_key
 
-before_script:
-- bundle exec rubocop
+install: true
 
-script:
-- travis_retry bundle exec rake test_$CANTALOUPE_VERSION
+script: >-
+      travis_retry mvn deploy $BUILD_TYPE $ADDED_LIBS
+      -Ddocker.registry.username="${DOCKER_USERNAME}"
+      -Ddocker.registry.password="${DOCKER_PASSWORD}"
+      -Ddocker.registry.account="${DOCKER_REGISTRY_ACCOUNT}"
+      -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
 
-after_success:
-- .travis/deploy.sh
-- .travis/trigger-docker-build.sh
-
-# We want all PRs built but only merges on master branch
+# We want all PRs built, but only merges on the 'main' branch
 branches:
   only:
-  - master
+  - main
 
 notifications:
   email:
@@ -42,9 +43,11 @@ notifications:
 #
 # DOCKER_PASSWORD - For logging into the Docker registery (e.g., DockerHub)
 # DOCKER_USERNAME - For logging into the Docker registery (e.g., DockerHub)
+# DOCKER_REGISTRY_ACCOUNT - For deploying Docker images to the registry
 # AUTH_TOKEN - For querying GitHub releases (otherwise, it's rate limited)
 # REG_USERNAME - The DockerHub user or organization that owns the project
 # REG_PROJECT - The DockerHub project to which the tagged image is being pushed
-# MASTER_BRANCH - The Git branch fromw which you want to push to the registry
-# COMMIT_REF [Optional] - A tag, branch, or commit hash from which to build
+# JENKINS_USER - User used to connect to our Jenkins instance
+# JENKINS_USER_PASS - Password used to connect to our Jenkins instance
+# JENKINS_URL: - Token used to connect to our Jenkins instance
 #
