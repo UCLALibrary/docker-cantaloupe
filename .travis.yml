@@ -37,17 +37,3 @@ notifications:
       - ksclarke@ksclarke.io
     on_success: change
     on_failure: change
-
-#
-# Things one needs to set in their project's online Travis configuration
-#
-# DOCKER_PASSWORD - For logging into the Docker registery (e.g., DockerHub)
-# DOCKER_USERNAME - For logging into the Docker registery (e.g., DockerHub)
-# DOCKER_REGISTRY_ACCOUNT - For deploying Docker images to the registry
-# AUTH_TOKEN - For querying GitHub releases (otherwise, it's rate limited)
-# REG_USERNAME - The DockerHub user or organization that owns the project
-# REG_PROJECT - The DockerHub project to which the tagged image is being pushed
-# JENKINS_USER - User used to connect to our Jenkins instance
-# JENKINS_USER_PASS - Password used to connect to our Jenkins instance
-# JENKINS_URL: - Token used to connect to our Jenkins instance
-#
