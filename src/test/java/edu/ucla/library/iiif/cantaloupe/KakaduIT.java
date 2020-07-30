@@ -19,6 +19,9 @@ import org.junit.Test;
 import info.freelibrary.util.Logger;
 import info.freelibrary.util.LoggerFactory;
 
+/**
+ * A test that confirms Cantaloupe's Kakadu configuration is working.
+ */
 public class KakaduIT extends AbstractCantaloupeIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KakaduIT.class, MessageCodes.BUNDLE);
@@ -37,7 +40,7 @@ public class KakaduIT extends AbstractCantaloupeIT {
     }
 
     /**
-     * Test that Kakadu can successfully return a JPEG 2000 image.
+     * Test that Kakadu can successfully return a JPEG 2000 image's info.json file.
      */
     @Test
     public void testKakaduJSON() throws MalformedURLException, IOException {

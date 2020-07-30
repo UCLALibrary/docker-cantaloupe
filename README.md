@@ -1,11 +1,9 @@
 ## A Docker image for the Cantaloupe IIIF image server
 [![Build Status](https://travis-ci.com/UCLALibrary/docker-cantaloupe.svg?branch=main)](https://travis-ci.com/UCLALibrary/docker-cantaloupe) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0339f09b793a4f3ea37e09f5e1c3b66b)](https://www.codacy.com/app/UCLALibrary/docker-cantaloupe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UCLALibrary/docker-cantaloupe&amp;utm_campaign=Badge_Grade)
 
-This project builds a Docker image for the [Cantaloupe IIIF image server](https://cantaloupe-project.github.io/cantaloupe). If you're interested in using a prebuilt Cantaloupe Docker image, you can find one on [UCLA Library's DockerHub account](https://hub.docker.com/repository/docker/uclalibrary/cantaloupe).
+This project builds a Docker image for the [Cantaloupe IIIF image server](https://cantaloupe-project.github.io/cantaloupe). If you're interested in using a prebuilt image, you can find one on [UCLA Library's DockerHub account](https://hub.docker.com/repository/docker/uclalibrary/cantaloupe).
 
-We used to build this project using Ruby, but to simplify our process we've recently switched to using Maven. One result of this change is that the Dockerfile no longer stands on its own, independent of the Maven build. The new Dockerfile is filtered using build time variables.
-
-Instructions on how to perform a build (with or without the proprietary Kakadu library) follow. By default, the build uses a file system image resolver. This can be changed at runtime with modifications to the container's environmental variables.
+Historical note: We used to build this project using Ruby, but to simplify our process we've recently switched to using Maven. One result of this change is that the Dockerfile no longer stands on its own, independent of the Maven build. We could save a filtered Dockefile to disk if there is interest in that, though.
 
 ### Create the Docker image
 
@@ -29,7 +27,7 @@ The simplest way to run the newly built Cantaloupe container (for development pu
 
     mvn docker:start
 
-This will output logging that will tell you what random port Cantaloupe has been started on (e.g. http://localhost:32772). If you visit the URL found in the logging output in your browser, you will see the Cantaloupe landing page; and, if you haven't changed the default image.root location, you can test the server by visiting:
+This will output logging that will tell you what random port Cantaloupe has been started on (e.g. http://localhost:32772). If you visit the URL found in the logging output in your browser, you will see the Cantaloupe landing page; and, if you haven't changed the default `image.root` location, you can test the server by visiting:
 
     http://localhost:[YOUR_PORT]/iiif/2/test.tif/info.json
 
@@ -37,26 +35,26 @@ or
 
     http://localhost:[YOUR_PORT]/iiif/2/test.tif/full/full/0/default.jpg
 
-If you'd like to change the location where Cantaloupe will look for images (to your own test images), you can start the container by using:
+If you'd like to change the location where Cantaloupe will look for images (to your own test images), you can start the container with a custom `image.root` location:
 
     mvn docker:start -Dimage.root=/path/to/your/imageroot
 
-To stop the Cantaloupe container, when you are done testing, you need to run:
+To stop the Cantaloupe container, when you are done testing, you should run:
 
     mvn docker:stop
 
-If you would like the access the administrative user interface while running in test mode, start the server with this additional argument:
+If you would like to access the administrative user interface while running in test mode, start the server with this additional argument (supplying your own password):
 
     mvn docker:start -Dadmin.password=SecretPassword
 
-This method is only intended for testing. When running Cantaloupe on a server, the administrative password, if used, should be supplied via an environmental property that overrides the value in Cantaloupe's configuration file.
+This method is only intended for testing. When running Cantaloupe on a server, the administrative password, if used, should be supplied via an environmental property that overrides the value in Cantaloupe's [configuration file](https://github.com/UCLALibrary/docker-cantaloupe/tree/main/src/main/docker/configs).
 
 In addition to running a test Cantaloupe server using the Maven Docker plugin, you can also run the container through the standard `docker run` method. To do this, use environmental variables to override properties from the configuration file. An example of doing this looks like:
 
     docker run -d -p 8182:8182 \
       -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=secret" \
       -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" \
-      --name melon -v /path/to/your/images:/imageroot cantaloupe:4.1.6-1 &nbsp; # or latest version
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:4.1.6-1  # or latest version
 
 Here is another, more complex, example:
 
@@ -71,19 +69,19 @@ Here is another, more complex, example:
       -e "CANTALOUPE_S3SOURCE_ENDPOINT=s3.amazonaws.com" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_ENABLED=true" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME=/var/log/cantaloupe/cantaloupe.log" \
-      --name melon -v /path/to/your/images:/imageroot cantaloupe:4.1.6-1 &nbsp; # or latest version
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:4.1.6-1  # or latest version
 
 There are, of course, other ways to run Docker without having to supply all these environmental variables on the command line. One might want to use a Docker Compose file, Terraform configs, or Kubernetes.
 
 ### Using Kakadu for JPEG-2000 support
 
-This build will also allow you to install the Kakadu JPEG-2000 library inside the newly built Cantaloupe image. This requires that you have a license to use Kakadu, and that you have the Kakadu source code accessible from a different Git repository (this should be private since the code is proprietary). This repository must have the versioned directory name, that Kakadu Software Pty Ltd distributes to licensees, at its root (e.g., something like: `v7_A_7-01642E`).
+This project also enables you to build a new Cantaloupe image with the Kakadu JPEG 2000 libraries. This requires that you have a license to use Kakadu, and that you have the Kakadu source code accessible from a different Git repository (this should be private since the code is proprietary). This additional repository must have the versioned directory name, that Kakadu Software Pty Ltd distributes to licensees, at its root (e.g., something like: `v7_A_7-01642E`).
 
-To run a build that includes Kakadu, supply two additional build parameters: the repository and the version number; this will looks something like:
+To build an image that includes Kakadu, supply two additional build parameters: the repository and the version number; this should look something like:
 
     mvn verify -Dkakadu.git.repo=scm:git:git@github.com:uclalibrary/kakadu.git -Dkakadu.version=v7_A_7-01642E
 
-Once you've done this, you'll see the following warning:
+Once you've done this, you'll get the following warning:
 
     warning: adding embedded git repository: src/main/docker/kakadu
     hint: You've added another git repository inside your current repository.
@@ -100,15 +98,15 @@ Once you've done this, you'll see the following warning:
     hint: 
     hint: See "git help submodule" for more information.
 
-This is what you want. You do not want to add your Kakadu code as a submodule since the repository is private and should not be linked to the Docker Cantaloupe code.
+This is what you want. You do not want to add your Kakadu code as a submodule since the repository is private and should not be linked to this project's code.
 
-UCLA developers only need to supply the correct `kakadu.version` v7 value. The build is set up to use our private Kakadu GitHub repository by default. Non-UCLA users should not supply `kakadu.version` without also supplying `kakadu.git.repo`, since the UCLA Kakadu repository is a private repo.
+UCLA developers only need to supply the correct `kakadu.version` v7 value. The build is set up to use our private Kakadu GitHub repository by default. Non-UCLA developers should not supply `kakadu.version` without also supplying `kakadu.git.repo`, since the UCLA Kakadu repository is a private repository that cannot be accessed by others.
 
-It's important to remember that if you build a Docker container with `kakadu.version`, you must also supply that same argument when you run the `mvn docker:start` and `mvn docker:stop` commands. This will look something like:
+It's important to remember that if you build a Docker container with `kakadu.version`, you must also supply that same argument when you run the `mvn docker:start` and `mvn docker:stop` commands. They will look something like:
 
     mvn docker:start -Dkakadu.version=v7_A_7-01903E
 
-or
+and
 
     mvn docker:stop -Dkakadu.version=v7_A_7-01903E
 
