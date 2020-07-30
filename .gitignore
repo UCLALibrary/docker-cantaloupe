@@ -8,3 +8,5 @@ terraform/cantaloupe_ip
 
 # We exclude our README so that that does get checked into version control
 !kakadu/README.txt
+/target/
+/src/

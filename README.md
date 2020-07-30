@@ -3,7 +3,7 @@
 
 Rudimentary containerization of the [Cantaloupe server](https://cantaloupe-project.github.io/cantaloupe), which bakes in a local filesystem 'resolver' (the means by which requested images are found) to a Docker data volume.
 
-WARNING: This branch is now deprecated. It uses a Ruby build/test system. We've moved future development to the "main" branch, which uses a Maven build/test system instead.
+_**WARNING:** This branch is now deprecated. It uses a Ruby build/test system. We've moved future development to the "main" branch, which uses a Maven build/test system instead._
 
 ### Create the image
 
