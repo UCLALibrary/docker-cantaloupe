@@ -6,6 +6,10 @@ env:
 - BUILD_TYPE="" ADDED_LIBS="-Dkakadu.version=${KAKADU_VERSION}"
 - BUILD_TYPE="-DdevBuild" ADDED_LIBS="-Dkakadu.version=${KAKADU_VERSION}"
 
+jobs:
+  exclude:
+  - if: env(BUILD_TYPE) IS present AND type != cron
+
 services:
 - docker
 
