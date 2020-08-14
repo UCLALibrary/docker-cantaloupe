@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>cantaloupe</artifactId>
-  <version>4.1.6-1-SNAPSHOT</version>
+  <version>4.1.5-1-SNAPSHOT</version>
   <name>docker-cantaloupe</name>
   <description>A Docker build and test framework for Cantaloupe</description>
   <url>https://github.com/uclalibrary/docker-cantaloupe</url>
@@ -64,7 +64,7 @@
 
   <properties>
     <!-- What versions of Cantaloupe and Kakadu are we using? -->
-    <cantaloupe.version>4.1.6</cantaloupe.version>
+    <cantaloupe.version>4.1.5</cantaloupe.version>
     <kakadu.version></kakadu.version>
 
     <!-- Git repo with Kakadu source code (ours is private; override with yours) -->
@@ -556,6 +556,7 @@
         <libturbojpeg.version>=2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
         <wget.version>=1.20.3-1ubuntu1</wget.version>
         <unzip.version>=6.0-25ubuntu1</unzip.version>
+        <zip.version>=3.0-11build1</zip.version>
         <graphicsmagick.version>=1.4+really1.3.35-1</graphicsmagick.version>
         <curl.version>=7.68.0-1ubuntu2.1</curl.version>
         <imagemagick.version>=8:6.9.10.23+dfsg-2.1ubuntu11</imagemagick.version>
@@ -588,6 +589,7 @@
         <libturbojpeg.version></libturbojpeg.version>
         <wget.version></wget.version>
         <unzip.version></unzip.version>
+        <zip.version></zip.version>
         <graphicsmagick.version></graphicsmagick.version>
         <curl.version></curl.version>
         <imagemagick.version></imagemagick.version>
