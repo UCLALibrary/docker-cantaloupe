@@ -97,6 +97,7 @@ RUN apt-get update -qq && \
     openjdk-11-jre-headless${openjdk.version} \
     wget${wget.version} \
     unzip${unzip.version} \
+    zip${zip.version} \
     graphicsmagick${graphicsmagick.version} \
     curl${curl.version} \
     imagemagick${imagemagick.version} \
