@@ -559,7 +559,7 @@
         <unzip.version>=6.0-25ubuntu1</unzip.version>
         <zip.version>=3.0-11build1</zip.version>
         <graphicsmagick.version>=1.4+really1.3.35-1</graphicsmagick.version>
-        <curl.version>=7.68.0-1ubuntu2.1</curl.version>
+        <curl.version>=7.68.0-1ubuntu2.2</curl.version>
         <imagemagick.version>=8:6.9.10.23+dfsg-2.1ubuntu11</imagemagick.version>
         <ffmpeg.version>=7:4.2.4-1ubuntu0.1</ffmpeg.version>
         <python2.version>=2.7.17-2ubuntu4</python2.version>
