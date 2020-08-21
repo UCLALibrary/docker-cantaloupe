@@ -42,7 +42,7 @@ notifications:
     on_success: change
     on_failure: change
   pushover:
-    if: type == cron AND branch == main AND env(BUILD_TYPE) IS blank AND env(ADDED_LIBS) IS blank
+    if: type == cron AND branch == main
     api_key: "${PUSHOVER_API_KEY}"
     users:
       - "${PUSHOVER_USER_KEY}"
