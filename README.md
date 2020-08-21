@@ -1,5 +1,5 @@
 ## A Docker image for the Cantaloupe IIIF image server
-[![Build Status](https://travis-ci.com/UCLALibrary/docker-cantaloupe.svg?branch=main)](https://travis-ci.com/UCLALibrary/docker-cantaloupe) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0339f09b793a4f3ea37e09f5e1c3b66b)](https://www.codacy.com/app/UCLALibrary/docker-cantaloupe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UCLALibrary/docker-cantaloupe&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/UCLALibrary/docker-cantaloupe.svg?branch=main)](https://travis-ci.com/UCLALibrary/docker-cantaloupe) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/74e25a3c2515495aafb6b077fdde9a13)](https://www.codacy.com/gh/UCLALibrary/docker-cantaloupe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UCLALibrary/docker-cantaloupe&amp;utm_campaign=Badge_Grade) [![Known Vulnerabilities](https://snyk.io/test/github/uclalibrary/docker-cantaloupe/badge.svg)](https://snyk.io/test/github/uclalibrary/docker-cantaloupe)
 
 This project builds a Docker image for the [Cantaloupe IIIF image server](https://cantaloupe-project.github.io/cantaloupe). If you're interested in using a prebuilt image, you can find one on [UCLA Library's DockerHub account](https://hub.docker.com/repository/docker/uclalibrary/cantaloupe).
 
@@ -118,4 +118,4 @@ Locally, we deploy Cantaloupe with Kubernetes. We're working on some documentati
 
 ### Contact
 
-We use an internal ticketing system, but we've left the GitHub issues open in case you'd like to file a ticket or make a suggestion. You can also contact <a href="mailto:ksclarke@ksclarke.io">Kevin S. Clarke</a>, directly, if you have a question about the project.
+We use an internal ticketing system, but we've left the GitHub [issues queue](https://github.com/UCLALibrary/docker-cantaloupe/issues) open in case you'd like to file a ticket or make a suggestion.
