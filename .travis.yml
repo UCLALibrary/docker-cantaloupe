@@ -41,3 +41,11 @@ notifications:
       - ksclarke@ksclarke.io
     on_success: change
     on_failure: change
+  pushover:
+    if: type == cron AND branch == main AND env(BUILD_TYPE) IS blank AND env(ADDED_LIBS) IS blank
+    api_key: "${PUSHOVER_API_KEY}"
+    users:
+      - "${PUSHOVER_USER_KEY}"
+    template: "%{repository_slug} (%{commit}) : %{message} - Build details: %{build_url}"
+    on_success: never
+    on_failure: always
