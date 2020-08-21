@@ -118,4 +118,4 @@ Locally, we deploy Cantaloupe with Kubernetes. We're working on some documentati
 
 ### Contact
 
-We use an internal ticketing system, but we've left the GitHub issues open in case you'd like to file a ticket or make a suggestion. You can also contact <a href="mailto:ksclarke@ksclarke.io">Kevin S. Clarke</a>, directly, if you have a question about the project.
+We use an internal ticketing system, but we've left the GitHub [issues queue](https://github.com/UCLALibrary/docker-cantaloupe/issues) open in case you'd like to file a ticket or make a suggestion.
