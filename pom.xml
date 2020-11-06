@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>cantaloupe</artifactId>
-  <version>4.1.6-1-SNAPSHOT</version>
+  <version>4.1.5-2-SNAPSHOT</version>
   <name>docker-cantaloupe</name>
   <description>A Docker build and test framework for Cantaloupe</description>
   <url>https://github.com/uclalibrary/docker-cantaloupe</url>
@@ -548,11 +548,11 @@
         </property>
       </activation>
       <properties>
-        <openjdk.version>=11.0.8+10-0ubuntu1~20.04</openjdk.version>
+        <openjdk.version>=11.0.9+11-0ubuntu1~20.04</openjdk.version>
         <gcc.version>=4:9.3.0-1ubuntu2</gcc.version>
         <make.version>=4.2.1-1.2</make.version>
         <libtiff.version>=4.1.0+git191117-2build1</libtiff.version>
-        <build.essential.version>=12.8ubuntu1</build.essential.version>
+        <build.essential.version>=12.8ubuntu1.1</build.essential.version>
         <libopenjp2.version>=2.3.1-1ubuntu4</libopenjp2.version>
         <libturbojpeg.version>=2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
         <wget.version>=1.20.3-1ubuntu1</wget.version>
@@ -560,7 +560,7 @@
         <zip.version>=3.0-11build1</zip.version>
         <graphicsmagick.version>=1.4+really1.3.35-1</graphicsmagick.version>
         <curl.version>=7.68.0-1ubuntu2.2</curl.version>
-        <imagemagick.version>=8:6.9.10.23+dfsg-2.1ubuntu11</imagemagick.version>
+        <imagemagick.version>=8:6.9.10.23+dfsg-2.1ubuntu11.1</imagemagick.version>
         <ffmpeg.version>=7:4.2.4-1ubuntu0.1</ffmpeg.version>
         <python2.version>=2.7.17-2ubuntu4</python2.version>
 
