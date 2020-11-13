@@ -73,8 +73,8 @@
     <!-- Docker/OS package versions are defined in the default profile at the bottom of the POM file -->
 
     <!-- Java dependency versions -->
-    <freelib.utils.version>1.1.0</freelib.utils.version>
-    <freelib.maven.version>0.1.0</freelib.maven.version>
+    <freelib.utils.version>2.1.0</freelib.utils.version>
+    <freelib.maven.version>0.1.2</freelib.maven.version>
     <jsoup.version>1.13.1</jsoup.version>
     <json.version>20180130</json.version>
     <scm.plugin.version>1.11.2</scm.plugin.version>
@@ -464,7 +464,7 @@
           <excludes>
             <exclude>**/*</exclude>
           </excludes>
-          <forkCount>0</forkCount><!-- Multiple forks result in multiple containers -->
+          <forkCount>1</forkCount><!-- Multiple forks result in multiple containers -->
           <useSystemClassLoader>false</useSystemClassLoader> <!-- Override parent project setting -->
         </configuration>
         <executions>
@@ -517,6 +517,12 @@
             </validationSet>
           </validationSets>
         </configuration>
+      </plugin>
+
+      <!-- Sets the prepare_release scripts to be executable -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
