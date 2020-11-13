@@ -150,6 +150,16 @@
       <testResource>
         <directory>src/test/resources</directory>
         <filtering>true</filtering>
+        <excludes>
+          <!-- We don't need to filter binary files -->
+          <exclude>images/*.tif</exclude>
+          <exclude>images/*.jpx</exclude>
+          <exclude>images/*.png</exclude>
+          <exclude>images/*.jpg</exclude>
+          <exclude>images/*.gif</exclude>
+          <exclude>images/*.jp2</exclude>
+          <exclude>*.enc</exclude>
+        </excludes>
       </testResource>
 
       <!-- We can also override the default logging configuration with a file in our root project directory -->
@@ -158,6 +168,16 @@
         <includes>
           <include>logback-test.xml</include>
         </includes>
+        <excludes>
+          <!-- We don't need to filter binary files -->
+          <exclude>images/*.tif</exclude>
+          <exclude>images/*.jpx</exclude>
+          <exclude>images/*.png</exclude>
+          <exclude>images/*.jpg</exclude>
+          <exclude>images/*.gif</exclude>
+          <exclude>images/*.jp2</exclude>
+          <exclude>*.enc</exclude>
+        </excludes>
         <filtering>true</filtering>
       </testResource>
     </testResources>
@@ -606,7 +626,7 @@
   <parent>
     <artifactId>freelib-parent</artifactId>
     <groupId>info.freelibrary</groupId>
-    <version>4.0.0</version>
+    <version>5.2.1</version>
   </parent>
 
 </project>
