@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>cantaloupe</artifactId>
-  <version>4.1.7-1</version>
+  <version>4.1.7-SNAPSHOT</version>
   <name>docker-cantaloupe</name>
   <description>A Docker build and test framework for Cantaloupe</description>
   <url>https://github.com/uclalibrary/docker-cantaloupe</url>
