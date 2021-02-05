@@ -1,0 +1,45 @@
+name: Maven PR Build
+
+# We require all commits go through PR on GitHub
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Maven PR Builder (JDK ${{ matrix.java }})
+    runs-on: ubuntu-latest
+    env:
+      MAVEN_CACHE_KEY: ${{ secrets.MAVEN_CACHE_KEY }}
+    strategy:
+      matrix:
+        java: [ 11, 12 ]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # v2
+      - name: Install JDK ${{ matrix.java }}
+        uses: actions/setup-java@d202f5dbf7256730fb690ec59f6381650114feb2 # v1
+        with:
+          java-version: ${{ matrix.java }}
+      # If running locally in act, install Maven
+      - name: Set up Maven if needed
+        if: ${{ env.ACT }}
+        uses: stCarolas/setup-maven@1d56b37995622db66cce1214d81014b09807fb5a # v4
+        with:
+          maven-version: 3.6.3
+      - name: Set up Maven cache
+        uses: actions/cache@0781355a23dac32fd3bac414512f4b903437991a # v2
+        if: ${{ env.MAVEN_CACHE_KEY }}
+        with:
+          path: ~/.m2
+          key: freelibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: freelibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-
+      - name: Build with Maven
+        uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
+        with:
+          maven_goals_phases: "clean verify"
+          maven_profiles: default,${{ secrets.BUILD_PROFILES }}
+          maven_args: >
+            -V -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error ${{ secrets.BUILD_PROPERTIES }}

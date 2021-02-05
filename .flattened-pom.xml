@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-
+  <parent>
+    <groupId>info.freelibrary</groupId>
+    <artifactId>freelib-parent</artifactId>
+    <version>6.6.3</version>
+  </parent>
+  <groupId>info.freelibrary</groupId>
   <artifactId>cantaloupe</artifactId>
   <version>4.1.7-2-SNAPSHOT</version>
   <name>docker-cantaloupe</name>
   <description>A Docker build and test framework for Cantaloupe</description>
   <url>https://github.com/uclalibrary/docker-cantaloupe</url>
-
   <licenses>
     <license>
       <name>The 3-Clause BSD License</name>
       <url>https://opensource.org/licenses/BSD-3-clause</url>
     </license>
   </licenses>
-
-  <scm>
-    <connection>scm:git:git@github.com:uclalibrary/docker-cantaloupe.git</connection>
-    <developerConnection>scm:git:git@github.com:uclalibrary/docker-cantaloupe.git</developerConnection>
-    <url>git@github.com:uclalibrary/docker-cantaloupe.git</url>
-  </scm>
-
-  <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/uclalibrary/docker-cantaloupe/issues</url>
-  </issueManagement>
-
   <developers>
     <developer>
       <id>ksclarke</id>
@@ -61,70 +53,56 @@
       <timezone>America/Los_Angeles</timezone>
     </developer>
   </developers>
-
+  <scm>
+    <connection>scm:git:git@github.com:uclalibrary/docker-cantaloupe.git</connection>
+    <developerConnection>scm:git:git@github.com:uclalibrary/docker-cantaloupe.git</developerConnection>
+    <url>git@github.com:uclalibrary/docker-cantaloupe.git</url>
+  </scm>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/uclalibrary/docker-cantaloupe/issues</url>
+  </issueManagement>
   <properties>
-    <!-- What versions of Cantaloupe and Kakadu are we using? -->
-    <cantaloupe.version>4.1.7</cantaloupe.version>
-    <kakadu.version></kakadu.version>
-
-    <!-- Git repo with Kakadu source code (ours is private; override with yours) -->
-    <kakadu.git.repo>scm:git:git@github.com:uclalibrary/kakadu.git</kakadu.git.repo>
-
-    <!-- Docker container dependency versions -->
     <ubuntu.tag>20.04</ubuntu.tag>
-    <openjdk.version>11.0.9.1+1-0ubuntu1~20.04</openjdk.version>
-    <gcc.version>4:9.3.0-1ubuntu2</gcc.version>
-    <make.version>4.2.1-1.2</make.version>
+    <kakadu.version></kakadu.version>
+    <imagemagick.version>8:6.9.10.23+dfsg-2.1ubuntu11.2</imagemagick.version>
+    <docker.showLogs>true</docker.showLogs>
     <libtiff.version>4.1.0+git191117-2build1</libtiff.version>
     <build.essential.version>12.8ubuntu1.1</build.essential.version>
-    <libopenjp2.version>2.3.1-1ubuntu4</libopenjp2.version>
+    <freelib.maven.version>0.1.2</freelib.maven.version>
     <libturbojpeg.version>2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
     <wget.version>1.20.3-1ubuntu1</wget.version>
-    <unzip.version>6.0-25ubuntu1</unzip.version>
-    <zip.version>3.0-11build1</zip.version>
-    <graphicsmagick.version>1.4+really1.3.35-1</graphicsmagick.version>
-    <curl.version>7.68.0-1ubuntu2.4</curl.version>
-    <imagemagick.version>8:6.9.10.23+dfsg-2.1ubuntu11.2</imagemagick.version>
+    <docker.registry.username></docker.registry.username>
     <ffmpeg.version>7:4.2.4-1ubuntu0.1</ffmpeg.version>
     <python2.version>2.7.17-2ubuntu4</python2.version>
-
-    <!-- Java dependency versions -->
-    <freelib.utils.version>2.1.0</freelib.utils.version>
-    <freelib.maven.version>0.1.2</freelib.maven.version>
-    <jsoup.version>1.13.1</jsoup.version>
-    <json.version>20180130</json.version>
-    <scm.plugin.version>1.11.2</scm.plugin.version>
-    <deploy.plugin.version>2.8.2</deploy.plugin.version>
-    <codacy.plugin.version>1.2.0</codacy.plugin.version>
-    <xml.maven.plugin.version>1.0.2</xml.maven.plugin.version>
-    <docker.maven.plugin.version>0.33.0</docker.maven.plugin.version>
-    <maven.download.plugin.version>1.3.0</maven.download.plugin.version>
-
-    <!-- What level of logging we want to see, by default, in our tests and default container config -->
-    <logLevel>ERROR</logLevel>
-    <testLogLevel>ERROR</testLogLevel>
-
-    <!-- The Docker registry user and password used for publishing images -->
-    <docker.registry.username />
-    <docker.registry.password />
-
-    <!-- The registry account, if supplied, must end with a slash (e.g. "account/") -->
-    <docker.registry.account />
-
-    <!-- The artifact is qualified if it's built with Kakadu -->
+    <curl.version>7.68.0-1ubuntu2.4</curl.version>
+    <kakadu.git.repo>scm:git:git@github.com:uclalibrary/kakadu.git</kakadu.git.repo>
     <artifact.qualifier></artifact.qualifier>
-
-    <!-- Additional Docker configurations -->
-    <docker.cleanup>remove</docker.cleanup>
-    <docker.showLogs>true</docker.showLogs>
-
-    <!-- The image root when running the test instance of Cantaloupe -->
-    <image.root>src/test/resources/images/</image.root>
-
-    <!-- Override this to set the admin UI password when running in test mode -->
+    <json.version>20180130</json.version>
+    <docker.registry.account></docker.registry.account>
+    <deploy.plugin.version>2.8.2</deploy.plugin.version>
+    <make.version>4.2.1-1.2</make.version>
+    <scm.plugin.version>1.11.2</scm.plugin.version>
+    <libopenjp2.version>2.3.1-1ubuntu4</libopenjp2.version>
+    <docker.registry.password></docker.registry.password>
+    <gcc.version>4:9.3.0-1ubuntu2</gcc.version>
+    <openjdk.version>11.0.9.1+1-0ubuntu1~20.04</openjdk.version>
+    <logLevel>ERROR</logLevel>
     <admin.password></admin.password>
+    <image.root>src/test/resources/images/</image.root>
+    <maven.download.plugin.version>1.3.0</maven.download.plugin.version>
+    <testLogLevel>ERROR</testLogLevel>
+    <xml.maven.plugin.version>1.0.2</xml.maven.plugin.version>
+    <cantaloupe.version>4.1.7</cantaloupe.version>
+    <docker.cleanup>remove</docker.cleanup>
+    <codacy.plugin.version>1.2.0</codacy.plugin.version>
+    <jsoup.version>1.13.1</jsoup.version>
+    <graphicsmagick.version>1.4+really1.3.35-1</graphicsmagick.version>
+    <docker.maven.plugin.version>0.33.0</docker.maven.plugin.version>
+    <zip.version>3.0-11build1</zip.version>
+    <freelib.utils.version>2.1.0</freelib.utils.version>
+    <unzip.version>6.0-25ubuntu1</unzip.version>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -154,20 +132,18 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <build>
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
         <filtering>true</filtering>
+        <directory>src/main/resources</directory>
       </resource>
     </resources>
     <testResources>
       <testResource>
-        <directory>src/test/resources</directory>
         <filtering>true</filtering>
+        <directory>src/test/resources</directory>
         <excludes>
-          <!-- We don't need to filter binary files -->
           <exclude>images/*.tif</exclude>
           <exclude>images/*.jpx</exclude>
           <exclude>images/*.png</exclude>
@@ -177,15 +153,13 @@
           <exclude>*.enc</exclude>
         </excludes>
       </testResource>
-
-      <!-- We can also override the default logging configuration with a file in our root project directory -->
       <testResource>
+        <filtering>true</filtering>
         <directory>${basedir}</directory>
         <includes>
           <include>logback-test.xml</include>
         </includes>
         <excludes>
-          <!-- We don't need to filter binary files -->
           <exclude>images/*.tif</exclude>
           <exclude>images/*.jpx</exclude>
           <exclude>images/*.png</exclude>
@@ -194,16 +168,13 @@
           <exclude>images/*.jp2</exclude>
           <exclude>*.enc</exclude>
         </excludes>
-        <filtering>true</filtering>
       </testResource>
     </testResources>
-
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <compilerArgs>
@@ -211,21 +182,13 @@
           </compilerArgs>
         </configuration>
       </plugin>
-
-      <!-- Deploying Docker image instead of a Jar file so skip this -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
         <version>${deploy.plugin.version}</version>
         <configuration>
           <skip>true</skip>
         </configuration>
       </plugin>
-
-      <!-- Generates a message bundle class for use in the Java tests -->
-      <!--<![CDATA[
-        To run the generate-codes plugin manually: mvn info.freelibrary:freelib-utils:generate-codes
-      ]]>-->
       <plugin>
         <groupId>info.freelibrary</groupId>
         <artifactId>freelib-maven-plugins</artifactId>
@@ -245,15 +208,20 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- PMD is an extensible cross-language static code analyzer -->
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
       </plugin>
-
-      <!-- Generates Javadocs -->
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>site-javadocs</id>
+            <phase>site</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
         <dependencies>
           <dependency>
             <groupId>info.freelibrary</groupId>
@@ -277,26 +245,13 @@
           </links>
           <sourcepath>src/main/java:src/main/generated</sourcepath>
         </configuration>
-        <executions>
-          <execution>
-            <id>site-javadocs</id>
-            <phase>site</phase>
-            <goals>
-              <goal>javadoc</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
-
-      <!-- Checkstyle ensures adherence to coding standards -->
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <suppressionsLocation>src/main/tools/checkstyle/checkstyle-suppressions-override.xml</suppressionsLocation>
         </configuration>
       </plugin>
-
-      <!-- Enforcer enforces some basic characteristics of the project -->
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
@@ -315,19 +270,13 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- Maven dependency helps freelib-resources copy files into the project -->
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
-
-      <!-- The build-helper plug-in gets us a dynamic port for testing -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
       </plugin>
-
-      <!-- Download test images -->
       <plugin>
         <groupId>com.googlecode.maven-download-plugin</groupId>
         <artifactId>download-maven-plugin</artifactId>
@@ -339,7 +288,6 @@
             <goals>
               <goal>wget</goal>
             </goals>
-            <!-- Download some test images too large to store in GitHub -->
             <configuration>
               <url>https://s3.amazonaws.com/ksclarke-data/jiiify-image-test-images.zip</url>
               <unpack>true</unpack>
@@ -348,8 +296,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- Check the project's XML files to make sure they are well-formed -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
@@ -377,7 +323,6 @@
       </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
       <id>publishedBuild</id>
@@ -386,13 +331,42 @@
           <name>!versions</name>
         </property>
       </activation>
-
       <build>
         <plugins>
           <plugin>
             <groupId>io.fabric8</groupId>
             <artifactId>docker-maven-plugin</artifactId>
             <version>${docker.maven.plugin.version}</version>
+            <executions>
+              <execution>
+                <id>docker-build</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>docker-start</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>docker-stop</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>docker-deploy</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>push</goal>
+                </goals>
+              </execution>
+            </executions>
             <configuration>
               <logStdout>true</logStdout>
               <verbose>true</verbose>
@@ -404,7 +378,7 @@
                   </build>
                   <run>
                     <ports>
-                      <port>${http.port}:8182</port> <!-- Start test container on an available host port -->
+                      <port>${http.port}:8182</port>
                     </ports>
                     <volumes>
                       <bind>
@@ -430,57 +404,9 @@
                 <password>${docker.registry.password}</password>
               </authConfig>
             </configuration>
-            <executions>
-
-              <!-- Builds the Docker image -->
-              <execution>
-                <id>docker-build</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>build</goal>
-                </goals>
-              </execution>
-
-              <!-- Starts the Docker container for integration testing -->
-              <execution>
-                <id>docker-start</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>start</goal>
-                </goals>
-              </execution>
-
-              <!-- Stops the integration tests' Docker container -->
-              <execution>
-                <id>docker-stop</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop</goal>
-                </goals>
-              </execution>
-
-              <!-- If tests succeed, deploys the Docker image to DockerHub -->
-              <execution>
-                <id>docker-deploy</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>push</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
-
-          <!-- JUnit runs our tests -->
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <excludes>
-                <exclude>**/*</exclude>
-              </excludes>
-              <forkCount>1</forkCount><!-- Multiple forks result in multiple containers -->
-              <useSystemClassLoader>false</useSystemClassLoader> <!-- Override parent project setting -->
-            </configuration>
             <executions>
               <execution>
                 <id>functional-tests</id>
@@ -504,12 +430,17 @@
                 </configuration>
               </execution>
             </executions>
+            <configuration>
+              <excludes>
+                <exclude>**/*</exclude>
+              </excludes>
+              <forkCount>1</forkCount>
+              <useSystemClassLoader>false</useSystemClassLoader>
+            </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
-
-    <!--A profile that builds Kakadu's proprietary source code -->
     <profile>
       <id>kakadu</id>
       <activation>
@@ -517,13 +448,9 @@
           <name>kakadu.version</name>
         </property>
       </activation>
-      <properties>
-        <artifact.qualifier>-ucla</artifact.qualifier>
-      </properties>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-scm-plugin</artifactId>
             <version>${scm.plugin.version}</version>
             <executions>
@@ -542,9 +469,10 @@
           </plugin>
         </plugins>
       </build>
+      <properties>
+        <artifact.qualifier>-ucla</artifact.qualifier>
+      </properties>
     </profile>
-
-    <!-- A profile that outputs the latest versions of the installed system dependencies -->
     <profile>
       <id>versions</id>
       <activation>
@@ -557,7 +485,39 @@
           <plugin>
             <groupId>io.fabric8</groupId>
             <artifactId>docker-maven-plugin</artifactId>
-            <version>${docker.maven.plugin.version}</version>
+            <version>0.33.0</version>
+            <executions>
+              <execution>
+                <id>docker-build</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+                <configuration>
+                  <logStdout>true</logStdout>
+                  <verbose>true</verbose>
+                  <images>
+                    <image>
+                      <name>cantaloupe-versions:latest</name>
+                      <build>
+                        <from>ubuntu:20.04</from>
+                        <assembly>
+                          <descriptorRef>project</descriptorRef>
+                        </assembly>
+                        <runCmds>
+                          <shell>/maven/src/main/docker/scripts/show_versions.sh</shell>
+                        </runCmds>
+                        <entryPoint>tail -f /dev/null</entryPoint>
+                      </build>
+                    </image>
+                  </images>
+                  <authConfig>
+                    <username>servicesbot</username>
+                    <password>Gy_8k7hTy9BWm5A_Z!</password>
+                  </authConfig>
+                </configuration>
+              </execution>
+            </executions>
             <configuration>
               <logStdout>true</logStdout>
               <verbose>true</verbose>
@@ -565,7 +525,7 @@
                 <image>
                   <name>cantaloupe-versions:latest</name>
                   <build>
-                    <from>ubuntu:${ubuntu.tag}</from>
+                    <from>ubuntu:20.04</from>
                     <assembly>
                       <descriptorRef>project</descriptorRef>
                     </assembly>
@@ -577,27 +537,14 @@
                 </image>
               </images>
               <authConfig>
-                <username>${docker.registry.username}</username>
-                <password>${docker.registry.password}</password>
+                <username>servicesbot</username>
+                <password>Gy_8k7hTy9BWm5A_Z!</password>
               </authConfig>
             </configuration>
-            <executions>
-
-              <!-- Builds the Docker image -->
-              <execution>
-                <id>docker-build</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>build</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
       </build>
     </profile>
-
-    <!-- A profile that builds the image with a development version of Cantaloupe -->
     <profile>
       <id>devBuild</id>
       <activation>
@@ -606,33 +553,20 @@
         </property>
       </activation>
       <properties>
-        <cantaloupe.version>dev</cantaloupe.version>
         <cantaloupe.commit.ref>latest</cantaloupe.commit.ref>
-
-        <!-- Registry account, if supplied, must end in a slash (e.g. "account/"); all deploys are 'latest-dev' -->
         <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:latest-dev</docker.image>
+        <cantaloupe.version>dev</cantaloupe.version>
       </properties>
     </profile>
-
-    <!-- A profile that builds the image with a released version of Cantaloupe -->
     <profile>
-      <id>default</id>
       <activation>
         <property>
           <name>!devBuild</name>
         </property>
       </activation>
       <properties>
-        <!-- Registry account, if supplied, must end in a slash (e.g. "account/") -->
         <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:%l</docker.image>
       </properties>
     </profile>
   </profiles>
-
-  <parent>
-    <artifactId>freelib-parent</artifactId>
-    <groupId>info.freelibrary</groupId>
-    <version>6.6.3</version>
-  </parent>
-
 </project>
