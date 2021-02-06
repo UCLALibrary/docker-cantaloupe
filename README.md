@@ -124,6 +124,9 @@ We pin the versions of packages that we install into our base image. What this m
 
 This will output a list of current versions, which can be compared to the pinned versions defined in the project's POM file (i.e., pom.xml).
 
-### Contact
+### Acknowledgments
 
+This project started as a fork of the [docker-cantaloupe](https://github.com/MITLibraries/docker-cantaloupe) project from MIT Libraries. We've taken it in another direction and, as a result, have severed the relationship. But, we wanted to acknowledge that the seed of this project was derived from their great work. It's much appreciated!
+
+### Contactt
 We use an internal ticketing system, but we've left the GitHub [issues queue](https://github.com/UCLALibrary/docker-cantaloupe/issues) open (in case you'd like to file a bug ticket). If you have a question or a general suggestion, you might prefer to use the project's [discussion board](https://github.com/UCLALibrary/docker-cantaloupe/discussions). Feel free to use either route to contact us.
