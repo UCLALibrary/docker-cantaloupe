@@ -128,5 +128,5 @@ This will output a list of current versions, which can be compared to the pinned
 
 This project started as a fork of the [docker-cantaloupe](https://github.com/MITLibraries/docker-cantaloupe) project from MIT Libraries. It's changed dramatically since we forked it from the upstream, but we still want to acknowledge the source from which we started. Thanks!
 
-### Contactt
+### Contact
 We use an internal ticketing system, but we've left the GitHub [issues queue](https://github.com/UCLALibrary/docker-cantaloupe/issues) open (in case you'd like to file a bug ticket). If you have a question or a general suggestion, you might prefer to use the project's [discussion board](https://github.com/UCLALibrary/docker-cantaloupe/discussions). Feel free to use either route to contact us.
