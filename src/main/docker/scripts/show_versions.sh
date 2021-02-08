@@ -30,7 +30,6 @@ declare -a DEPENDENCIES=(
   "libtiff5"
   "libtiff5-dev"
   "libtiff-tools"
-  "gcc"
   "make"
   "build-essential"
 )
