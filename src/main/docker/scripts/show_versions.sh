@@ -3,9 +3,6 @@
 #
 # A simple script to print the versions of required system packages.
 #
-# This is useful when the -DdevBuild is run (usually when a version
-# of a dependency has become obsolete and needs to be updated).
-#
 
 print_version() {
   VERSION="$(apt show $1 2>/dev/null | grep Version)"
