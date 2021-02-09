@@ -7,8 +7,9 @@
 <module name="Checker">
   <property name="severity" value="warning" />
   <module name="LineLength">
+    <property name="id" value="lineLengthChecker"/>
     <property name="max" value="120" />
-    <property name="fileExtensions" value="java, py, sh, txt"/>
+    <property name="fileExtensions" value="java, py, sh, txt" />
   </module>
   <module name="TreeWalker">
     <module name="RedundantImport" />
@@ -86,20 +87,20 @@
       <property name="onCommentFormat" value="END GENERATED CODE" />
     </module>
   </module>
-  <module name="SuppressionFilter">
-    <property name="file" value="src/main/tools/checkstyle/checkstyle-suppressions.xml" />
-  </module>
   <module name="FileTabCharacter">
+    <property name="id" value="fileTabCharacterChecker"/>
     <property name="eachLine" value="true" />
     <property name="fileExtensions" value="java,css,js,xml,xq,default,tmpl,properties" />
   </module>
   <module name="RegexpSingleline">
+    <property name="id" value="regexpSingleLineChecker"/>
     <property name="format" value="(?&lt;!\*)\s+$|\*\s\s+$" />
     <property name="message" value="Trailing whitespace" />
     <property name="fileExtensions" value="java,css,js,xml,html,default,tmpl,properties" />
   </module>
   <module name="SuppressWarningsFilter" />
   <module name="NewlineAtEndOfFile">
+    <property name="id" value="newLineAtEndOfFileChecker"/>
     <property name="fileExtensions" value="java,css,js,xml,html,default,tmpl,properties" />
   </module>
 </module>

@@ -1,5 +1,5 @@
 ## A Docker image for the Cantaloupe IIIF image server
-[![Build Status](https://travis-ci.com/UCLALibrary/docker-cantaloupe.svg?branch=main)](https://travis-ci.com/UCLALibrary/docker-cantaloupe) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/74e25a3c2515495aafb6b077fdde9a13)](https://www.codacy.com/gh/UCLALibrary/docker-cantaloupe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UCLALibrary/docker-cantaloupe&amp;utm_campaign=Badge_Grade) [![Known Vulnerabilities](https://snyk.io/test/github/uclalibrary/docker-cantaloupe/badge.svg)](https://snyk.io/test/github/uclalibrary/docker-cantaloupe)
+[![Maven Build](https://github.com/ksclarke/freelib-build-tools/workflows/Maven%20Build/badge.svg)](https://github.com/UCLALibrary/docker-cantaloupe/actions) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/74e25a3c2515495aafb6b077fdde9a13)](https://www.codacy.com/gh/UCLALibrary/docker-cantaloupe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UCLALibrary/docker-cantaloupe&amp;utm_campaign=Badge_Grade) [![Known Vulnerabilities](https://snyk.io/test/github/uclalibrary/docker-cantaloupe/badge.svg)](https://snyk.io/test/github/uclalibrary/docker-cantaloupe)
 
 This project builds a Docker image for the [Cantaloupe IIIF image server](https://cantaloupe-project.github.io/cantaloupe). If you're interested in using a prebuilt image, you can find one on [UCLA Library's DockerHub account](https://hub.docker.com/repository/docker/uclalibrary/cantaloupe).
 
@@ -116,6 +116,17 @@ You do not need to supply the `kakadu.git.repo` argument when just starting or s
 
 Locally, we deploy Cantaloupe with Kubernetes. We're working on some documentation to fill in here with instructions on how you, too, can do this.
 
-### Contact
+### Working with Pinned OS Packages
 
-We use an internal ticketing system, but we've left the GitHub [issues queue](https://github.com/UCLALibrary/docker-cantaloupe/issues) open in case you'd like to file a ticket or make a suggestion.
+We pin the versions of packages that we install into our base image. What this means is that periodically a pinned version will become obsolete and the build will break. We have a nightly build that should catch this issues for us, but in the case that you find the breakage before us, there is a handy way to tell which pinned version has broken the build. To see the current versions inside the base image, run:
+
+    mvn validate -Dversions
+
+This will output a list of current versions, which can be compared to the pinned versions defined in the project's POM file (i.e., pom.xml).
+
+### Acknowledgments
+
+This project started as a fork of the [docker-cantaloupe](https://github.com/MITLibraries/docker-cantaloupe) project from MIT Libraries. It's changed dramatically since we forked it from the upstream, but we still want to acknowledge the source from which we started. Thanks!
+
+### Contact
+We use an internal ticketing system, but we've left the GitHub [issues queue](https://github.com/UCLALibrary/docker-cantaloupe/issues) open (in case you'd like to file a bug ticket). If you have a question or a general suggestion, you might prefer to use the project's [discussion board](https://github.com/UCLALibrary/docker-cantaloupe/discussions). Feel free to use either route to contact us.

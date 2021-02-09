@@ -44,7 +44,7 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
     fi
 
 # The second stage of our multi-stage build builds the kakadu libraries and binaries
-FROM ubuntu:20.04 AS KAKADU_TOOL_CHAIN
+FROM ubuntu:${ubuntu.tag} AS KAKADU_TOOL_CHAIN
 
 ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
@@ -53,13 +53,13 @@ RUN if [ ! -z "${kakadu.version}" ]; then \
       cd /build/kakadu/"${kakadu.version}"/make && \
       apt-get update -qq && \
       DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends \
-        openjdk-11-jdk-headless${openjdk.version}\
-        gcc${gcc.version} \
-        make${make.version} \
-        libtiff-tools${libtiff.version} \
-        libtiff5${libtiff.version} \
-        libtiff5-dev${libtiff.version} \
-        build-essential${build.essential.version} && \
+        openjdk-11-jdk-headless=${openjdk.version}\
+        gcc=${gcc.version} \
+        make=${make.version} \
+        libtiff-tools=${libtiff.version} \
+        libtiff5=${libtiff.version} \
+        libtiff5-dev=${libtiff.version} \
+        build-essential=${build.essential.version} && \
       make -f Makefile-Linux-x86-64-gcc && \
       mkdir /build/kakadu/lib && \
       mkdir /build/kakadu/bin && \
@@ -75,7 +75,7 @@ RUN if [ ! -z "${kakadu.version}" ]; then \
     fi
 
 # The third and final stage of our multi-stage build pulls all the pieces together
-FROM ubuntu:20.04
+FROM ubuntu:${ubuntu.tag}
 
 ENV CONFIG_FILE="/etc/cantaloupe.properties"
 ENV HEAP_SIZE="2g"
@@ -89,20 +89,20 @@ VOLUME /imageroot
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -qq --no-install-recommends \
-    libtiff-tools${libtiff.version}  \
-    libtiff5${libtiff.version}  \
-    libtiff5-dev${libtiff.version}  \
-    libopenjp2-tools${libopenjp2.version} \
-    libturbojpeg${libturbojpeg.version} \
-    openjdk-11-jre-headless${openjdk.version} \
-    wget${wget.version} \
-    unzip${unzip.version} \
-    zip${zip.version} \
-    graphicsmagick${graphicsmagick.version} \
-    curl${curl.version} \
-    imagemagick${imagemagick.version} \
-    ffmpeg${ffmpeg.version} \
-    python2${python2.version} \
+    libtiff-tools=${libtiff.version}  \
+    libtiff5=${libtiff.version}  \
+    libtiff5-dev=${libtiff.version}  \
+    libopenjp2-tools=${libopenjp2.version} \
+    libturbojpeg=${libturbojpeg.version} \
+    openjdk-11-jre-headless=${openjdk.version} \
+    wget=${wget.version} \
+    unzip=${unzip.version} \
+    zip=${zip.version} \
+    graphicsmagick=${graphicsmagick.version} \
+    curl=${curl.version} \
+    imagemagick=${imagemagick.version} \
+    ffmpeg=${ffmpeg.version} \
+    python2=${python2.version} \
     < /dev/null > /dev/null && \
     mkdir -p /opt/libjpeg-turbo/lib && \
     ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib/libturbojpeg.so && \

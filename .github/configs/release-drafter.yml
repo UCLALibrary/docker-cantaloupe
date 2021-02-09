@@ -1,0 +1,41 @@
+
+categories:
+  - title: '🚀 Features and Improvements'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: '🌈 Documentation Updates'
+    labels:
+      - 'documentation'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bugfix'
+  - title: '🧰 Breaking Changes'
+    label: 'breaking'
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+  minor:
+    labels:
+      - 'enhancement'
+      - 'feature'
+  patch:
+    labels:
+      - 'bugfix'
+      - 'documentation'
+  default: patch
+tag-template: '$RESOLVED_VERSION'
+name-template: 'v$RESOLVED_VERSION'
+change-template: '* $TITLE (#$NUMBER)'
+change-title-escapes: ''
+exclude-labels:
+  - 'skip-changelog'
+template: |
+  ## What’s Changed
+
+  $CHANGES
+
+  ## Contributors
+
+  $CONTRIBUTORS
