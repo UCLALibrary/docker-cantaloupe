@@ -15,6 +15,7 @@ jobs:
     strategy:
       matrix:
         java: [ 11, 12 ]
+        build_property: [ "kakadu.version", "ignored.version" ]
 
     steps:
       - name: Check out code
