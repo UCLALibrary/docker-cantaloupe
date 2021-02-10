@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish:
-    name: Maven Artifact Publisher
+    name: Maven Artifact Publisher (JDK ${{ matrix.java }} with ${{ matrix.build_property }})
     runs-on: ubuntu-latest
     env:
       SKIP_JAR_DEPLOYMENT: ${{ secrets.SKIP_JAR_DEPLOYMENT }}
