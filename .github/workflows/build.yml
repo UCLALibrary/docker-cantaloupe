@@ -8,13 +8,14 @@ on:
 
 jobs:
   build:
-    name: Maven PR Builder (JDK ${{ matrix.java }})
+    name: Maven PR Builder (JDK ${{ matrix.java }} with ${{ matrix.build_property }})
     runs-on: ubuntu-latest
     env:
       MAVEN_CACHE_KEY: ${{ secrets.MAVEN_CACHE_KEY }}
     strategy:
       matrix:
         java: [ 11, 12 ]
+        build_property: [ "kakadu.version", "ignored.version" ]
 
     steps:
       - name: Check out code
@@ -34,12 +35,17 @@ jobs:
         if: ${{ env.MAVEN_CACHE_KEY }}
         with:
           path: ~/.m2
-          key: freelibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: freelibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-
+          key: uclalibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: uclalibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-
+      - name: Install Kakadu SSH key
+        uses: webfactory/ssh-agent@ee29fafb6aa450493bac9136b346e51ea60a8b5e # v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
       - name: Build with Maven
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
         with:
           maven_goals_phases: "clean verify"
           maven_profiles: default,${{ secrets.BUILD_PROFILES }}
           maven_args: >
-            -V -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error ${{ secrets.BUILD_PROPERTIES }}
+            -V -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error -DlogLevel=DEBUG -DtestLogLevel=DEBUG
+            -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}

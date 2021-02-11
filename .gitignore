@@ -2,6 +2,9 @@
 src/main/docker/kakadu/*
 kakadu/*
 
+# Workflow artifact created during versioning
+.flattened-pom.xml
+
 # Some build tools that are automatically generated
 src/main/tools/eclipse/
 src/main/tools/travis/
