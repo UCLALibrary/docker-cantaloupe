@@ -39,6 +39,7 @@ jobs:
           restore-keys: uclalibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-
       - name: Install Kakadu SSH key
         uses: webfactory/ssh-agent@ee29fafb6aa450493bac9136b346e51ea60a8b5e # v0.4.1
+        if: ${{ matrix.build_property }} == 'kakadu.version'
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
       - name: Build with Maven
