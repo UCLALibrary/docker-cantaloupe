@@ -160,4 +160,4 @@ ENV CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_PATHNAME=/var/log/cantaloupe/error.
 USER cantaloupe
 WORKDIR /home/cantaloupe
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD [ "sh", "-c", "java -Dcantaloupe.config=$CONFIG_FILE -Xmx$HEAP_SIZE -jar /usr/local/cantaloupe/cantaloupe-*.*ar" ]
+CMD [ "sh", "-c", "exec java -Dcantaloupe.config=$CONFIG_FILE -Xmx$HEAP_SIZE -jar /usr/local/cantaloupe/cantaloupe-*.*ar" ]
