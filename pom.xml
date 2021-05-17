@@ -64,7 +64,7 @@
 
   <properties>
     <!-- What versions of Cantaloupe and Kakadu are we using? -->
-    <cantaloupe.version>4.1.7</cantaloupe.version>
+    <cantaloupe.version>5.0.2</cantaloupe.version>
     <kakadu.version></kakadu.version>
 
     <!-- Git repo with Kakadu source code (ours is private; override with yours) -->
@@ -72,21 +72,20 @@
 
     <!-- Docker container dependency versions -->
     <ubuntu.tag>20.04</ubuntu.tag>
-    <openjdk.version>11.0.10+9-0ubuntu1~20.04</openjdk.version>
+    <openjdk.version>11.0.11+9-0ubuntu2~20.04</openjdk.version>
     <gcc.version>4:9.3.0-1ubuntu2</gcc.version>
     <make.version>4.2.1-1.2</make.version>
     <libtiff.version>4.1.0+git191117-2ubuntu0.20.04.1</libtiff.version>
     <build.essential.version>12.8ubuntu1.1</build.essential.version>
-    <libopenjp2.version>2.3.1-1ubuntu4</libopenjp2.version>
+    <libopenjp2.version>2.3.1-1ubuntu4.20.04.1</libopenjp2.version>
     <libturbojpeg.version>2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
     <wget.version>1.20.3-1ubuntu1</wget.version>
     <unzip.version>6.0-25ubuntu1</unzip.version>
     <zip.version>3.0-11build1</zip.version>
-    <graphicsmagick.version>1.4+really1.3.35-1</graphicsmagick.version>
     <curl.version>7.68.0-1ubuntu2.5</curl.version>
-    <imagemagick.version>8:6.9.10.23+dfsg-2.1ubuntu11.2</imagemagick.version>
     <ffmpeg.version>7:4.2.4-1ubuntu0.1</ffmpeg.version>
     <python2.version>2.7.17-2ubuntu4</python2.version>
+    <grok.version>9.1.0</grok.version>
 
     <!-- Java dependency versions -->
     <freelib.utils.version>2.1.0</freelib.utils.version>
