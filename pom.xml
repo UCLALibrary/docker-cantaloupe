@@ -79,7 +79,6 @@
     <build.essential.version>12.8ubuntu1.1</build.essential.version>
     <libopenjp2.version>2.3.1-1ubuntu4.20.04.1</libopenjp2.version>
     <libturbojpeg.version>2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
-    <wget.version>1.20.3-1ubuntu1</wget.version>
     <unzip.version>6.0-25ubuntu1</unzip.version>
     <zip.version>3.0-11build1</zip.version>
     <curl.version>7.68.0-1ubuntu2.5</curl.version>
