@@ -95,12 +95,9 @@ RUN apt-get update -qq && \
     libopenjp2-tools=${libopenjp2.version} \
     libturbojpeg=${libturbojpeg.version} \
     openjdk-11-jre-headless=${openjdk.version} \
-    wget=${wget.version} \
     unzip=${unzip.version} \
     zip=${zip.version} \
-    graphicsmagick=${graphicsmagick.version} \
     curl=${curl.version} \
-    imagemagick=${imagemagick.version} \
     ffmpeg=${ffmpeg.version} \
     python2=${python2.version} \
     < /dev/null > /dev/null && \
@@ -151,6 +148,16 @@ RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe && \
     touch "$CONFIG_FILE" && \
     chown -R cantaloupe -L /var/log/cantaloupe /var/cache/cantaloupe "$CONFIG_FILE" \
       /usr/local/bin/docker-entrypoint.sh /usr/local/cantaloupe
+
+# Install grok JPEG-2000 library and tools
+WORKDIR /tmp
+ARG GROK_RELEASES="https://github.com/GrokImageCompression/grok/releases"
+RUN curl -sL ${GROK_RELEASES}/download/v${grok.version}/grok-v${grok.version}-linux-amd64.tar.gz > grok.tar.gz && \
+    tar zxfv grok.tar.gz && \
+    cp ./grok-v${grok.version}-linux-amd64/bin/grk_* /usr/bin && \
+    cp ./grok-v${grok.version}-linux-amd64/lib/*libgrok* /usr/lib && \
+    cp -r ./grok-v${grok.version}-linux-amd64/include/grok* /usr/include && \
+    rm -rf /tmp/grok-v${grok.version}-linux-amd64 grok-v${grok.version}-linux-amd64.tar.gz
 
 # Set up logging, keeping a separate log for just the errors (in addition to the full log)
 ENV CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_PATHNAME=/var/log/cantaloupe/application.log

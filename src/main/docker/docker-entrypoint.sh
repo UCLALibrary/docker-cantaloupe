@@ -46,20 +46,6 @@ if [[ ! -z "${LOGBACK_URL}" ]]; then
   mkdir -p WEB-INF/classes WEB-INF/lib
   curl -so WEB-INF/classes/logback.xml ${LOGBACK_URL}
 
-  # If this custom logback file uses fluency, download dependent libraries to allow the usage of Fluency Appenders
-  if [[ ! -z "${FLUENCY_ENDPOINT}" ]]; then 
-    curl -so WEB-INF/lib/fluency-core-2.4.1.jar \
-      "${MAVEN_REPO}/org/komamitsu/fluency-core/2.4.1/fluency-core-2.4.1.jar"
-    curl -so WEB-INF/lib/fluency-fluentd-2.4.1.jar \
-      "${MAVEN_REPO}/org/komamitsu/fluency-fluentd/2.4.1/fluency-fluentd-2.4.1.jar"
-    curl -so WEB-INF/lib/jackson-dataformat-msgpack-0.8.20.jar \
-      "${MAVEN_REPO}/org/msgpack/jackson-dataformat-msgpack/0.8.20/jackson-dataformat-msgpack-0.8.20.jar"
-    curl -so WEB-INF/lib/msgpack-core-0.8.20.jar \
-      "${MAVEN_REPO}/org/msgpack/msgpack-core/0.8.20/msgpack-core-0.8.20.jar"
-    curl -so WEB-INF/lib/logback-more-appenders-1.8.0.jar \
-      "${MAVEN_REPO}/com/sndyuk/logback-more-appenders/1.8.0/logback-more-appenders-1.8.0.jar"
-  fi
-
   # Package up the logback file and dependent jars
   zip -qur /usr/local/cantaloupe/cantaloupe-*.*ar WEB-INF
 

@@ -56,7 +56,7 @@ In addition to running a test Cantaloupe server using the Maven Docker plugin, y
     docker run -d -p 8182:8182 \
       -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=secret" \
       -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" \
-      --name melon -v /path/to/your/images:/imageroot cantaloupe:4.1.7-3  # or latest version
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.2-0  # or latest version
 
 Here is another, more complex, example:
 
@@ -71,7 +71,7 @@ Here is another, more complex, example:
       -e "CANTALOUPE_S3SOURCE_ENDPOINT=s3.amazonaws.com" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_ENABLED=true" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME=/var/log/cantaloupe/cantaloupe.log" \
-      --name melon -v /path/to/your/images:/imageroot cantaloupe:4.1.7-3  # or latest version
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.2-0  # or latest version
 
 There are, of course, other ways to run Docker without having to supply all these environmental variables on the command line. One might want to use a Docker Compose file, Terraform configs, or Kubernetes.
 
@@ -122,7 +122,7 @@ Locally, we deploy Cantaloupe with Kubernetes. We're working on some documentati
 
 We pin the versions of packages that we install into our base image. What this means is that periodically a pinned version will become obsolete and the build will break. We have a nightly build that should catch this issues for us, but in the case that you find the breakage before us, there is a handy way to tell which pinned version has broken the build. To see the current versions inside the base image, run:
 
-    mvn validate -Dversions
+    mvn validate -Dversions -Ddocker.noCache
 
 This will output a list of current versions, which can be compared to the pinned versions defined in the project's POM file (i.e., pom.xml).
 
