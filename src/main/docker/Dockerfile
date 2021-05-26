@@ -37,7 +37,7 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
         -DartifactId="jai_imageio" -Dversion="$JAI_IMAGEIO_VERSION" -Dpackaging="jar" && \
       \
       mvn -DskipTests=true -Djar.phase=package -q clean package && \
-      mv target/cantaloupe-?.?-SNAPSHOT.zip "/build/Cantaloupe-${cantaloupe.version}.zip" ; \
+      mv target/cantaloupe-*-SNAPSHOT.zip "/build/Cantaloupe-${cantaloupe.version}.zip" ; \
     else \
       curl -o "../Cantaloupe-${cantaloupe.version}.zip" -s -L \
         "${CANTALOUPE_RELEASES}/v${cantaloupe.version}/Cantaloupe-${cantaloupe.version}.zip" ; \
