@@ -36,7 +36,7 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       mvn -q install:install-file -Dfile="/tmp/${JAI_IMAGEIO_JAR}" -DgroupId="javax.media" \
         -DartifactId="jai_imageio" -Dversion="$JAI_IMAGEIO_VERSION" -Dpackaging="jar" && \
       \
-      mvn -DskipTests=true -q clean package && \
+      mvn -DskipTests=true -Djar.phase=package -q clean package && \
       mv target/cantaloupe-?.?-SNAPSHOT.zip "/build/Cantaloupe-${cantaloupe.version}.zip" ; \
     else \
       curl -o "../Cantaloupe-${cantaloupe.version}.zip" -s -L \
@@ -77,11 +77,16 @@ RUN if [ ! -z "${kakadu.version}" ]; then \
 # The third and final stage of our multi-stage build pulls all the pieces together
 FROM ubuntu:${ubuntu.tag}
 
+# The location of the Cantaloupe config file
 ENV CONFIG_FILE="/etc/cantaloupe.properties"
-ENV HEAP_SIZE="2g"
 
+# We're using a percentage of available RAM
+ENV HEAP_PERCENTAGE="80"
+
+# The port we expose the Cantaloupe service on
 EXPOSE 8182
 
+# The container's file system location for images
 VOLUME /imageroot
 
 # Update packages and install tools
@@ -132,8 +137,8 @@ ENV LD_LIBRARY_PATH="/usr/lib/jni:${LD_LIBRARY_PATH}"
 
 # Clean up the placeholder files if we built without kakadu; else configure Cantaloupe for Kakadu
 RUN if [ -z "${kakadu.version}" ]; then \
-      rm -rf /build/kakadu/lib/placeholder.so && \
-      rm -rf /build/kakadu/bin/kdu_placeholder ; \
+      rm -rf /usr/local/lib/placeholder.so && \
+      rm -rf /usr/local/bin/kdu_placeholder ; \
     else \
       echo "CANTALOUPE_MANUAL_PROCESSOR_JP2=KakaduNativeProcessor" >> /etc/environment && \
       echo "CANTALOUPE_PROCESSOR_SELECTION_STRATEGY=ManualSelectionStrategy" >> /etc/environment ; \
@@ -144,10 +149,13 @@ COPY docker-entrypoint.sh /usr/local/bin/
 COPY "configs/cantaloupe.properties.tmpl-${cantaloupe.version}" /etc/cantaloupe.properties.tmpl
 COPY "configs/cantaloupe.properties.default-${cantaloupe.version}" /etc/cantaloupe.properties.default
 
+# Set up a script to run Cantaloupe
+COPY --chown=cantaloupe:users scripts/run_cantaloupe.sh /usr/local/bin/
+
 RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe && \
     touch "$CONFIG_FILE" && \
     chown -R cantaloupe -L /var/log/cantaloupe /var/cache/cantaloupe "$CONFIG_FILE" \
-      /usr/local/bin/docker-entrypoint.sh /usr/local/cantaloupe
+      /usr/local/bin/docker-entrypoint.sh /usr/local/cantaloupe/
 
 # Install grok JPEG-2000 library and tools
 WORKDIR /tmp
@@ -166,5 +174,5 @@ ENV CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_PATHNAME=/var/log/cantaloupe/error.
 # Wrap things up with the entrypoint and command that the container runs
 USER cantaloupe
 WORKDIR /home/cantaloupe
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD [ "sh", "-c", "exec java -Dcantaloupe.config=$CONFIG_FILE -Xmx$HEAP_SIZE -jar /usr/local/cantaloupe/cantaloupe-*.*ar" ]
+ENTRYPOINT [ "docker-entrypoint.sh" ]
+CMD [ "sh", "-c", "exec /usr/local/bin/run_cantaloupe.sh" ]

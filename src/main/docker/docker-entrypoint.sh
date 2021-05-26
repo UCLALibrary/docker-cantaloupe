@@ -33,10 +33,14 @@ EOT
 # Write our merged properties file to /etc directory
 $PYTHON -c "$SCRIPT" >> $PROPERTIES
 
-# If we have a DELEGATE_URL, grab it
+# If we have a DELEGATE_URL, grab it and copy it to the container for us to use
 if [[ -v DELEGATE_URL && ! -z DELEGATE_URL ]]; then
-  curl "${DELEGATE_URL}" > /usr/local/cantaloupe/delegates.rb
-  chown cantaloupe /usr/local/cantaloupe/delegates.rb
+  if [[ "${DELEGATE_URL}" == *rb ]]; then
+    curl -s "${DELEGATE_URL}" > /usr/local/cantaloupe/delegates.rb
+    chown cantaloupe /usr/local/cantaloupe/delegates.rb
+  elif [[ "${DELEGATE_URL}" == *jar ]]; then
+    curl -s "${DELEGATE_URL}" > /usr/local/cantaloupe/delegate.jar
+  fi
 fi
 
 # If LOGBACK_URL is defined, download and insert logback.xml file into war file
