@@ -1,8 +1,7 @@
 
 package edu.ucla.library.iiif.cantaloupe;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 
@@ -48,7 +47,7 @@ public class VersionIT extends AbstractCantaloupeIT {
         assertNotNull(LOGGER.getMessage(MessageCodes.CAN_002), foundVersion);
 
         if ("dev".equals(expectedVersion)) {
-            assertEquals(LOGGER.getMessage(MessageCodes.CAN_001), "Unknown", foundVersion.text());
+            assertTrue(LOGGER.getMessage(MessageCodes.CAN_001), foundVersion.text().contains("SNAPSHOT"));
         } else {
             assertEquals(LOGGER.getMessage(MessageCodes.CAN_001), expectedVersion, foundVersion.text());
         }

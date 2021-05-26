@@ -89,6 +89,7 @@
     <!-- Java dependency versions -->
     <freelib.utils.version>2.1.0</freelib.utils.version>
     <freelib.maven.version>0.1.2</freelib.maven.version>
+    <maven.jar.version>3.2.0</maven.jar.version>
     <jsoup.version>1.13.1</jsoup.version>
     <json.version>20180130</json.version>
     <scm.plugin.version>1.11.2</scm.plugin.version>
@@ -115,6 +116,9 @@
     <!-- Additional Docker configurations -->
     <docker.cleanup>remove</docker.cleanup>
     <docker.showLogs>true</docker.showLogs>
+
+    <!-- We don't need to build the jar outside of the Docker build -->
+    <jar.phase></jar.phase>
 
     <!-- The image root when running the test instance of Cantaloupe -->
     <image.root>src/test/resources/images/</image.root>
@@ -197,6 +201,26 @@
     </testResources>
 
     <plugins>
+      <!-- We can skip building the Jar except when Docker runs the build -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven.jar.version}</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>${jar.phase}</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- We don't install the Jar but package it up in our Docker image -->
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>
