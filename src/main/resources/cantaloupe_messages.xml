@@ -11,7 +11,7 @@
 
   <!-- Messages to be stored in the MessageCodes class -->
   <entry key="CAN_000">Connecting to test instance: {}</entry>
-  <entry key="CAN_001">Unexpected Cantaloupe version</entry>
+  <entry key="CAN_001">Unexpected Cantaloupe version: {}</entry>
   <entry key="CAN_002">Couldn't get the Cantaloupe version from the test instance</entry>
   <entry key="CAN_003">Didn't find an expected Cantaloupe version in system properties</entry>
   <entry key="CAN_004">Kakadu should be installed; attempting to run Kakadu specific tests</entry>
