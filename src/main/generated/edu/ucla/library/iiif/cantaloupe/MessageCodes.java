@@ -9,7 +9,7 @@ final public class MessageCodes {
 	 */
 	public static final String CAN_002 = "CAN_002";
 	/**
-	 * Message: Unexpected Cantaloupe version
+	 * Message: Unexpected Cantaloupe version: {}
 	 */
 	public static final String CAN_001 = "CAN_001";
 	/**

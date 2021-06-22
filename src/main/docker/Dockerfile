@@ -21,6 +21,7 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       \
       # We can supply a particular commit ref as a defense against a broken upstream
       if [ "${cantaloupe.commit.ref}" != "latest" ] ; then \
+        git fetch --all ; \
         git checkout -b "${cantaloupe.commit.ref}" "${cantaloupe.commit.ref}" ; \
       fi && \
       \
@@ -37,9 +38,9 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
         -DartifactId="jai_imageio" -Dversion="$JAI_IMAGEIO_VERSION" -Dpackaging="jar" && \
       \
       mvn -DskipTests=true -Djar.phase=package -q clean package && \
-      mv target/cantaloupe-*-SNAPSHOT.zip "/build/Cantaloupe-${cantaloupe.version}.zip" ; \
+      mv target/cantaloupe-*.zip "/build/Cantaloupe.zip" ; \
     else \
-      curl -o "../Cantaloupe-${cantaloupe.version}.zip" -s -L \
+      curl -o "../Cantaloupe.zip" -s -L \
         "${CANTALOUPE_RELEASES}/v${cantaloupe.version}/Cantaloupe-${cantaloupe.version}.zip" ; \
     fi
 
@@ -115,13 +116,13 @@ RUN adduser --system cantaloupe
 
 # Copy work product from the Cantaloupe build into our image
 WORKDIR /tmp
-COPY --from=MAVEN_TOOL_CHAIN "/build/Cantaloupe-${cantaloupe.version}.zip" "/tmp/Cantaloupe-${cantaloupe.version}.zip"
+COPY --from=MAVEN_TOOL_CHAIN "/build/Cantaloupe.zip" "/tmp/Cantaloupe.zip"
 
 WORKDIR /usr/local
-RUN unzip -qq "/tmp/Cantaloupe-${cantaloupe.version}.zip" && \
+RUN unzip -qq "/tmp/Cantaloupe.zip" && \
     ln -s cantaloupe-?.* cantaloupe && \
     rm -rf "/tmp/Cantaloupe-${cantaloupe.version}" && \
-    rm "/tmp/Cantaloupe-${cantaloupe.version}.zip" && \
+    rm "/tmp/Cantaloupe.zip" && \
     rm -rf "/usr/local/cantaloupe-${cantaloupe.version}/deps"
 
 # Put our Kakadu libs in a directory that's in the LD_LIBRARY_PATH
