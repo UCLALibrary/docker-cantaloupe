@@ -1,13 +1,12 @@
 ###########################################################################
-# Sample Cantaloupe configuration file
-#
-# Copy this file to `cantaloupe.properties` and edit as desired.
-#
-# Keys may change from version to version. See the "Upgrading" section of
-# the website.
+# Template configuration file for Cantaloupe
 #
 # Most changes will take effect without restarting. Those that won't are
 # marked with "!!".
+###########################################################################
+
+###########################################################################
+# GENERAL SETTINGS
 ###########################################################################
 
 # !! Leave blank to use the JVM default temporary directory.
@@ -17,14 +16,11 @@ CANTALOUPE_TEMP_PATHNAME =
 CANTALOUPE_HTTP_ENABLED = true
 CANTALOUPE_HTTP_HOST = 0.0.0.0
 CANTALOUPE_HTTP_PORT = 8182
-CANTALOUPE_HTTP_HTTP2_ENABLED = false
 
 # !! Configures the HTTPS server. (Standalone mode only.)
 CANTALOUPE_HTTPS_ENABLED = false
 CANTALOUPE_HTTPS_HOST = 0.0.0.0
 CANTALOUPE_HTTPS_PORT = 8183
-# Secure HTTP/2 requires Java 9 or later.
-CANTALOUPE_HTTPS_HTTP2_ENABLED = false
 
 # !! Available values are `JKS` and `PKCS12`. (Standalone mode only.)
 CANTALOUPE_HTTPS_KEY_STORE_TYPE = JKS
@@ -32,8 +28,12 @@ CANTALOUPE_HTTPS_KEY_STORE_PASSWORD = myPassword
 CANTALOUPE_HTTPS_KEY_STORE_PATH = /path/to/keystore.jks
 CANTALOUPE_HTTPS_KEY_PASSWORD = myPassword
 
-# !! Maximum size of the HTTP(S) request queue. Leave blank to use the
-# default.
+# !! Constrains the size of the web server's thread pool. Leave blank to
+# use the defaults.
+CANTALOUPE_HTTP_MIN_THREADS =
+CANTALOUPE_HTTP_MAX_THREADS =
+
+# !! Maximum size of the request queue. Leave blank to use the default.
 CANTALOUPE_HTTP_ACCEPT_QUEUE_LIMIT =
 
 # Base URI to use for internal links, such as Link headers and JSON-LD
@@ -54,7 +54,25 @@ CANTALOUPE_SLASH_SUBSTITUTE =
 CANTALOUPE_MAX_PIXELS = 100000000
 
 # Maximum scale to allow (1.0 = full scale; 0 = no maximum).
-max_scale = 1.0
+CANTALOUPE_MAX_SCALE = 1.0
+
+# A meta-identifier is a superset of an identifier that includes other
+# information like a page number and/or scale constraint. A meta-identifier
+# transformer transforms a meta-identifier to and from a string in a URI
+# path component.
+# Available transformers include `StandardMetaIdentifierTransformer` and
+# `DelegateMetaIdentifierTransformer`. See the user manual for more
+# information about meta-identifiers and these options.
+CANTALOUPE_META_IDENTIFIER_TRANSFORMER = StandardMetaIdentifierTransformer
+
+# Character sequence that separates the components of a meta-identifier in
+# the identifier portion of a URI.
+CANTALOUPE_META_IDENTIFIER_TRANSFORMER_STANDARD_META_INDENTIFIER_TRANSFORMER_DELIMITER = ;
+
+# If true, HTTP >= 400-level responses are logged at WARN and ERROR level.
+# This may result in multiple log statements for the same error, but it may
+# also help diagnose errors that have evaded logging.
+CANTALOUPE_LOG_ERROR_RESPONSES = false
 
 CANTALOUPE_PRINT_STACK_TRACE_ON_ERROR_PAGE = true
 
@@ -71,10 +89,6 @@ CANTALOUPE_DELEGATE_SCRIPT_ENABLED = false
 # then the current working directory.
 CANTALOUPE_DELEGATE_SCRIPT_PATHNAME = delegates.rb
 
-# Enables the invocation cache, which caches method invocations and return
-# values in memory. See the user manual for more information.
-CANTALOUPE_DELEGATE_SCRIPT_CACHE_ENABLED = false
-
 ###########################################################################
 # ENDPOINTS
 ###########################################################################
@@ -85,10 +99,8 @@ CANTALOUPE_ENDPOINT_IIIF_1_ENABLED = false
 # Enables the IIIF Image API 2.x endpoint, at /iiif/2.
 CANTALOUPE_ENDPOINT_IIIF_2_ENABLED = true
 
-# Controls the response Content-Disposition header for images. Allowed
-# values are `inline`, `attachment`, and `none`. This can be overridden
-# using the ?response-content-disposition query argument.
-CANTALOUPE_ENDPOINT_IIIF_CONTENT_DISPOSITION = inline
+# Enables the IIIF Image API 3.x endpoint, at /iiif/3.
+CANTALOUPE_ENDPOINT_IIIF_3_ENABLED = true
 
 # Minimum size that will be used in info.json `sizes` keys.
 CANTALOUPE_ENDPOINT_IIIF_MIN_SIZE = 64
@@ -113,6 +125,11 @@ CANTALOUPE_ENDPOINT_API_ENABLED = false
 CANTALOUPE_ENDPOINT_API_USERNAME =
 CANTALOUPE_ENDPOINT_API_SECRET =
 
+# If true, sources and caches will be checked, resulting in a more robust
+# but slower health check. Set this to false if these services already have
+# their own health checks.
+CANTALOUPE_ENDPOINT_HEALTH_DEPENDENCY_CHECK = false
+
 ###########################################################################
 # SOURCES
 ###########################################################################
@@ -121,7 +138,7 @@ CANTALOUPE_ENDPOINT_API_SECRET =
 # `HttpSource`, `JdbcSource`, `S3Source`, and `AzureStorageSource`.
 CANTALOUPE_SOURCE_STATIC = FilesystemSource
 
-# If true, `CANTALOUPE_SOURCE_STATIC` will be overridden, and the `source()` delegate
+# If true, `source.static` will be overridden, and the `source()` delegate
 # method will be used to select a source per-request.
 CANTALOUPE_SOURCE_DELEGATE = false
 
@@ -187,10 +204,11 @@ CANTALOUPE_HTTPSOURCE_CHUNKING_CACHE_MAX_SIZE = 5M
 # S3Source
 #----------------------------------------
 
-# !! Endpoint URI.
-# For AWS endpoints, see:
-# https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
-CANTALOUPE_S3SOURCE_ENDPOINT =
+# !! Endpoint URI. Only needed for non-AWS endpoints.
+CANTALOUPE_S3SOURCE_ENDPOINT = 
+
+# !! AWS region. Only needed for AWS endpoints.
+CANTALOUPE_S3SOURCE_REGION = 
 
 # !! Credentials for your AWS account.
 # See: http://aws.amazon.com/security-credentials
@@ -234,7 +252,7 @@ CANTALOUPE_S3SOURCE_CHUNKING_CACHE_MAX_SIZE = 5M
 
 # !! Name of your Azure account.
 # Leave blank if using URI with a SAS token in your object key.
-CANTALOUPE_AZURESTORAGESOURCE_ACCOUNT_NAME =
+CANTALOUPE_AZURESTORAGESOURCE_ACCOUNT_NAME = 
 
 # !! Key of your Azure account.
 # Leave blank if using URI with a SAS token in your object key.
@@ -296,20 +314,18 @@ CANTALOUPE_JDBCSOURCE_CONNECTION_TIMEOUT = 10
 #   on the rest of the keys in this section.
 CANTALOUPE_PROCESSOR_SELECTION_STRATEGY = AutomaticSelectionStrategy
 
-# Built-in processors are `Java2dProcessor`, `GraphicsMagickProcessor`,
-# `ImageMagickProcessor`, `TurboJpegProcessor`, `KakaduNativeProcessor`,
-# `KakaduDemoProcessor`, `OpenJpegProcessor`, `JaiProcessor`,
+# Built-in processors are `Java2dProcessor`, TurboJpegProcessor`,
+# `KakaduNativeProcessor`, `OpenJpegProcessor`, `GrokProcessor`,`JaiProcessor`,
 # `PdfBoxProcessor`, and `FfmpegProcessor`.
 # Some of these have third-party dependencies and won't work out-of-the-box.
 
 # These format-specific definitions are optional.
 CANTALOUPE_MANUAL_PROCESSOR_AVI = FfmpegProcessor
 CANTALOUPE_MANUAL_PROCESSOR_BMP =
-CANTALOUPE_MANUAL_PROCESSOR_DCM = ImageMagickProcessor
 CANTALOUPE_MANUAL_PROCESSOR_FLV = FfmpegProcessor
 CANTALOUPE_MANUAL_PROCESSOR_GIF =
-CANTALOUPE_MANUAL_PROCESSOR_JP2 = KakaduNativeProcessor
-CANTALOUPE_MANUAL_PROCESSOR_JPG =
+CANTALOUPE_MANUAL_PROCESSOR_JP2 = GrokProcessor
+CANTALOUPE_MANUAL_PROCESSOR_JPG = TurboJpegProcessor
 CANTALOUPE_MANUAL_PROCESSOR_MOV = FfmpegProcessor
 CANTALOUPE_MANUAL_PROCESSOR_MP4 = FfmpegProcessor
 CANTALOUPE_MANUAL_PROCESSOR_MPG = FfmpegProcessor
@@ -317,7 +333,7 @@ CANTALOUPE_MANUAL_PROCESSOR_PDF = PdfBoxProcessor
 CANTALOUPE_MANUAL_PROCESSOR_PNG =
 CANTALOUPE_MANUAL_PROCESSOR_TIF =
 CANTALOUPE_MANUAL_PROCESSOR_WEBM = FfmpegProcessor
-CANTALOUPE_MANUAL_PROCESSOR_WEBP = ImageMagickProcessor
+CANTALOUPE_MANUAL_PROCESSOR_XPM =
 
 # Fall back to this processor for any formats not assigned above.
 CANTALOUPE_PROCESSOR_FALLBACK = Java2dProcessor
@@ -328,7 +344,7 @@ CANTALOUPE_PROCESSOR_FALLBACK = Java2dProcessor
 
 # Controls how content is fed to processors from stream-based sources.
 # * `StreamStrategy` will try to stream a source image from a source when
-#   possible, and use `CANTALOUPE_PROCESSOR_FALLBACK_RETRIEVAL_STRATEGY` otherwise.
+#   possible, and use `processor.fallback_retrieval_strategy` otherwise.
 # * `DownloadStrategy` will download it to a temporary file, and delete
 #   it after the request is complete.
 # * `CacheStrategy` will download it into the source cache using
@@ -356,16 +372,13 @@ CANTALOUPE_PROCESSOR_BACKGROUND_COLOR = white
 CANTALOUPE_PROCESSOR_DOWNSCALE_FILTER = bicubic
 CANTALOUPE_PROCESSOR_UPSCALE_FILTER = bicubic
 
+# If true, images are downscaled in a linear color space, which is more
+# accurate. This only works with mono-resolution (non-pyramidal) images. It
+# also may impair performance.
+CANTALOUPE_PROCESSOR_DOWNSCALE_LINEAR =
+
 # Intensity of an unsharp mask from 0 to 1.
 CANTALOUPE_PROCESSOR_SHARPEN = 0
-
-# Attempts to copy source image metadata (EXIF, IPTC, XMP) into derivative
-# images. (This is not foolproof; see the user manual.)
-CANTALOUPE_PROCESSOR_METADATA_PRESERVE = false
-
-# Whether to auto-rotate images using the EXIF `Orientation` field.
-# The check for this field can impair performance slightly.
-CANTALOUPE_PROCESSOR_METADATA_RESPECT_ORIENTATION = false
 
 # Progressive JPEGs are usually more compact.
 CANTALOUPE_PROCESSOR_JPG_PROGRESSIVE = true
@@ -391,7 +404,7 @@ CANTALOUPE_PROCESSOR_IMAGEIO_JPG_WRITER =
 CANTALOUPE_PROCESSOR_IMAGEIO_PNG_READER =
 CANTALOUPE_PROCESSOR_IMAGEIO_PNG_WRITER =
 CANTALOUPE_PROCESSOR_IMAGEIO_TIF_READER =
-CANTALOUPE_PROCESSOR_IMAGEIO_TIF_WRITER =
+CANTALOUPE_PROCESSOR_IMAGEIO_XPM_READER =
 
 #----------------------------------------
 # FfmpegProcessor
@@ -402,30 +415,6 @@ CANTALOUPE_PROCESSOR_IMAGEIO_TIF_WRITER =
 CANTALOUPE_FFMPEGPROCESSOR_PATH_TO_BINARIES =
 
 #----------------------------------------
-# GraphicsMagickProcessor
-#----------------------------------------
-
-# !! Optional absolute path of the directory containing the GraphicsMagick
-# binary. Overrides the PATH.
-CANTALOUPE_GRAPHICSMAGICKPROCESSOR_PATH_TO_BINARIES =
-
-#----------------------------------------
-# ImageMagickProcessor
-#----------------------------------------
-
-# !! Optional absolute path of the directory containing the ImageMagick
-# binary. Overrides the PATH.
-CANTALOUPE_IMAGEMAGICKPROCESSOR_PATH_TO_BINARIES =
-
-#----------------------------------------
-# KakaduDemoProcessor
-#----------------------------------------
-
-# Optional absolute path of the directory containing kdu_expand.
-# Overrides the PATH.
-CANTALOUPE_KAKADUDEMOPROCESSOR_PATH_TO_BINARIES =
-
-#----------------------------------------
 # OpenJpegProcessor
 #----------------------------------------
 
@@ -433,12 +422,30 @@ CANTALOUPE_KAKADUDEMOPROCESSOR_PATH_TO_BINARIES =
 # Overrides the PATH.
 CANTALOUPE_OPENJPEGPROCESSOR_PATH_TO_BINARIES =
 
+#----------------------------------------
+# GrokProcessor
+#----------------------------------------
+
+# Optional absolute path of the directory containing grk_decompress.
+# Overrides the PATH.
+CANTALOUPE_GROKPROCESSOR_PATH_TO_BINARIES =
+
+#----------------------------------------
+# PdfBoxProcessor
+#----------------------------------------
+
+# The following will enable disk to be used as well as memory during
+# PDF loading in PdfBoxProcessor.  If `max_memory_bytes` is -1 it
+# will use unlimited memory.
+CANTALOUPE_PROCESSOR_PDF_SCRATCH_FILE_ENABLED = false
+CANTALOUPE_PROCESSOR_PDF_MAX_MEMORY_BYTES = -1
+
 ###########################################################################
 # CLIENT-SIDE CACHING
 ###########################################################################
 
 # Whether to enable the response Cache-Control header.
-CANTALOUPE_CACHE_CLIENT_ENABLED = true
+cache.client.enabled = $CANTALOUPE_CACHE_CLIENT_ENABLED
 
 CANTALOUPE_CACHE_CLIENT_MAX_AGE = 2592000
 CANTALOUPE_CACHE_CLIENT_SHARED_MAX_AGE =
@@ -455,15 +462,15 @@ CANTALOUPE_CACHE_CLIENT_NO_TRANSFORM = true
 ###########################################################################
 
 # N.B.: The source cache may be used if the
-# `CANTALOUPE_PROCESSOR_STREAM_RETRIEVAL_STRATEGY` and/or
-# `CANTALOUPE_PROCESSOR_FALLBACK_RETRIEVAL_STRATEGY` keys are set to `CacheStrategy`.
+# `processor.stream_retrieval_strategy` and/or
+# `processor.fallback_retrieval_strategy` keys are set to `CacheStrategy`.
 
 # FilesystemCache is the only available source cache.
 CANTALOUPE_CACHE_SERVER_SOURCE = FilesystemCache
 
 # Amount of time source cache content remains valid. Set to blank or 0
 # for forever.
-CANTALOUPE_CACHE_SERVER_SOURCE.ttl_seconds = 2592000
+CANTALOUPE_CACHE_SERVER_SOURCE_TTL_SECONDS = 2592000
 
 # Enables the derivative (processed image) cache.
 CANTALOUPE_CACHE_SERVER_DERIVATIVE_ENABLED = false
@@ -474,7 +481,7 @@ CANTALOUPE_CACHE_SERVER_DERIVATIVE =
 
 # Amount of time derivative cache content remains valid. Set to blank or 0
 # for forever.
-CANTALOUPE_CACHE_SERVER_DERIVATIVE.ttl_seconds = 2592000
+CANTALOUPE_CACHE_SERVER_DERIVATIVE_TTL_SECONDS = 2592000
 
 # Whether to use the Java heap as a "level 1" cache for image infos, either
 # independently or in front of a "level 2" derivative cache (if enabled).
@@ -482,7 +489,7 @@ CANTALOUPE_CACHE_SERVER_INFO_ENABLED = true
 
 # If true, when a source reports that the requested source image has gone
 # missing, all cached information relating to it (if any) will be deleted.
-# (This is effectively always false when CANTALOUPE_CACHE_SERVER_RESOLVE_FIRST is also
+# (This is effectively always false when cache.server.resolve_first is also
 # false.)
 CANTALOUPE_CACHE_SERVER_PURGE_MISSING = false
 
@@ -532,7 +539,7 @@ CANTALOUPE_HEAPCACHE_PERSIST = false
 # When the contents are persisted, this specifies the location of the cache
 # file. If the parent directory does not exist, it will be created
 # automatically.
-CANTALOUPE_HEAPCACHE_PERSIST.filesystem.pathname = /var/cache/cantaloupe/heap.cache
+CANTALOUPE_HEAPCACHE_PERSIST_FILESYSTEM_PATHNAME = /var/cache/cantaloupe/heap.cache
 
 #----------------------------------------
 # JdbcCache
@@ -556,10 +563,11 @@ CANTALOUPE_JDBCCACHE_INFO_TABLE = info_cache
 # S3Cache
 #----------------------------------------
 
-# !! Endpoint URI.
-# For AWS endpoints, see:
-# https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
+# !! Endpoint URI. Only needed for non-AWS endpoints.
 CANTALOUPE_S3CACHE_ENDPOINT =
+
+# !! AWS region. Only needed for AWS endpoints.
+CANTALOUPE_S3CACHE_REGION =
 
 # !! Credentials for your AWS account.
 # See: http://aws.amazon.com/security-credentials
@@ -573,10 +581,6 @@ CANTALOUPE_S3CACHE_BUCKET_NAME =
 
 # !! String that will be prefixed to object keys.
 CANTALOUPE_S3CACHE_OBJECT_KEY_PREFIX =
-
-# !! Maximum number of concurrent HTTP connections to AWS. Leave blank to
-# use the default.
-CANTALOUPE_S3CACHE_MAX_CONNECTIONS =
 
 #----------------------------------------
 # AzureStorageCache
@@ -607,13 +611,13 @@ CANTALOUPE_REDISCACHE_DATABASE = 0
 # OVERLAYS
 ###########################################################################
 
-# Whether to enable overlays.
-CANTALOUPE_OVERLAYS_ENABLED = false
-
 # Controls how overlays are configured. `BasicStrategy` will use the
 # `overlays.BasicStrategy.*` keys in this section. `ScriptStrategy` will
 # use a delegate method. (See the user manual.)
 CANTALOUPE_OVERLAYS_STRATEGY = BasicStrategy
+
+# Whether to enable overlays using the BasicStrategy.
+CANTALOUPE_OVERLAYS_ENABLED = false
 
 # `image` or `string`.
 CANTALOUPE_OVERLAYS_BASICSTRATEGY_TYPE = image
@@ -622,41 +626,41 @@ CANTALOUPE_OVERLAYS_BASICSTRATEGY_TYPE = image
 CANTALOUPE_OVERLAYS_BASICSTRATEGY_IMAGE = /path/to/overlay.png
 
 # Overlay text.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING = Copyright \u00A9️ My Great Organization\nAll rights reserved.
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING = Copyright © My Great Organization\nAll rights reserved.
 
-# For possible values, launch with the -Dcantaloupe.list_fonts option.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.font = Helvetica
+# For a list of possible values, launch with the -list-fonts argument.
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_FONT = Helvetica
 
 # Font size in points.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.font.size = 24
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_FONT_SIZE = 24
 
 # If the string doesn't fit in the image at the above size, the largest size
 # at which it does fit will be used, down to this.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.font.min_size = 18
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_FONT_MIN_SIZE = 18
 
 # Font weight. 1 = regular, 2 = bold. Unfortunately, many fonts don't
 # support fractional weights.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.font.weight = 1.0
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_FONT_WEIGHT = 1.0
 
 # Point spacing between glyphs, typically between -0.1 and 0.1.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.glyph_spacing = 0.02
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_GLYPH_SPACING = 0.02
 
 # CSS color syntax is supported.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.color = white
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_COLOR = white
 
 # CSS color syntax is supported.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.stroke.color = black
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_STROKE_COLOR = black
 
 # Stroke width in pixels.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.stroke.width = 1
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_STROKE_WIDTH = 1
 
 # Color of a rectangular background to draw under the string.
 # CSS color syntax and alpha are supported.
-CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING.background.color = rgba(0, 0, 0, 100)
+CANTALOUPE_OVERLAYS_BASICSTRATEGY_STRING_BACKGROUND_COLOR = rgba(0, 0, 0, 100)
 
 # Allowed values: `top left`, `top center`, `top right`, `left center`,
 # `center`, `right center`, `bottom left`, `bottom center`, `bottom right`,
-# `repeat` (images only).
+# `repeat` (images only), `scaled` (images only).
 CANTALOUPE_OVERLAYS_BASICSTRATEGY_POSITION = bottom right
 
 # Pixel margin between the overlay and the image edge. Does not apply to
@@ -672,13 +676,6 @@ CANTALOUPE_OVERLAYS_BASICSTRATEGY_OUTPUT_WIDTH_THRESHOLD = 400
 CANTALOUPE_OVERLAYS_BASICSTRATEGY_OUTPUT_HEIGHT_THRESHOLD = 300
 
 ###########################################################################
-# REDACTIONS
-###########################################################################
-
-# See the user manual for information about how redactions work.
-CANTALOUPE_REDACTION_ENABLED = false
-
-###########################################################################
 # LOGGING
 ###########################################################################
 
@@ -687,18 +684,21 @@ CANTALOUPE_REDACTION_ENABLED = false
 #----------------------------------------
 
 # `trace`, `debug`, `info`, `warn`, `error`, `all`, or `off`
-CANTALOUPE_LOG_APPLICATION_LEVEL = debug
+CANTALOUPE_LOG_APPLICATION_LEVEL = warn
 
 CANTALOUPE_LOG_APPLICATION_CONSOLEAPPENDER_ENABLED = true
+CANTALOUPE_LOG_APPLICATION_CONSOLEAPPENDER_LOGSTASH_ENABLED = false
 
 # N.B.: Don't enable FileAppender and RollingFileAppender simultaneously!
 CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_ENABLED = false
-CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME = /path/to/logs/application.log
+CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_LOGSTASH_ENABLED = false
+CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME = /var/log/cantaloupe/application.log
 
 CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_ENABLED = false
-CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_PATHNAME = /path/to/logs/application.log
+CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_LOGSTASH_ENABLED = false
+CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_PATHNAME = /var/log/cantaloupe/application.log
 CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_POLICY = TimeBasedRollingPolicy
-CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_FILENAME_PATTERN = /path/to/logs/application-%d{yyyy-MM-dd}.log
+CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_FILENAME_PATTERN = /var/log/cantaloupe/application-%d{yyyy-MM-dd}.log
 CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_MAX_HISTORY = 30
 
 # See the "SyslogAppender" section for a list of facilities:
@@ -717,12 +717,14 @@ CANTALOUPE_LOG_APPLICATION_SYSLOGAPPENDER_FACILITY = LOCAL0
 
 # N.B.: Don't enable FileAppender and RollingFileAppender simultaneously!
 CANTALOUPE_LOG_ERROR_FILEAPPENDER_ENABLED = false
-CANTALOUPE_LOG_ERROR_FILEAPPENDER_PATHNAME = /path/to/logs/error.log
+CANTALOUPE_LOG_ERROR_FILEAPPENDER_LOGSTASH_ENABLED = false
+CANTALOUPE_LOG_ERROR_FILEAPPENDER_PATHNAME = /var/log/cantaloupe/error.log
 
 CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_ENABLED = false
-CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_PATHNAME = /path/to/logs/error.log
+CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_LOGSTASH_ENABLED = false
+CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_PATHNAME = /var/log/cantaloupe/error.log
 CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_POLICY = TimeBasedRollingPolicy
-CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_FILENAME_PATTERN = /path/to/logs/error-%d{yyyy-MM-dd}.log
+CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_FILENAME_PATTERN = /var/log/cantaloupe/error-%d{yyyy-MM-dd}.log
 CANTALOUPE_LOG_ERROR_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_MAX_HISTORY = 30
 
 #----------------------------------------
@@ -733,14 +735,14 @@ CANTALOUPE_LOG_ACCESS_CONSOLEAPPENDER_ENABLED = false
 
 # N.B.: Don't enable FileAppender and RollingFileAppender simultaneously!
 CANTALOUPE_LOG_ACCESS_FILEAPPENDER_ENABLED = false
-CANTALOUPE_LOG_ACCESS_FILEAPPENDER_PATHNAME = /path/to/logs/access.log
+CANTALOUPE_LOG_ACCESS_FILEAPPENDER_PATHNAME = /var/log/cantaloupe/access.log
 
 # RollingFileAppender is an alternative to using something like
 # FileAppender + logrotate.
 CANTALOUPE_LOG_ACCESS_ROLLINGFILEAPPENDER_ENABLED = false
-CANTALOUPE_LOG_ACCESS_ROLLINGFILEAPPENDER_PATHNAME = /path/to/logs/access.log
+CANTALOUPE_LOG_ACCESS_ROLLINGFILEAPPENDER_PATHNAME = /var/log/cantaloupe/access.log
 CANTALOUPE_LOG_ACCESS_ROLLINGFILEAPPENDER_POLICY = TimeBasedRollingPolicy
-CANTALOUPE_LOG_ACCESS_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_FILENAME_PATTERN = /path/to/logs/access-%d{yyyy-MM-dd}.log
+CANTALOUPE_LOG_ACCESS_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_FILENAME_PATTERN = /var/log/cantaloupe/access-%d{yyyy-MM-dd}.log
 CANTALOUPE_LOG_ACCESS_ROLLINGFILEAPPENDER_TIMEBASEDROLLINGPOLICY_MAX_HISTORY = 30
 
 # See the "SyslogAppender" section for a list of facilities:
