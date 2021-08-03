@@ -7,7 +7,7 @@ Historical note: We used to build this project using Ruby, but to simplify our p
 
 ### Create the Docker image
 
-To build the current stable version of Cantaloupe (i.e., 4.1.x), run:
+To build the current stable version of Cantaloupe (i.e., 5.x), run:
 
     mvn verify
 
@@ -15,7 +15,7 @@ _We use `verify` instead of `package` because there are tests in the verify stag
 
 _Hint: If the build fails, it may be because a package in the Docker image has been recently updated. To work around this, see the [Working with Pinned OS Packages](https://github.com/uclalibrary/docker-cantaloupe#working-with-pinned-os-packages) section at the bottom of this document._
 
-To build the latest development version of Cantaloupe (i.e., 5.0-SNAPSHOT), use the following:
+To build the latest nightly build of Cantaloupe, use the following:
 
     mvn verify -DdevBuild
 
@@ -56,7 +56,7 @@ In addition to running a test Cantaloupe server using the Maven Docker plugin, y
     docker run -d -p 8182:8182 \
       -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=secret" \
       -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" \
-      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.2-0  # or latest version
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.3-0  # or latest version
 
 Here is another, more complex, example:
 
@@ -71,7 +71,7 @@ Here is another, more complex, example:
       -e "CANTALOUPE_S3SOURCE_ENDPOINT=s3.amazonaws.com" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_ENABLED=true" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME=/var/log/cantaloupe/cantaloupe.log" \
-      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.2-0  # or latest version
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.3-0  # or latest version
 
 There are, of course, other ways to run Docker without having to supply all these environmental variables on the command line. One might want to use a Docker Compose file, Terraform configs, or Kubernetes.
 
