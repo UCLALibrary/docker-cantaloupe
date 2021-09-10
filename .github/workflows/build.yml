@@ -9,7 +9,7 @@ on:
   schedule:
     branches:
       - IIIF-1147
-    - cron:  '15 14 * * *' 
+      - cron:  '15 14 * * *' 
 
 jobs:
   build:
