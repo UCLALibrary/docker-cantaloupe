@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+  schedule:
+    - cron:  '15 13 * * *' 
+
 jobs:
   build:
     name: Maven PR Builder (JDK ${{ matrix.java }} with ${{ matrix.build_property }})
