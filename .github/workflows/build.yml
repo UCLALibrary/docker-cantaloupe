@@ -2,12 +2,12 @@ name: Maven PR Build
 
 # We require all commits go through PR on GitHub
 on:
-  pull_request:
-    branches:
-      - main
+#  pull_request:
+    #branches:
+      #- main
 
   schedule:
-    - cron:  '15 11 * * *' 
+    - cron:  '15 13 * * *' 
 
 jobs:
   build:
