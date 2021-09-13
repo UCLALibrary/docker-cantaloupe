@@ -7,9 +7,7 @@ on:
       - main
 
   schedule:
-    branches:
-      - IIIF-1147
-      - cron:  '15 14 * * *' 
+    - cron:  '15 11 * * *' 
 
 jobs:
   build:
