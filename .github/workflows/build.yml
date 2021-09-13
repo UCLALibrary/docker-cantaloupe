@@ -7,7 +7,7 @@ on:
       #- main
 
   schedule:
-    - cron:  '15 13 * * *' 
+    - cron:  '15 21 * * *' 
 
 jobs:
   build:
