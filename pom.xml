@@ -421,6 +421,7 @@
                       </bind>
                     </volumes>
                     <env>
+                      <CANTALOUPE_LOG_APPLICATION_LEVEL>info</CANTALOUPE_LOG_APPLICATION_LEVEL>
                       <CANTALOUPE_ENDPOINT_ADMIN_ENABLED>true</CANTALOUPE_ENDPOINT_ADMIN_ENABLED>
                       <CANTALOUPE_ENDPOINT_ADMIN_SECRET>${admin.password}</CANTALOUPE_ENDPOINT_ADMIN_SECRET>
                     </env>
@@ -430,6 +431,8 @@
                         <method>GET</method>
                         <status>200</status>
                       </http>
+                      <!-- Below depends on 'info' logging being set -->
+                      <log>Started @</log>
                     </wait>
                   </run>
                 </image>
