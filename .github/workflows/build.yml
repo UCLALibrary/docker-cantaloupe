@@ -6,12 +6,16 @@ on:
     branches:
       - main
 
+  schedule:
+    - cron:  '05 16 * * *' 
+
 jobs:
   build:
     name: Maven PR Builder (JDK ${{ matrix.java }} with ${{ matrix.build_property }})
     runs-on: ubuntu-latest
     env:
       MAVEN_CACHE_KEY: ${{ secrets.MAVEN_CACHE_KEY }}
+      GITHUB_REF: IIIF-1147
     strategy:
       matrix:
         java: [ 11, 12 ]
