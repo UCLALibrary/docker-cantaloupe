@@ -7,7 +7,7 @@ on:
       - main
 
   schedule:
-    - cron:  '05 16 * * *' 
+    - cron:  '20 10 * * *' 
 
 jobs:
   build:
@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MAVEN_CACHE_KEY: ${{ secrets.MAVEN_CACHE_KEY }}
-      GITHUB_REF: IIIF-1147
     strategy:
       matrix:
         java: [ 11, 12 ]
