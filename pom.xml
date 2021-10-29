@@ -88,8 +88,7 @@
     <grok.version>9.1.0</grok.version>
 
     <!-- Java dependency versions -->
-    <freelib.utils.version>2.1.0</freelib.utils.version>
-    <freelib.maven.version>0.1.2</freelib.maven.version>
+    <freelib.utils.version>3.0.1</freelib.utils.version>
     <maven.jar.version>3.2.0</maven.jar.version>
     <jsoup.version>1.14.2</jsoup.version>
     <json.version>20180130</json.version>
@@ -202,6 +201,14 @@
     </testResources>
 
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <generatedTestSourcesDirectory>src/main/generated</generatedTestSourcesDirectory>
+        </configuration>
+      </plugin>
+
       <!-- We can skip building the Jar except when Docker runs the build -->
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -226,16 +233,6 @@
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <compilerArgs>
-            <arg>-Xlint:all</arg>
-          </compilerArgs>
-        </configuration>
-      </plugin>
-
       <!-- Deploying Docker image instead of a Jar file so skip this -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -253,19 +250,12 @@
       <plugin>
         <groupId>info.freelibrary</groupId>
         <artifactId>freelib-maven-plugins</artifactId>
-        <version>${freelib.maven.version}</version>
         <executions>
           <execution>
             <phase>process-resources</phase>
             <goals>
               <goal>generate-codes</goal>
             </goals>
-            <configuration>
-              <generatedSourcesDirectory>src/main/generated</generatedSourcesDirectory>
-              <messageFiles>
-                <messageFile>src/main/resources/cantaloupe_messages.xml</messageFile>
-              </messageFiles>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -623,8 +613,8 @@
         <cantaloupe.version>dev</cantaloupe.version>
         <cantaloupe.commit.ref>latest</cantaloupe.commit.ref>
 
-        <!-- Registry account, if supplied, must end in a slash (e.g. "account/"); all deploys are 'latest-dev' -->
-        <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:latest-dev</docker.image>
+        <!-- Registry account, if supplied, must end in a slash (e.g. "account/"); all deploys are 'nightly' -->
+        <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:nightly</docker.image>
       </properties>
     </profile>
 
@@ -638,15 +628,15 @@
       </activation>
       <properties>
         <!-- Registry account, if supplied, must end in a slash (e.g. "account/") -->
-        <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:%l</docker.image>
+        <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:%v</docker.image>
       </properties>
     </profile>
   </profiles>
 
   <parent>
-    <artifactId>freelib-parent</artifactId>
     <groupId>info.freelibrary</groupId>
-    <version>6.6.3</version>
+    <artifactId>freelib-parent</artifactId>
+    <version>7.1.2</version>
   </parent>
 
 </project>

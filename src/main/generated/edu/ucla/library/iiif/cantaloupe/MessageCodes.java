@@ -1,6 +1,6 @@
 package edu.ucla.library.iiif.cantaloupe;
 /**
- * BEGIN GENERATED CODE
+ * Codes used for internationalized text in logs and other application components. This class is automatically generated from the project's <code>*_messages.xml</code> file (found in the project's <code>src/main/resources</code> directory). Do not manually edit the Java code for this class. <p> BEGIN GENERATED CODE </p>
  */
 final public class MessageCodes {
 

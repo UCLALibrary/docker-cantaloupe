@@ -7,7 +7,7 @@
 <module name="Checker">
   <property name="severity" value="warning" />
   <module name="LineLength">
-    <property name="id" value="lineLengthChecker"/>
+    <property name="id" value="lineLengthChecker" />
     <property name="max" value="120" />
     <property name="fileExtensions" value="java, py, sh, txt" />
   </module>
@@ -16,7 +16,7 @@
     <module name="RedundantModifier" />
     <module name="UnusedImports" />
     <module name="AvoidStarImport">
-      <property name="excludes" value="j2html.TagCreator,org.junit.Assert,com.google.common.base.Preconditions"/>
+      <property name="excludes" value="j2html.TagCreator,org.junit.Assert,info.freelibrary.util.Constants" />
     </module>
     <module name="ConstantName" />
     <module name="EqualsHashCode" />
@@ -44,17 +44,14 @@
     <module name="BooleanExpressionComplexity">
       <property name="max" value="4" />
     </module>
-    <module name="MissingJavadocMethod"/>
+    <module name="MissingJavadocMethod" />
     <module name="JavadocType">
       <property name="excludeScope" value="anoninner" />
-      <property name="scope" value="public" />
       <property name="allowUnknownTags" value="true" />
     </module>
-    <module name="MissingJavadocType"/>
-    <module name="MissingJavadocPackage"/>
-    <module name="JavadocMethod">
-      <property name="scope" value="public" />
-    </module>
+    <module name="MissingJavadocType" />
+    <module name="MissingJavadocPackage" />
+    <module name="JavadocMethod" />
     <module name="NeedBraces" />
     <module name="LeftCurly" />
     <module name="RightCurly" />
@@ -88,19 +85,19 @@
     </module>
   </module>
   <module name="FileTabCharacter">
-    <property name="id" value="fileTabCharacterChecker"/>
+    <property name="id" value="fileTabCharacterChecker" />
     <property name="eachLine" value="true" />
     <property name="fileExtensions" value="java,css,js,xml,xq,default,tmpl,properties" />
   </module>
   <module name="RegexpSingleline">
-    <property name="id" value="regexpSingleLineChecker"/>
+    <property name="id" value="regexpSingleLineChecker" />
     <property name="format" value="(?&lt;!\*)\s+$|\*\s\s+$" />
     <property name="message" value="Trailing whitespace" />
     <property name="fileExtensions" value="java,css,js,xml,html,default,tmpl,properties" />
   </module>
   <module name="SuppressWarningsFilter" />
   <module name="NewlineAtEndOfFile">
-    <property name="id" value="newLineAtEndOfFileChecker"/>
+    <property name="id" value="newLineAtEndOfFileChecker" />
     <property name="fileExtensions" value="java,css,js,xml,html,default,tmpl,properties" />
   </module>
 </module>

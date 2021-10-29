@@ -5,6 +5,9 @@ on:
   release:
     types: [ published ]
 
+  schedule:
+    - cron:  '20 20 * * *'
+
 jobs:
   publish:
     name: Maven Artifact Publisher (JDK ${{ matrix.java }} with ${{ matrix.build_property }})
@@ -39,6 +42,15 @@ jobs:
       - name: Set Jar deployment config
         if: env.SKIP_JAR_DEPLOYMENT == null
         run: echo "SKIP_JAR_DEPLOYMENT=false" >> $GITHUB_ENV
+      - name: Tag snapshot version
+        if: github.event.release.tag_name == ''
+        run: |
+          echo 'RELEASE_TAG=nightly' >> $GITHUB_ENV
+          echo 'NIGHTLY_BUILD=devBuild' >> $GITHUB_ENV
+      - name: Tag release version
+        if: github.event.release.tag_name != ''
+        run: |
+          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
       - name: Optionally, login to Docker repository
         uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a # v1.8.0
         env:
@@ -58,9 +70,9 @@ jobs:
           gpg_passphrase: ${{ secrets.BUILD_PASSPHRASE }}
           nexus_username: ${{ secrets.SONATYPE_USERNAME }} # These are placeholders; we're publishing a Docker image
           nexus_password: ${{ secrets.SONATYPE_PASSWORD }}
-          maven_profiles: release
+          maven_profiles: release,${{ env.NIGHTLY_BUILD }}
           maven_args: >
-            -Drevision=${{ github.event.release.tag_name }}
+            -Drevision=${{ env.RELEASE_TAG }}
             -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
             -DskipNexusStagingDeployMojo=${{ env.SKIP_JAR_DEPLOYMENT }}

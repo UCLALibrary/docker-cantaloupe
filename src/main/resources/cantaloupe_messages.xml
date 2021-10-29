@@ -3,7 +3,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <!--<![CDATA[
-  To process this file outside of a full build, run: mvn info.freelibrary:freelib-utils:generate-codes
+  To process this file outside of a full build, run: mvn info.freelibrary:freelib-maven-plugins:generate-codes
 ]]>-->
 
 <properties>
