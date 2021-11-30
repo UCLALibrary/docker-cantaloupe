@@ -53,7 +53,7 @@ jobs:
           KAKADU_PRIVATE_SSH_KEY: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
         if: |
           (matrix.build_property == 'kakadu.version' && env.KAKADU_PRIVATE_SSH_KEY != null) ||
-          matrix.build.property != 'kakadu.version'
+          matrix.build_property != 'kakadu.version'
         with:
           maven_goals_phases: "clean verify"
           maven_profiles: default,${{ secrets.BUILD_PROFILES }}
