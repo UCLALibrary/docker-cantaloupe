@@ -1,4 +1,4 @@
-name: Maven Release
+name: Maven Build for Snapshot or Release
 
 # Performs a Maven release using JDK 11 when a new GitHub release has been published
 on:
