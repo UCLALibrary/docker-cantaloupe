@@ -17,7 +17,7 @@ jobs:
       MAVEN_CACHE_KEY: ${{ secrets.MAVEN_CACHE_KEY }}
     strategy:
       matrix:
-        java: [ 11, 12 ]
+        java: [ 11, 17 ]
         build_property: [ "kakadu.version", "ignored.version" ]
 
     steps:
@@ -42,11 +42,15 @@ jobs:
           restore-keys: uclalibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-
       - name: Install Kakadu SSH key
         uses: webfactory/ssh-agent@ee29fafb6aa450493bac9136b346e51ea60a8b5e # v0.4.1
-        if: ${{ matrix.build_property == 'kakadu.version' }}
+        # To use/need an SSH key, we must be building Kakadu and be running on the source repo (not a fork)
+        if: ${{ matrix.build_property == 'kakadu.version' && env.GITHUB_REPOSITORY == secrets.SOURCE_REPO }}
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
       - name: Build with Maven
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
+        if: |
+          (matrix.build_property == 'kakadu.version' && env.GITHUB_REPOSITORY == secrets.SOURCE_REPO) ||
+          matrix.build.property != 'kakadu.version'
         with:
           maven_goals_phases: "clean verify"
           maven_profiles: default,${{ secrets.BUILD_PROFILES }}
