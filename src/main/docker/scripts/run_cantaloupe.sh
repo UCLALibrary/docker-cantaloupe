@@ -6,11 +6,6 @@ fi
 
 CANTALOUPE_JAR=$(ls /usr/local/cantaloupe/cantaloupe-*.jar)
 
-if [ -n "$HEAP_SIZE" ]; then
-  JAVA_OPTS="$JAVA_OPTS -Xmx$HEAP_SIZE"
-  echo "Setting Java max heap size to $HEAP_SIZE"
-fi
-
 # A Cantaloupe startup script that uses ENV properties to configure the application
 java -Dcantaloupe.config="${CONFIG_FILE}" -XX:MaxRAMPercentage="${HEAP_PERCENTAGE}" ${JAVA_OPTS} \
   -cp "${CANTALOUPE_JAR}${DELEGATE_JAR}" edu.illinois.library.cantaloupe.StandaloneEntry
