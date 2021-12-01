@@ -73,6 +73,8 @@ Here is another, more complex, example:
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME=/var/log/cantaloupe/cantaloupe.log" \
       --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.3-0  # or latest version
 
+You may also pass the `JAVA_OPTS` variable to fine-tune JVM options. This will be passed to the `java` command as-is.
+
 There are, of course, other ways to run Docker without having to supply all these environmental variables on the command line. One might want to use a Docker Compose file, Terraform configs, or Kubernetes.
 
 ### Using Kakadu for JPEG-2000 support

@@ -84,6 +84,9 @@ ENV CONFIG_FILE="/etc/cantaloupe.properties"
 # We're using a percentage of available RAM
 ENV HEAP_PERCENTAGE="80"
 
+# Use this to pass any additional JVM options to the start script
+ENV JAVA_OPTS=""
+
 # The port we expose the Cantaloupe service on
 EXPOSE 8182
 
