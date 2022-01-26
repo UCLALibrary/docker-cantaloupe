@@ -23,7 +23,7 @@ The stable version of the build creates a Docker container with pinned versions 
 
 To apply your own patches to the Cantaloupe source, create a patchfile in `src/main/docker/patches` with a Git diff, then use the following:
 
-    mvn verify -DdevBuild -Dcantaloupe.patch=hotfix.patch
+    mvn verify -DdevBuild -Dcantaloupe.patchfile=hotfix.patch
 
 _Hint: If you want to run a build without a Docker cache, add `-Ddocker.noCache` to your mvn command; for instance: `mvn verify -Ddocker.noCache`_
 
