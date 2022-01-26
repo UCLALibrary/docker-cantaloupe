@@ -21,6 +21,10 @@ To build the latest nightly build of Cantaloupe, use the following:
 
 The stable version of the build creates a Docker container with pinned versions of the pre-requisite software. The development build uses whatever the latest versions are in the base container that's used. This means, when the stable build no longer works (because the pinned versions are obsolete), the development version can still be run. Once that image is built, a person can shell into the container, see what the current versions are, and update the pinned versions in the Maven POM file accordingly.
 
+To apply your own patches to the Cantaloupe source, create a patchfile in `src/main/docker/patches` with a Git diff, then use the following:
+
+    mvn verify -DdevBuild -Dcantaloupe.patch=hotfix.patch
+
 _Hint: If you want to run a build without a Docker cache, add `-Ddocker.noCache` to your mvn command; for instance: `mvn verify -Ddocker.noCache`_
 
 ### Run the Cantaloupe container

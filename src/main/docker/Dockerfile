@@ -16,6 +16,7 @@ ENV JAI_IMAGEIO_VERSION="1.1"
 ENV JAI_REPO="https://nexus.geomatys.com/repository/geotoolkit/javax/media"
 
 WORKDIR /build/cantaloupe
+COPY patches /build/patches
 RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       git clone --quiet https://github.com/cantaloupe-project/cantaloupe.git . && \
       \
@@ -23,6 +24,11 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       if [ -n "${cantaloupe.commit.ref}" -a "${cantaloupe.commit.ref}" != "latest" ] ; then \
         git fetch --all ; \
         git checkout -b "${cantaloupe.commit.ref}" "${cantaloupe.commit.ref}" ; \
+      fi && \
+      \
+      # We can also supply a patchfile as a defense against a broken upstream
+      if [ -f "/build/patches/${cantaloupe.patch}" ] ; then \
+        git apply "/build/patches/${cantaloupe.patch}" ; \
       fi && \
       \
       # Janky, but third party repos and transitive dependences... what can you do?
