@@ -20,7 +20,7 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       git clone --quiet https://github.com/cantaloupe-project/cantaloupe.git . && \
       \
       # We can supply a particular commit ref as a defense against a broken upstream
-      if [ "${cantaloupe.commit.ref}" != "latest" ] ; then \
+      if [ -n "${cantaloupe.commit.ref}" -a "${cantaloupe.commit.ref}" != "latest" ] ; then \
         git fetch --all ; \
         git checkout -b "${cantaloupe.commit.ref}" "${cantaloupe.commit.ref}" ; \
       fi && \
