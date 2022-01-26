@@ -629,6 +629,7 @@
       </activation>
       <properties>
         <cantaloupe.commit.ref></cantaloupe.commit.ref>
+        <cantaloupe.patch></cantaloupe.patch>
 
         <!-- Registry account, if supplied, must end in a slash (e.g. "account/") -->
         <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:%v</docker.image>
