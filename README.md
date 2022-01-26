@@ -15,7 +15,7 @@ _We use `verify` instead of `package` because there are tests in the verify stag
 
 _Hint: If the build fails, it may be because a package in the Docker image has been recently updated. To work around this, see the [Working with Pinned OS Packages](https://github.com/uclalibrary/docker-cantaloupe#working-with-pinned-os-packages) section at the bottom of this document._
 
-To build Cantaloupe using the latest code on [the `develop` branch](https://github.com/cantaloupe-project/cantaloupe/tree/develop) (i.e., our "nightly" build), use the following:
+To build Cantaloupe using the latest code on [the upstream `develop` branch](https://github.com/cantaloupe-project/cantaloupe/tree/develop) (i.e., our "nightly" build), use the following:
 
     mvn verify -Dcantaloupe.version=dev
 
