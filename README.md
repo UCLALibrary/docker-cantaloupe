@@ -15,15 +15,21 @@ _We use `verify` instead of `package` because there are tests in the verify stag
 
 _Hint: If the build fails, it may be because a package in the Docker image has been recently updated. To work around this, see the [Working with Pinned OS Packages](https://github.com/uclalibrary/docker-cantaloupe#working-with-pinned-os-packages) section at the bottom of this document._
 
-To build the latest nightly build of Cantaloupe, use the following:
+To build Cantaloupe using the latest code on [the `develop` branch](https://github.com/cantaloupe-project/cantaloupe/tree/develop) (i.e., our "nightly" build), use the following:
 
-    mvn verify -DdevBuild
+    mvn verify -Dcantaloupe.version=dev
 
 The stable version of the build creates a Docker container with pinned versions of the pre-requisite software. The development build uses whatever the latest versions are in the base container that's used. This means, when the stable build no longer works (because the pinned versions are obsolete), the development version can still be run. Once that image is built, a person can shell into the container, see what the current versions are, and update the pinned versions in the Maven POM file accordingly.
 
+To build an older version of Cantaloupe, you can specify a commit hash:
+
+    mvn verify -Dcantaloupe.version=dev -Dcantaloupe.commit.ref=fff5425
+
 To apply your own patches to the Cantaloupe source, create a patchfile in `src/main/docker/patches` with a Git diff, then use the following:
 
-    mvn verify -DdevBuild -Dcantaloupe.patchfile=hotfix.patch
+    mvn verify -Dcantaloupe.version=dev -Dcantaloupe.patchfile=hotfix.patch
+
+Patching an older version of Cantaloupe is possible as well.
 
 _Hint: If you want to run a build without a Docker cache, add `-Ddocker.noCache` to your mvn command; for instance: `mvn verify -Ddocker.noCache`_
 
