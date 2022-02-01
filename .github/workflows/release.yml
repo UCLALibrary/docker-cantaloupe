@@ -63,9 +63,8 @@ jobs:
         uses: webfactory/ssh-agent@ee29fafb6aa450493bac9136b346e51ea60a8b5e # v0.4.1
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
-      - name: Release with Maven (nightly build)
+      - name: Release with Maven
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
-        if: github.event.release.tag_name == ''
         with:
           gpg_private_key: ${{ secrets.BUILD_KEY }}
           gpg_passphrase: ${{ secrets.BUILD_PASSPHRASE }}
@@ -75,25 +74,6 @@ jobs:
           maven_args: >
             -Drevision=${{ env.RELEASE_TAG }}
             -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
-            -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
-            -DskipNexusStagingDeployMojo=${{ env.SKIP_JAR_DEPLOYMENT }}
-            -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
-            -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
-            -Ddocker.registry.password=${{ secrets.DOCKER_PASSWORD }}
-      - name: Release with Maven (auth-http-401.patch build)
-        uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
-        if: github.event.release.tag_name != ''
-        with:
-          gpg_private_key: ${{ secrets.BUILD_KEY }}
-          gpg_passphrase: ${{ secrets.BUILD_PASSPHRASE }}
-          nexus_username: ${{ secrets.SONATYPE_USERNAME }} # These are placeholders; we're publishing a Docker image
-          nexus_password: ${{ secrets.SONATYPE_PASSWORD }}
-          maven_profiles: release
-          maven_args: >
-            -Drevision=${{ env.RELEASE_TAG }}
-            -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
-            -Dcantaloupe.version=dev
-            -Dcantaloupe.patchfile=auth-http-401.patch
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
             -DskipNexusStagingDeployMojo=${{ env.SKIP_JAR_DEPLOYMENT }}
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
