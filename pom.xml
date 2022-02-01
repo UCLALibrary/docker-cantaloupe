@@ -612,7 +612,7 @@
       <properties>
         <cantaloupe.version>dev</cantaloupe.version>
         <cantaloupe.commit.ref>latest</cantaloupe.commit.ref>
-        <cantaloupe.patchfile>auth-http-401.patch</cantaloupe.patchfile>
+        <cantaloupe.patchfile></cantaloupe.patchfile>
 
         <!-- Registry account, if supplied, must end in a slash (e.g. "account/"); all deploys are 'nightly' -->
         <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:nightly</docker.image>
