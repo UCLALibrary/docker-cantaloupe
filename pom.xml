@@ -110,8 +110,12 @@
     <!-- The registry account, if supplied, must end with a slash (e.g. "account/") -->
     <docker.registry.account />
 
+    <!-- The artifact is qualified if it's built with Kakadu -->
+    <artifact.qualifier></artifact.qualifier>
+
     <!-- Additional Docker configurations -->
     <docker.cleanup>remove</docker.cleanup>
+    <docker.image>cantaloupe${artifact.qualifier}</docker.image>
     <docker.showLogs>true</docker.showLogs>
 
     <!-- We don't need to build the jar outside of the Docker build -->
@@ -516,6 +520,9 @@
           <name>kakadu.version</name>
         </property>
       </activation>
+      <properties>
+        <artifact.qualifier>-ucla</artifact.qualifier>
+      </properties>
       <build>
         <plugins>
           <plugin>
