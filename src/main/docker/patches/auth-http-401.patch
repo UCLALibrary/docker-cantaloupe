@@ -1,12 +1,14 @@
 diff --git a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
-index 7b2c04e8d..f762a1c15 100644
+index 7b2c04e8d..7dab7ed32 100644
 --- a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
 +++ b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
-@@ -364,6 +364,7 @@ public abstract class AbstractResource {
+@@ -364,6 +364,9 @@ public abstract class AbstractResource {
              if (code == 401) {
                  getResponse().setHeader("WWW-Authenticate",
                          info.getChallengeValue());
-+                return true; // Should really only do this for info.json requests
++                if (getRequestContext().getLocalURI().getPath().endsWith("info.json")) {
++                    return true;
++                }
              }
              throw new ResourceException(new Status(code));
          }
