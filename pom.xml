@@ -65,6 +65,8 @@
   <properties>
     <!-- What versions of Cantaloupe and Kakadu are we using? -->
     <cantaloupe.version>5.0.4</cantaloupe.version>
+    <cantaloupe.commit.ref></cantaloupe.commit.ref>
+    <cantaloupe.patchfile></cantaloupe.patchfile>
     <kakadu.version></kakadu.version>
 
     <!-- Git repo with Kakadu source code (ours is private; override with yours) -->
