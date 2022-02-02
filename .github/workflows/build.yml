@@ -23,6 +23,9 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           cache: maven
+      - name: Optionally, set artifact qualifier (for private builds that include Kakadu)
+        if: matrix.build_property == 'kakadu.version'
+        run: echo "ARTIFACT_QUALIFIER=-ucla" >> $GITHUB_ENV
       - name: Install Kakadu SSH key
         uses: webfactory/ssh-agent@ee29fafb6aa450493bac9136b346e51ea60a8b5e # v0.4.1
         env:
@@ -43,3 +46,4 @@ jobs:
           maven_args: >
             -V -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error -DlogLevel=DEBUG -DtestLogLevel=DEBUG
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
+            -Ddocker.image=cantaloupe${{ env.ARTIFACT_QUALIFIER }}
