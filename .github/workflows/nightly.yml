@@ -1,9 +1,12 @@
-name: Maven Build for Release
+name: Maven Build for Snapshot
 
-# Performs a Maven release using JDK 11 when a new GitHub release has been published
+# Performs a Maven release using JDK 11 on a schedule
 on:
   release:
     types: [ published ]
+
+  schedule:
+    - cron:  '20 20 * * *'
 
 jobs:
   publish:
@@ -49,11 +52,14 @@ jobs:
           nexus_username: ${{ secrets.SONATYPE_USERNAME }} # These are placeholders; we're publishing a Docker image
           nexus_password: ${{ secrets.SONATYPE_PASSWORD }}
           maven_args: >
-            -Drevision=${{ github.event.release.tag_name }}
+            -Drevision=nightly
+            -Dcantaloupe.version=dev
+            -Dcantaloupe.commit.ref=latest
+            -Dcantaloupe.patchfile=auth-http-401.patch
             -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
             -DskipNexusStagingDeployMojo=${{ env.SKIP_JAR_DEPLOYMENT }}
-            -Ddocker.image=uclalibrary/cantaloupe${{ env.ARTIFACT_QUALIFIER }}:${{ github.event.release.tag_name }}
+            -Ddocker.image=uclalibrary/cantaloupe${{ env.ARTIFACT_QUALIFIER }}:nightly
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
             -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
             -Ddocker.registry.password=${{ secrets.DOCKER_PASSWORD }}

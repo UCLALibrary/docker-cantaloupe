@@ -6,15 +6,10 @@ on:
     branches:
       - main
 
-  schedule:
-    - cron:  '20 10 * * *' 
-
 jobs:
   build:
     name: Maven PR Builder (JDK ${{ matrix.java }} with ${{ matrix.build_property }})
     runs-on: ubuntu-latest
-    env:
-      MAVEN_CACHE_KEY: ${{ secrets.MAVEN_CACHE_KEY }}
     strategy:
       matrix:
         java: [ 11, 17 ]
@@ -27,19 +22,7 @@ jobs:
         uses: actions/setup-java@d202f5dbf7256730fb690ec59f6381650114feb2 # v1
         with:
           java-version: ${{ matrix.java }}
-      # If running locally in act, install Maven
-      - name: Set up Maven if needed
-        if: ${{ env.ACT }}
-        uses: stCarolas/setup-maven@1d56b37995622db66cce1214d81014b09807fb5a # v4
-        with:
-          maven-version: 3.6.3
-      - name: Set up Maven cache
-        uses: actions/cache@0781355a23dac32fd3bac414512f4b903437991a # v2
-        if: ${{ env.MAVEN_CACHE_KEY }}
-        with:
-          path: ~/.m2
-          key: uclalibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: uclalibrary-cache-${{ secrets.MAVEN_CACHE_KEY }}-
+          cache: maven
       - name: Install Kakadu SSH key
         uses: webfactory/ssh-agent@ee29fafb6aa450493bac9136b346e51ea60a8b5e # v0.4.1
         env:
