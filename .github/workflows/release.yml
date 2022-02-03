@@ -9,8 +9,6 @@ jobs:
   publish:
     name: Maven Artifact Publisher (JDK ${{ matrix.java }} with ${{ matrix.build_property }})
     runs-on: ubuntu-latest
-    env:
-      SKIP_JAR_DEPLOYMENT: ${{ secrets.SKIP_JAR_DEPLOYMENT }}
     strategy:
       matrix:
         java: [ 11 ]
@@ -23,9 +21,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           cache: maven
-      - name: Set Jar deployment config
-        if: env.SKIP_JAR_DEPLOYMENT == null
-        run: echo "SKIP_JAR_DEPLOYMENT=false" >> $GITHUB_ENV
       - name: Optionally, login to Docker repository
         uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a # v1.8.0
         env:
@@ -49,7 +44,7 @@ jobs:
             -Drevision=${{ github.event.release.tag_name }}
             -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
-            -DskipNexusStagingDeployMojo=${{ env.SKIP_JAR_DEPLOYMENT }}
+            -DskipNexusStagingDeployMojo=true
             -Ddocker.image=uclalibrary/cantaloupe${{ secrets.ARTIFACT_QUALIFIER }}:${{ github.event.release.tag_name }}
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
             -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
