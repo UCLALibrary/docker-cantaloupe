@@ -46,4 +46,3 @@ jobs:
           maven_args: >
             -V -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error -DlogLevel=DEBUG -DtestLogLevel=DEBUG
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
-            -Ddocker.image=cantaloupe${{ env.ARTIFACT_QUALIFIER }}
