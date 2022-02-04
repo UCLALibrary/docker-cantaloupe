@@ -65,6 +65,8 @@
   <properties>
     <!-- What versions of Cantaloupe and Kakadu are we using? -->
     <cantaloupe.version>5.0.4</cantaloupe.version>
+    <cantaloupe.commit.ref></cantaloupe.commit.ref>
+    <cantaloupe.patchfile></cantaloupe.patchfile>
     <kakadu.version></kakadu.version>
 
     <!-- Git repo with Kakadu source code (ours is private; override with yours) -->
@@ -115,6 +117,7 @@
 
     <!-- Additional Docker configurations -->
     <docker.cleanup>remove</docker.cleanup>
+    <docker.image>cantaloupe${artifact.qualifier}</docker.image>
     <docker.showLogs>true</docker.showLogs>
 
     <!-- We don't need to build the jar outside of the Docker build -->
@@ -599,41 +602,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-
-    <!-- A profile that builds the image with a development version of Cantaloupe -->
-    <profile>
-      <id>devBuild</id>
-      <activation>
-        <property>
-          <name>devBuild</name>
-        </property>
-      </activation>
-      <properties>
-        <cantaloupe.version>dev</cantaloupe.version>
-        <cantaloupe.commit.ref>latest</cantaloupe.commit.ref>
-        <cantaloupe.patchfile>auth-http-401.patch</cantaloupe.patchfile>
-
-        <!-- Registry account, if supplied, must end in a slash (e.g. "account/"); all deploys are 'nightly' -->
-        <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:nightly</docker.image>
-      </properties>
-    </profile>
-
-    <!-- A profile that builds the image with a released version of Cantaloupe -->
-    <profile>
-      <id>default</id>
-      <activation>
-        <property>
-          <name>!devBuild</name>
-        </property>
-      </activation>
-      <properties>
-        <cantaloupe.commit.ref></cantaloupe.commit.ref>
-        <cantaloupe.patchfile></cantaloupe.patchfile>
-
-        <!-- Registry account, if supplied, must end in a slash (e.g. "account/") -->
-        <docker.image>${docker.registry.account}${project.artifactId}${artifact.qualifier}:%v</docker.image>
-      </properties>
     </profile>
   </profiles>
 
