@@ -1,10 +1,10 @@
+{{- if .Values.cantaloupe.overrideConfigMap -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "cantaloupe.fullname" . }}
-  labels:
-    {{- include "cantaloupe.labels" . | nindent 4 }}
+  name: {{ include "cantaloupe.fullname" . }}-cm
 data:
-{{- range $k, $v := .Values.cantaloupe.env }}
+{{- range $k, $v := .Values.cantaloupe.env.configmap }}
   {{ $k }}: {{ $v | quote }}
+{{- end }}
 {{- end }}
