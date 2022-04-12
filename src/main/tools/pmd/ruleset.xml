@@ -76,6 +76,7 @@
   <rule ref="category/java/design.xml">
     <exclude name="LawOfDemeter" />
     <exclude name="LoosePackageCoupling" />
+    <exclude name="UselessOverridingMethod" />
   </rule>
   <rule ref="category/java/design.xml/TooManyMethods">
     <properties>
