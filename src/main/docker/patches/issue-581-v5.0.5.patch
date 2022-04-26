@@ -1,0 +1,140 @@
+diff --git a/src/main/java/edu/illinois/library/cantaloupe/image/MetaIdentifier.java b/src/main/java/edu/illinois/library/cantaloupe/image/MetaIdentifier.java
+index 35493f3c4..e037ec8a0 100644
+--- a/src/main/java/edu/illinois/library/cantaloupe/image/MetaIdentifier.java
++++ b/src/main/java/edu/illinois/library/cantaloupe/image/MetaIdentifier.java
+@@ -152,6 +152,33 @@ public final class MetaIdentifier {
+         return fromString(deSlashedComponent, delegateProxy);
+     }
+ 
++    /**
++     * Translates the meta-identifier into a URI path component.
++     *
++     * Reverses {@link #fromURIPathComponent(String, DelegateProxy)}.
++     *
++     * @param metaIdentifier Meta-identifier.
++     * @param delegateProxy Delegate proxy.
++     */
++    public static String toURIPathComponent(MetaIdentifier metaIdentifier,
++                                            DelegateProxy delegateProxy) {
++        // Encode just the identifier part.
++        final String slashedIdentifier = metaIdentifier.getIdentifier().toString();
++        final String deSlashedIdenfitier = StringUtils.encodeSlashes(slashedIdentifier);
++        final String encodedIdentifier = Reference.encode(deSlashedIdenfitier);
++        final MetaIdentifierTransformer xformer =
++                new MetaIdentifierTransformerFactory().newInstance(delegateProxy);
++        final String serializedMetaIdentifier;
++
++        metaIdentifier.setIdentifier(new Identifier(encodedIdentifier));
++        serializedMetaIdentifier = xformer.serialize(metaIdentifier);
++
++        LOGGER.debug("[Slash-substituted identifier: {}] -> [de-slashed identifier: {}] -> " +
++                        "[percent-encoded identifier: {}] -> [raw path component: {}]",
++                slashedIdentifier, deSlashedIdenfitier, encodedIdentifier, serializedMetaIdentifier);
++        return serializedMetaIdentifier;
++    }
++
+     /**
+      * Creates a minimal valid instance. For more options, use {@link Builder}.
+      */
+diff --git a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
+index 20181b298..160e3a336 100644
+--- a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
++++ b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
+@@ -13,8 +13,6 @@ import edu.illinois.library.cantaloupe.http.Status;
+ import edu.illinois.library.cantaloupe.image.Format;
+ import edu.illinois.library.cantaloupe.image.Identifier;
+ import edu.illinois.library.cantaloupe.image.MetaIdentifier;
+-import edu.illinois.library.cantaloupe.image.MetaIdentifierTransformer;
+-import edu.illinois.library.cantaloupe.image.MetaIdentifierTransformerFactory;
+ import edu.illinois.library.cantaloupe.delegate.DelegateProxy;
+ import edu.illinois.library.cantaloupe.delegate.DelegateProxyService;
+ import edu.illinois.library.cantaloupe.delegate.UnavailableException;
+@@ -594,9 +592,8 @@ public abstract class AbstractResource {
+         final int identifierIndex         = pathComponents.indexOf(
+                 getIdentifierPathComponent());
+ 
+-        final MetaIdentifierTransformer xformer =
+-                new MetaIdentifierTransformerFactory().newInstance(getDelegateProxy());
+-        final String newMetaIdentifierString = xformer.serialize(newMetaIdentifier);
++        final String newMetaIdentifierString =
++                MetaIdentifier.toURIPathComponent(newMetaIdentifier, getDelegateProxy());
+         publicRef.setPathComponent(identifierIndex, newMetaIdentifierString);
+         return publicRef;
+     }
+diff --git a/src/main/java/edu/illinois/library/cantaloupe/util/StringUtils.java b/src/main/java/edu/illinois/library/cantaloupe/util/StringUtils.java
+index c8e4c38c5..4a20f05a8 100644
+--- a/src/main/java/edu/illinois/library/cantaloupe/util/StringUtils.java
++++ b/src/main/java/edu/illinois/library/cantaloupe/util/StringUtils.java
+@@ -41,6 +41,22 @@ public final class StringUtils {
+         return uriPathComponent;
+     }
+ 
++    /**
++     * Reverses {@link #decodeSlashes(String)}.
++     *
++     * @param slashedIdentifier Identifier with slashes to be substituted.
++     * @return                  Identifier with slashes substituted.
++     */
++    public static String encodeSlashes(final String slashedIdentifier) {
++        final String substitute = Configuration.getInstance().
++                getString(Key.SLASH_SUBSTITUTE, "");
++        if (!substitute.isEmpty()) {
++            return org.apache.commons.lang3.StringUtils.replace(
++                    slashedIdentifier, "/", substitute);
++        }
++        return slashedIdentifier;
++    }
++
+     public static String escapeHTML(String html) {
+         StringBuilder out = new StringBuilder(Math.max(16, html.length()));
+         for (int i = 0, length = html.length(); i < length; i++) {
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/image/MetaIdentifierTest.java b/src/test/java/edu/illinois/library/cantaloupe/image/MetaIdentifierTest.java
+index 13b519d46..d6c77c515 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/image/MetaIdentifierTest.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/image/MetaIdentifierTest.java
+@@ -98,6 +98,27 @@ class MetaIdentifierTest extends BaseTest {
+         assertEquals(expected, actual);
+     }
+ 
++    /* toURIPathComponent() */
++
++    @Test
++    void testToURIPathComponent() {
++        final Configuration config = Configuration.getInstance();
++        config.setProperty(Key.SLASH_SUBSTITUTE, "BUG");
++        config.setProperty(Key.META_IDENTIFIER_TRANSFORMER,
++                StandardMetaIdentifierTransformer.class.getSimpleName());
++
++        DelegateProxy delegateProxy   = TestUtil.newDelegateProxy();
++        MetaIdentifier metaIdentifier = MetaIdentifier.builder()
++                .withIdentifier("cats/:dogs")
++                .withPageNumber(2)
++                .withScaleConstraint(2, 3)
++                .build();
++        String actual                 = MetaIdentifier
++                .toURIPathComponent(metaIdentifier, delegateProxy);
++        String expected               = "catsBUG%3Adogs;2;2:3";
++        assertEquals(expected, actual);
++    }
++
+     /* MetaIdentifier(MetaIdentifier) */
+ 
+     @Test
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/util/StringUtilsTest.java b/src/test/java/edu/illinois/library/cantaloupe/util/StringUtilsTest.java
+index e6b5f00b1..704966bf9 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/util/StringUtilsTest.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/util/StringUtilsTest.java
+@@ -25,6 +25,13 @@ class StringUtilsTest extends BaseTest {
+         assertEquals("ca/ts", StringUtils.decodeSlashes("ca$$ts"));
+     }
+ 
++    @Test
++    void testEncodeSlashes() {
++        Configuration.getInstance().setProperty(Key.SLASH_SUBSTITUTE, "$$");
++        assertEquals("cats", StringUtils.encodeSlashes("cats"));
++        assertEquals("ca$$ts", StringUtils.encodeSlashes("ca/ts"));
++    }
++
+     @Test
+     void testEscapeHTML() {
+         String html = "the quick brown <script type=\"text/javascript\">alert('hi');</script> fox";
