@@ -1,9 +1,9 @@
 diff --git a/src/main/java/edu/illinois/library/cantaloupe/image/MetaIdentifier.java b/src/main/java/edu/illinois/library/cantaloupe/image/MetaIdentifier.java
-index 35493f3c4..e037ec8a0 100644
+index 35493f3c4..bbc2aa3ab 100644
 --- a/src/main/java/edu/illinois/library/cantaloupe/image/MetaIdentifier.java
 +++ b/src/main/java/edu/illinois/library/cantaloupe/image/MetaIdentifier.java
-@@ -152,6 +152,33 @@ public final class MetaIdentifier {
-         return fromString(deSlashedComponent, delegateProxy);
+@@ -259,6 +259,34 @@ public final class MetaIdentifier {
+         }
      }
  
 +    /**
@@ -11,33 +11,34 @@ index 35493f3c4..e037ec8a0 100644
 +     *
 +     * Reverses {@link #fromURIPathComponent(String, DelegateProxy)}.
 +     *
-+     * @param metaIdentifier Meta-identifier.
 +     * @param delegateProxy Delegate proxy.
 +     */
-+    public static String toURIPathComponent(MetaIdentifier metaIdentifier,
-+                                            DelegateProxy delegateProxy) {
++    public String toURIPathComponent(DelegateProxy delegateProxy) {
 +        // Encode just the identifier part.
-+        final String slashedIdentifier = metaIdentifier.getIdentifier().toString();
-+        final String deSlashedIdenfitier = StringUtils.encodeSlashes(slashedIdentifier);
-+        final String encodedIdentifier = Reference.encode(deSlashedIdenfitier);
++        final Identifier originalIdentifier = getIdentifier();
++        final String slashedIdentifier = originalIdentifier.toString();
++        final String deSlashedIdentifier = StringUtils.encodeSlashes(slashedIdentifier);
++        final String encodedIdentifier = Reference.encode(deSlashedIdentifier);
 +        final MetaIdentifierTransformer xformer =
 +                new MetaIdentifierTransformerFactory().newInstance(delegateProxy);
 +        final String serializedMetaIdentifier;
 +
-+        metaIdentifier.setIdentifier(new Identifier(encodedIdentifier));
-+        serializedMetaIdentifier = xformer.serialize(metaIdentifier);
++        setIdentifier(new Identifier(encodedIdentifier));
++        serializedMetaIdentifier = xformer.serialize(this);
++        // Now that we've serialized the encoded meta-identifier, put it back to how it was before
++        setIdentifier(originalIdentifier);
 +
 +        LOGGER.debug("[Slash-substituted identifier: {}] -> [de-slashed identifier: {}] -> " +
 +                        "[percent-encoded identifier: {}] -> [raw path component: {}]",
-+                slashedIdentifier, deSlashedIdenfitier, encodedIdentifier, serializedMetaIdentifier);
++                slashedIdentifier, deSlashedIdentifier, encodedIdentifier, serializedMetaIdentifier);
 +        return serializedMetaIdentifier;
 +    }
 +
-     /**
-      * Creates a minimal valid instance. For more options, use {@link Builder}.
-      */
+     @Override
+     public String toString() {
+         return new StandardMetaIdentifierTransformer().serialize(this);
 diff --git a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
-index 20181b298..160e3a336 100644
+index 20181b298..ecc8484b1 100644
 --- a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
 +++ b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
 @@ -13,8 +13,6 @@ import edu.illinois.library.cantaloupe.http.Status;
@@ -57,7 +58,7 @@ index 20181b298..160e3a336 100644
 -                new MetaIdentifierTransformerFactory().newInstance(getDelegateProxy());
 -        final String newMetaIdentifierString = xformer.serialize(newMetaIdentifier);
 +        final String newMetaIdentifierString =
-+                MetaIdentifier.toURIPathComponent(newMetaIdentifier, getDelegateProxy());
++                newMetaIdentifier.toURIPathComponent(getDelegateProxy());
          publicRef.setPathComponent(identifierIndex, newMetaIdentifierString);
          return publicRef;
      }
@@ -89,11 +90,11 @@ index c8e4c38c5..4a20f05a8 100644
          StringBuilder out = new StringBuilder(Math.max(16, html.length()));
          for (int i = 0, length = html.length(); i < length; i++) {
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/image/MetaIdentifierTest.java b/src/test/java/edu/illinois/library/cantaloupe/image/MetaIdentifierTest.java
-index 13b519d46..d6c77c515 100644
+index 13b519d46..b9a318de3 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/image/MetaIdentifierTest.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/image/MetaIdentifierTest.java
-@@ -98,6 +98,27 @@ class MetaIdentifierTest extends BaseTest {
-         assertEquals(expected, actual);
+@@ -264,6 +264,29 @@ class MetaIdentifierTest extends BaseTest {
+                 () -> instance.setScaleConstraint(scaleConstraint));
      }
  
 +    /* toURIPathComponent() */
@@ -105,19 +106,21 @@ index 13b519d46..d6c77c515 100644
 +        config.setProperty(Key.META_IDENTIFIER_TRANSFORMER,
 +                StandardMetaIdentifierTransformer.class.getSimpleName());
 +
-+        DelegateProxy delegateProxy   = TestUtil.newDelegateProxy();
-+        MetaIdentifier metaIdentifier = MetaIdentifier.builder()
++        DelegateProxy delegateProxy     = TestUtil.newDelegateProxy();
++        MetaIdentifier metaIdentifier   = MetaIdentifier.builder()
 +                .withIdentifier("cats/:dogs")
 +                .withPageNumber(2)
 +                .withScaleConstraint(2, 3)
 +                .build();
-+        String actual                 = MetaIdentifier
-+                .toURIPathComponent(metaIdentifier, delegateProxy);
-+        String expected               = "catsBUG%3Adogs;2;2:3";
++        MetaIdentifier beforeMethodCall = new MetaIdentifier(metaIdentifier);
++        String actual                   = metaIdentifier.toURIPathComponent(delegateProxy);
++        String expected                 = "catsBUG%3Adogs;2;2:3";
 +        assertEquals(expected, actual);
++        // Make sure the call to toURIPathComponent didn't change the meta-identifier.
++        assertEquals(beforeMethodCall, metaIdentifier);
 +    }
 +
-     /* MetaIdentifier(MetaIdentifier) */
+     /* toString() */
  
      @Test
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/util/StringUtilsTest.java b/src/test/java/edu/illinois/library/cantaloupe/util/StringUtilsTest.java
