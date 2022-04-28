@@ -79,7 +79,7 @@
     <gcc.version>4:9.3.0-1ubuntu2</gcc.version>
     <python2.version>2.7.17-2ubuntu4</python2.version>
     <ffmpeg.version>7:4.2.4-1ubuntu0.1</ffmpeg.version>
-    <curl.version>7.68.0-1ubuntu2.7</curl.version>
+    <curl.version>7.68.0-1ubuntu2.10</curl.version>
     <zip.version>3.0-11build1</zip.version>
     <unzip.version>6.0-25ubuntu1</unzip.version>
     <libturbojpeg.version>2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
