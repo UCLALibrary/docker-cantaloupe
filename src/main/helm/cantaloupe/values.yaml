@@ -1,0 +1,115 @@
+# Default values for cantaloupe.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: uclalibrary/cantaloupe
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+cantaloupe:
+  port: 8182
+  env:
+    CANTALOUPE_ENDPOINT_ADMIN_ENABLED: "true"
+    CANTALOUPE_CACHE_SERVER_DERIVATIVE_ENABLED: "true"
+    CANTALOUPE_CACHE_SERVER_DERIVATIVE: "S3Cache"
+    CANTALOUPE_CACHE_SERVER_DERIVATIVE_TTL_SECONDS: "0"
+    CANTALOUPE_CACHE_SERVER_PURGE_MISSING: "true"
+    CANTALOUPE_PROCESSOR_SELECTION_STRATEGY: "ManualSelectionStrategy"
+    #CANTALOUPE_MANUAL_PROCESSOR_JP2: "KakaduNativeProcessor"
+    CANTALOUPE_MANUAL_PROCESSOR_JP2: "GrokProcessor"
+    #CANTALOUPE_S3CACHE_ENDPOINT: "s3.us-west-2.amazonaws.com"
+    #CANTALOUPE_S3SOURCE_ENDPOINT: "s3.us-west-2.amazonaws.com"
+    CANTALOUPE_S3SOURCE_REGION: "us-west-2"
+    CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_PATH_SUFFIX: ".jpx"
+    CANTALOUPE_SOURCE_STATIC: "S3Source"
+    CANTALOUPE_CACHE_SERVER_RESOLVE_FIRST: "true"
+    CANTALOUPE_ENDPOINT_API_ENABLED: "true"
+    HEAP_SIZE: "2g"
+    CANTALOUPE_MAX_PIXELS: "350000000"
+    CANTALOUPE_S3SOURCE_CHUNKING_ENABLED: "false"
+    CANTALOUPE_S3SOURCE_CHUNKING_CACHE_ENABLED: "false"
+    JAVA_OPTS: "-XX:ActiveProcessorCount=2"
+  envSecrets:
+    CANTALOUPE_ENDPOINT_ADMIN_SECRET: "cantaloupe-secrets"
+    CANTALOUPE_S3CACHE_ACCESS_KEY_ID: "cantaloupe-secrets"
+    CANTALOUPE_S3CACHE_SECRET_KEY: "cantaloupe-secrets"
+    CANTALOUPE_S3SOURCE_ACCESS_KEY_ID: "cantaloupe-secrets"
+    CANTALOUPE_S3SOURCE_SECRET_KEY: "cantaloupe-secrets"
+    CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME: "cantaloupe-secrets"
+    CANTALOUPE_S3CACHE_BUCKET_NAME: "cantaloupe-secrets"
+    CANTALOUPE_ENDPOINT_API_USERNAME: "cantaloupe-secrets"
+    CANTALOUPE_ENDPOINT_API_SECRET: "cantaloupe-secrets"
