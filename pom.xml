@@ -128,6 +128,11 @@
 
     <!-- Override this to set the admin UI password when running in test mode -->
     <admin.password></admin.password>
+
+    <!-- Helm Maven Plugin -->
+    <helm.maven.plugin.version>2.10.0</helm.maven.plugin.version>
+    <helm.version>3.8.0</helm.version>
+
   </properties>
 
   <dependencies>
@@ -376,6 +381,31 @@
             </validationSet>
           </validationSets>
         </configuration>
+      </plugin>
+
+      <!-- Integrate Helm Maven Plugin -->
+      <plugin>
+        <groupId>com.deviceinsight.helm</groupId>
+        <artifactId>helm-maven-plugin</artifactId>
+        <version>${helm.maven.plugin.version}</version>
+        <configuration>
+          <chartName>cantaloupe</chartName>
+          <chartRepoUrl>https://chartmuseum.library.ucla.edu</chartRepoUrl>
+          <chartRepoUsername>cmuser</chartRepoUsername>
+          <chartRepoPassword>test123</chartRepoPassword>
+          <helmVersion>3.8.0</helmVersion>
+          <strictLint>true</strictLint>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>package</goal>
+              <goal>lint</goal>
+              <goal>template</goal>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
