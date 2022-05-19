@@ -1,0 +1,23 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: services-dockerhub
+  namespace: test-cantaloupe
+  annotations:
+    helm.sh/hook: pre-install
+spec:
+  refreshInterval: 10m
+  secretStoreRef:
+    name: services-ss
+    kind: SecretStore
+  target:
+    name: services-dockerhub
+    template:
+      type: kubernetes.io/dockerconfigjson
+      engineVersion: v2
+      data:
+        .dockerconfigjson: "{{ `{{ .creds }}` }}"
+  data:
+  - secretKey: creds
+    remoteRef:
+      key: /services/prodeks/services-dockerhub-creds

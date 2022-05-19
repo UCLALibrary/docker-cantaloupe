@@ -1,0 +1,42 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: test-cantaloupe
+  namespace: test-cantaloupe
+  annotations:
+    helm.sh/hook: pre-install
+spec:
+  refreshInterval: 10m
+  secretStoreRef:
+    name: services-ss
+    kind: SecretStore
+  target:
+    name: test-cantaloupe-secrets
+  data:
+  - secretKey: CANTALOUPE_ENDPOINT_ADMIN_SECRET
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_endpoint_admin_secret
+  - secretKey: CANTALOUPE_S3CACHE_ACCESS_KEY_ID
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_s3cache_access_key_id
+  - secretKey: CANTALOUPE_S3CACHE_SECRET_KEY
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_s3cache_secret_key
+  - secretKey: CANTALOUPE_S3SOURCE_ACCESS_KEY_ID
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_s3source_access_key_id
+  - secretKey: CANTALOUPE_S3SOURCE_SECRET_KEY
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_s3source_secret_key
+  - secretKey: CANTALOUPE_S3CACHE_BUCKET_NAME
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_s3cache_bucket_name
+  - secretKey: CANTALOUPE_ENDPOINT_API_USERNAME
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_endpoint_api_username
+  - secretKey: CANTALOUPE_ENDPOINT_API_SECRET
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_endpoint_api_secret
+  - secretKey: CANTALOUPE_S3SOURCE_BASICLOOKUPSTRATEGY_BUCKET_NAME
+    remoteRef:
+      key: /services/prodeks/test-cantaloupe/cantaloupe_s3source_basiclookupstrategy_bucket_name
