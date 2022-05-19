@@ -3,8 +3,6 @@ kind: ExternalSecret
 metadata:
   name: test-cantaloupe
   namespace: test-cantaloupe
-  annotations:
-    helm.sh/hook: pre-install
 spec:
   refreshInterval: 10m
   secretStoreRef:
