@@ -50,7 +50,7 @@ jobs:
             -Drevision=nightly
             -Dcantaloupe.version=dev
             -Dcantaloupe.commit.ref=latest
-            -Dcantaloupe.patchfile=auth-http-401.patch
+            -Dcantaloupe.patchfiles.dir=${{ secrets.PATCHFILES_DIR }}
             -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
             -DskipNexusStagingDeployMojo=true

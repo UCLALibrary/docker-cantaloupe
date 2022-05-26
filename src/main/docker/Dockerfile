@@ -27,7 +27,7 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       fi && \
       \
       # We can also supply a patchfile as a defense against a broken upstream
-      if [ -n "${cantaloupe.patchfile}" ] ; then \
+      if [ -n "${cantaloupe.patchfiles.dir}" ] ; then \
         if [ -f "/build/cantaloupe-patches/${cantaloupe.patchfile}" ] ; then \
           git apply "/build/cantaloupe-patches/${cantaloupe.patchfile}" ; \
         else \
