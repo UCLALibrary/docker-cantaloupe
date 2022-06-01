@@ -75,16 +75,16 @@
     <!-- Docker container dependency versions -->
     <!-- https://packages.ubuntu.com/search?keywords=search -->
     <ubuntu.tag>20.04</ubuntu.tag>
-    <openjdk.version>11.0.14.1+1-0ubuntu1~20.04</openjdk.version>
+    <openjdk.version>11.0.15+10-0ubuntu0.20.04.1</openjdk.version>
     <gcc.version>4:9.3.0-1ubuntu2</gcc.version>
     <make.version>4.2.1-1.2</make.version>
-    <libtiff.version>4.1.0+git191117-2ubuntu0.20.04.2</libtiff.version>
+    <libtiff.version>4.1.0+git191117-2ubuntu0.20.04.3</libtiff.version>
     <build.essential.version>12.8ubuntu1.1</build.essential.version>
     <libopenjp2.version>2.3.1-1ubuntu4.20.04.1</libopenjp2.version>
     <libturbojpeg.version>2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
     <unzip.version>6.0-25ubuntu1</unzip.version>
     <zip.version>3.0-11build1</zip.version>
-    <curl.version>7.68.0-1ubuntu2.7</curl.version>
+    <curl.version>7.68.0-1ubuntu2.11</curl.version>
     <ffmpeg.version>7:4.2.4-1ubuntu0.1</ffmpeg.version>
     <python2.version>2.7.17-2ubuntu4</python2.version>
     <grok.version>9.1.0</grok.version>
