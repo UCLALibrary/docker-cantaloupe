@@ -16,7 +16,8 @@ ENV JAI_IMAGEIO_VERSION="1.1"
 ENV JAI_REPO="https://nexus.geomatys.com/repository/geotoolkit/javax/media"
 
 WORKDIR /build/cantaloupe
-COPY patches /build/cantaloupe-patches
+COPY ${cantaloupe.patchfiles.dir} /build/cantaloupe-patches
+RUN ls /build/cantaloupe-patches/**.patch
 RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       git clone --quiet https://github.com/cantaloupe-project/cantaloupe.git . && \
       \
@@ -28,10 +29,10 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       \
       # We can also supply a patchfile as a defense against a broken upstream
       if [ -n "${cantaloupe.patchfiles.dir}" ] ; then \
-        if [ -f "/build/cantaloupe-patches/${cantaloupe.patchfile}" ] ; then \
-          git apply "/build/cantaloupe-patches/${cantaloupe.patchfile}" ; \
+        if [ $(ls -la /build/cantaloupe-patches/**.patch | wc -l) -gt 0 ] ; then \
+          git apply $(ls /build/cantaloupe-patches/**.patch) ; \
         else \
-          echo "Warning: could not find patchfile \"${cantaloupe.patchfile}\"" ; \
+          echo "Warning: could not find patchfiles in \"${cantaloupe.patchfiles.dir}\"" ; \
         fi ; \
       fi && \
       \
