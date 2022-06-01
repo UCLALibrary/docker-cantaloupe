@@ -17,7 +17,6 @@ ENV JAI_REPO="https://nexus.geomatys.com/repository/geotoolkit/javax/media"
 
 WORKDIR /build/cantaloupe
 COPY ${cantaloupe.patchfiles.dir} /build/cantaloupe-patches
-RUN ls /build/cantaloupe-patches/**.patch
 RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       git clone --quiet https://github.com/cantaloupe-project/cantaloupe.git . && \
       \
