@@ -25,9 +25,9 @@ To build an older version of Cantaloupe, you can specify a commit hash:
 
     mvn verify -Dcantaloupe.version=dev -Dcantaloupe.commit.ref=fff5425
 
-To apply your own patches to the Cantaloupe source, create patchfiles with a Git diff, put them in a directory of your choosing, and then use the following (where `src/main/docker/patches` is the directory that contains the patchfiles to be applied):
+To apply your own patches to the Cantaloupe source, create patchfiles with a Git diff, put them into the directory `src/main/docker/patches`:
 
-    mvn verify -Dcantaloupe.version=dev -Dcantaloupe.patchfiles.dir=src/main/docker/patches
+    mvn verify -Dcantaloupe.version=dev -Dcantaloupe.apply.patchfiles=true
 
 Patching an older version of Cantaloupe is possible as well.
 
