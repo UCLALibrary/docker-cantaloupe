@@ -17,7 +17,7 @@ ENV JAI_REPO="https://nexus.geomatys.com/repository/geotoolkit/javax/media"
 
 WORKDIR /build/cantaloupe
 COPY patches /build/cantaloupe-patches
-RUN if [ ${cantaloupe.version} = "dev" ] ; then \
+RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       git clone --quiet https://github.com/cantaloupe-project/cantaloupe.git . && \
       \
       # We can supply a particular commit ref as a defense against a broken upstream
