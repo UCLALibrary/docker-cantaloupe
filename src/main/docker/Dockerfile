@@ -31,7 +31,7 @@ RUN if [ ${cantaloupe.version} = "dev" ] ; then \
         if [ $(ls -la /build/cantaloupe-patches/**.patch | wc -l) -gt 0 ] ; then \
           git apply $(ls /build/cantaloupe-patches/**.patch | xargs) ; \
         else \
-          echo "Warning: could not find patchfiles in \"${cantaloupe.patchfiles.dir}\"" ; \
+          echo "Warning: could not find any patchfiles" ; \
         fi ; \
       fi && \
       \
