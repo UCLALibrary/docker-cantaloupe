@@ -17,7 +17,7 @@ ENV JAI_REPO="https://nexus.geomatys.com/repository/geotoolkit/javax/media"
 
 WORKDIR /build/cantaloupe
 COPY patches /build/cantaloupe-patches
-RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
+RUN if [ ${cantaloupe.version} = "dev" ] ; then \
       git clone --quiet https://github.com/cantaloupe-project/cantaloupe.git . && \
       \
       # We can supply a particular commit ref as a defense against a broken upstream
@@ -27,9 +27,9 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       fi && \
       \
       # We can also supply a patchfile as a defense against a broken upstream
-      if [ -n "${cantaloupe.patchfiles.dir}" ] ; then \
+      if ${cantaloupe.apply.patchfiles} ; then \
         if [ $(ls -la /build/cantaloupe-patches/**.patch | wc -l) -gt 0 ] ; then \
-          git apply $(ls /build/cantaloupe-patches/**.patch) ; \
+          git apply $(ls /build/cantaloupe-patches/**.patch | xargs) ; \
         else \
           echo "Warning: could not find patchfiles in \"${cantaloupe.patchfiles.dir}\"" ; \
         fi ; \
