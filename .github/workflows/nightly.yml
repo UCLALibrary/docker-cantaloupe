@@ -49,6 +49,5 @@ jobs:
           maven_args: >
             -Drevision=nightly
             -Dcantaloupe.version=dev
-            -Dcantaloupe.commit.ref=latest
+            -Dcantaloupe.commit.ref=${{ secrets.DEV_COMMIT_REF }}
             -Dcantaloupe.patchfiles.dir=${{ secrets.PATCHFILES_DIR }}
-            -Dcantaloupe.patchfile=issue-555-v5.0.5.patch
