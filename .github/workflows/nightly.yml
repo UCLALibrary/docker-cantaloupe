@@ -50,4 +50,4 @@ jobs:
             -Drevision=nightly
             -Dcantaloupe.version=dev
             -Dcantaloupe.commit.ref=${{ secrets.DEV_COMMIT_REF }}
-            -Dcantaloupe.patchfiles.dir=${{ secrets.PATCHFILES_DIR }}
+            -Dcantaloupe.apply.patchfiles=${{ secrets.APPLY_PATCHFILES }}
