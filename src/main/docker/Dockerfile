@@ -27,11 +27,11 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       fi && \
       \
       # We can also supply a patchfile as a defense against a broken upstream
-      if [ -n "${cantaloupe.patchfile}" ] ; then \
-        if [ -f "/build/cantaloupe-patches/${cantaloupe.patchfile}" ] ; then \
-          git apply "/build/cantaloupe-patches/${cantaloupe.patchfile}" ; \
+      if ${cantaloupe.apply.patchfiles} ; then \
+        if [ $(ls -la /build/cantaloupe-patches/**.patch | wc -l) -gt 0 ] ; then \
+          git apply $(ls /build/cantaloupe-patches/**.patch | xargs) ; \
         else \
-          echo "Warning: could not find patchfile \"${cantaloupe.patchfile}\"" ; \
+          echo "Warning: could not find any patchfiles" ; \
         fi ; \
       fi && \
       \

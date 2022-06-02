@@ -64,9 +64,9 @@
 
   <properties>
     <!-- What versions of Cantaloupe and Kakadu are we using? -->
-    <cantaloupe.version>5.0.4</cantaloupe.version>
+    <cantaloupe.version>5.0.5</cantaloupe.version>
     <cantaloupe.commit.ref></cantaloupe.commit.ref>
-    <cantaloupe.patchfile></cantaloupe.patchfile>
+    <cantaloupe.apply.patchfiles>false</cantaloupe.apply.patchfiles>
     <kakadu.version></kakadu.version>
 
     <!-- Git repo with Kakadu source code (ours is private; override with yours) -->
@@ -77,16 +77,16 @@
     <ubuntu.tag>20.04</ubuntu.tag>
     <openjdk.version>11.0.15+10-0ubuntu0.20.04.1</openjdk.version>
     <gcc.version>4:9.3.0-1ubuntu2</gcc.version>
-    <python2.version>2.7.17-2ubuntu4</python2.version>
-    <ffmpeg.version>7:4.2.4-1ubuntu0.1</ffmpeg.version>
-    <curl.version>7.68.0-1ubuntu2.10</curl.version>
-    <zip.version>3.0-11build1</zip.version>
-    <unzip.version>6.0-25ubuntu1</unzip.version>
-    <libturbojpeg.version>2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
-    <libopenjp2.version>2.3.1-1ubuntu4.20.04.1</libopenjp2.version>
-    <libtiff.version>4.1.0+git191117-2ubuntu0.20.04.2</libtiff.version>
     <make.version>4.2.1-1.2</make.version>
+    <libtiff.version>4.1.0+git191117-2ubuntu0.20.04.3</libtiff.version>
     <build.essential.version>12.8ubuntu1.1</build.essential.version>
+    <libopenjp2.version>2.3.1-1ubuntu4.20.04.1</libopenjp2.version>
+    <libturbojpeg.version>2.0.3-0ubuntu1.20.04.1</libturbojpeg.version>
+    <unzip.version>6.0-25ubuntu1</unzip.version>
+    <zip.version>3.0-11build1</zip.version>
+    <curl.version>7.68.0-1ubuntu2.11</curl.version>
+    <ffmpeg.version>7:4.2.4-1ubuntu0.1</ffmpeg.version>
+    <python2.version>2.7.17-2ubuntu4</python2.version>
     <grok.version>9.1.0</grok.version>
 
     <!-- Java dependency versions -->
@@ -523,6 +523,7 @@
         </property>
       </activation>
       <properties>
+        <!-- This can be overridden from the command line -->
         <artifact.qualifier>-ucla</artifact.qualifier>
       </properties>
       <build>
@@ -608,7 +609,7 @@
   <parent>
     <groupId>info.freelibrary</groupId>
     <artifactId>freelib-parent</artifactId>
-    <version>7.1.2</version>
+    <version>7.2.2</version>
   </parent>
 
 </project>
