@@ -1,0 +1,138 @@
+diff --git a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
+index 20181b298..364f94e96 100644
+--- a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
++++ b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
+@@ -364,6 +364,9 @@ public abstract class AbstractResource {
+             if (code == 401) {
+                 getResponse().setHeader("WWW-Authenticate",
+                         info.getChallengeValue());
++                if (getRequestContext().getLocalURI().getPath().endsWith("info.json")) {
++                    return true;
++                }
+             }
+             throw new ResourceException(new Status(code));
+         }
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageAPIResourceTester.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageAPIResourceTester.java
+index ef04a9365..236d17ced 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageAPIResourceTester.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageAPIResourceTester.java
+@@ -51,7 +51,7 @@ public class ImageAPIResourceTester {
+         assertStatus(200, uri);
+     }
+ 
+-    public void testAuthorizationWhenUnauthorized(URI uri) {
++    public void testAuthorizationWhenUnauthorized(URI uri, String endpointPath) {
+         // This may vary depending on the return value of a delegate method,
+         // but the way the tests are set up, it's 401.
+         assertStatus(401, uri);
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/InformationResourceTester.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/InformationResourceTester.java
+index 9d3928dcf..effdd5ca7 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/InformationResourceTester.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/InformationResourceTester.java
+@@ -10,6 +10,7 @@ import edu.illinois.library.cantaloupe.http.ResourceException;
+ import edu.illinois.library.cantaloupe.http.Response;
+ import edu.illinois.library.cantaloupe.image.Identifier;
+ import edu.illinois.library.cantaloupe.resource.AbstractResource;
++import edu.illinois.library.cantaloupe.resource.Route;
+ import edu.illinois.library.cantaloupe.test.TestUtil;
+ 
+ import java.io.File;
+@@ -27,6 +28,20 @@ import static org.junit.jupiter.api.Assertions.*;
+  */
+ public class InformationResourceTester extends ImageAPIResourceTester {
+ 
++    @Override
++    public void testAuthorizationWhenUnauthorized(URI uri, String endpointPath) {
++        final String requiredJsonLdContent;
++
++        if (endpointPath.equals(Route.IIIF_1_PATH)) {
++            requiredJsonLdContent = "\"@context\":\"http://library.stanford.edu/iiif/image-api/1.1/context.json\"";
++        } else {
++            requiredJsonLdContent = "\"protocol\":\"http://iiif.io/api/image\"";
++        }
++
++        assertStatus(401, uri);
++        assertRepresentationContains(requiredJsonLdContent, uri);
++    }
++
+     public void testCacheWithDerivativeCacheEnabledAndInfoCacheEnabledAndResolveFirstEnabled(
+             URI uri, Path sourceFile) throws Exception {
+         final Path cacheDir = initializeFilesystemCache();
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/ImageResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/ImageResourceTest.java
+index 40eb7924d..aa7f7b100 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/ImageResourceTest.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/ImageResourceTest.java
+@@ -47,7 +47,7 @@ public class ImageResourceTest extends ResourceTest {
+     @Test
+     void testGETAuthorizationWhenUnauthorized() {
+         URI uri = getHTTPURI("/unauthorized.jpg/full/full/0/color.jpg");
+-        tester.testAuthorizationWhenUnauthorized(uri);
++        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
+     }
+ 
+     @Test
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/InformationResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/InformationResourceTest.java
+index a37df660a..d6675a2f9 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/InformationResourceTest.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/InformationResourceTest.java
+@@ -51,7 +51,7 @@ public class InformationResourceTest extends ResourceTest {
+     @Test
+     void testGETAuthorizationWhenUnauthorized() {
+         URI uri = getHTTPURI("/unauthorized.jpg/info.json");
+-        tester.testAuthorizationWhenUnauthorized(uri);
++        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
+     }
+ 
+     @Test
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/ImageResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/ImageResourceTest.java
+index d2f6008ea..0478df5a2 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/ImageResourceTest.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/ImageResourceTest.java
+@@ -47,7 +47,7 @@ public class ImageResourceTest extends ResourceTest {
+     @Test
+     void testGETAuthorizationWhenUnauthorized() {
+         URI uri = getHTTPURI("/unauthorized.jpg/full/full/0/color.jpg");
+-        tester.testAuthorizationWhenUnauthorized(uri);
++        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
+     }
+ 
+     @Test
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/InformationResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/InformationResourceTest.java
+index c8f879830..8a922528e 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/InformationResourceTest.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/InformationResourceTest.java
+@@ -51,7 +51,7 @@ public class InformationResourceTest extends ResourceTest {
+     @Test
+     void testGETAuthorizationWhenUnauthorized() {
+         URI uri = getHTTPURI("/unauthorized.jpg/info.json");
+-        tester.testAuthorizationWhenUnauthorized(uri);
++        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
+     }
+ 
+     @Test
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/ImageResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/ImageResourceTest.java
+index 2b834f61b..551ae202d 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/ImageResourceTest.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/ImageResourceTest.java
+@@ -45,7 +45,7 @@ public class ImageResourceTest extends ResourceTest {
+     @Test
+     void testGETAuthorizationWhenUnauthorized() {
+         URI uri = getHTTPURI("/unauthorized.jpg/full/max/0/color.jpg");
+-        tester.testAuthorizationWhenUnauthorized(uri);
++        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
+     }
+ 
+     @Test
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/InformationResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/InformationResourceTest.java
+index e3bfc5d53..4194922ba 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/InformationResourceTest.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/InformationResourceTest.java
+@@ -51,7 +51,7 @@ public class InformationResourceTest extends ResourceTest {
+     @Test
+     void testGETAuthorizationWhenUnauthorized() {
+         URI uri = getHTTPURI("/unauthorized.jpg/info.json");
+-        tester.testAuthorizationWhenUnauthorized(uri);
++        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
+     }
+ 
+     @Test
