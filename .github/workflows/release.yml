@@ -38,7 +38,7 @@ jobs:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
       - name: Release with Maven (Public)
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
-        if: env.ARTIFACT_QUALIFIER != "-ucla"
+        if: env.ARTIFACT_QUALIFIER != '-ucla'
         with:
           gpg_private_key: ${{ secrets.BUILD_KEY }}
           gpg_passphrase: ${{ secrets.BUILD_PASSPHRASE }}
@@ -56,7 +56,7 @@ jobs:
       # Temporary divergence of our build so we can add some IIIF Auth related patches
       - name: Release with Maven (UCLA)
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
-        if: env.ARTIFACT_QUALIFIER == "-ucla"
+        if: env.ARTIFACT_QUALIFIER == '-ucla'
         with:
           gpg_private_key: ${{ secrets.BUILD_KEY }}
           gpg_passphrase: ${{ secrets.BUILD_PASSPHRASE }}
