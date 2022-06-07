@@ -101,6 +101,9 @@ cantaloupe:
       CANTALOUPE_S3SOURCE_CHUNKING_ENABLED: "false"
       CANTALOUPE_S3SOURCE_CHUNKING_CACHE_ENABLED: "false"
       JAVA_OPTS: "-XX:ActiveProcessorCount=2"
+      CANTALOUPE_DELEGATE_SCRIPT_ENABLED: "true"
+      CANTALOUPE_DELEGATE_SCRIPT_PATHNAME: "/usr/local/cantaloupe/delegate.jar"
+      DELEGATE_URL: "http://build-artifacts.library.ucla.edu/cantaloupe-delegate/cantaloupe-auth-delegate-0.0.2.jar"
     envSecrets:
       CANTALOUPE_ENDPOINT_ADMIN_SECRET: "test-cantaloupe-secrets"
       CANTALOUPE_S3CACHE_ACCESS_KEY_ID: "test-cantaloupe-secrets"
