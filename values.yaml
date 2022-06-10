@@ -109,8 +109,8 @@ cantaloupe:
       AUTH_TOKEN_SERVICE: "https://test.auth.iiif.library.ucla.edu/token"
       AUTH_COOKIE_SERVICE_LABEL: "UCLA Library"
       TIERED_ACCESS_SCALE_CONSTRAINT: "1:2"
-        #SINAI_AUTH_COOKIE_SERVICE_LABEL: "Sinai Palimpsests at UCLA Library"
-        #SINAI_AUTH_TOKEN_SERVICE: "https://test.auth.iiif.library.ucla.edu/token/sinai"
+      SINAI_AUTH_COOKIE_SERVICE_LABEL: "Sinai Palimpsests at UCLA Library"
+      SINAI_AUTH_TOKEN_SERVICE: "https://test.auth.iiif.library.ucla.edu/token/sinai"
     envSecrets:
       CANTALOUPE_ENDPOINT_ADMIN_SECRET: "test-cantaloupe-secrets"
       CANTALOUPE_S3CACHE_ACCESS_KEY_ID: "test-cantaloupe-secrets"
