@@ -103,7 +103,7 @@ cantaloupe:
       JAVA_OPTS: "-XX:ActiveProcessorCount=2"
       CANTALOUPE_DELEGATE_SCRIPT_ENABLED: "true"
       CANTALOUPE_DELEGATE_SCRIPT_PATHNAME: "/usr/local/cantaloupe/delegate.jar"
-      DELEGATE_URL: "http://build-artifacts.library.ucla.edu/cantaloupe-delegate/cantaloupe-auth-delegate-0.0.2.jar"
+      DELEGATE_URL: "http://build-artifacts.library.ucla.edu/cantaloupe-delegate/cantaloupe-auth-delegate-0.0.4.jar"
       AUTH_ACCESS_SERVICE: "https://test.auth.iiif.library.ucla.edu/access"
       AUTH_COOKIE_SERVICE: "https://test.auth.iiif.library.ucla.edu/cookie"
       AUTH_TOKEN_SERVICE: "https://test.auth.iiif.library.ucla.edu/token"
