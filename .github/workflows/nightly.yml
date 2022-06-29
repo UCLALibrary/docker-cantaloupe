@@ -51,3 +51,10 @@ jobs:
             -Dcantaloupe.version=dev
             -Dcantaloupe.commit.ref=${{ secrets.DEV_COMMIT_REF }}
             -Dcantaloupe.apply.patchfiles=${{ secrets.APPLY_PATCHFILES }}
+            -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
+            -DskipNexusStagingDeployMojo=true
+            -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
+            -Ddocker.image=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}cantaloupe${{ env.ARTIFACT_QUALIFIER }}:nightly
+            -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
+            -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
+            -Ddocker.registry.password=${{ secrets.DOCKER_PASSWORD }}
