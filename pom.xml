@@ -78,7 +78,7 @@
     <openjdk.version>11.0.17+8-1ubuntu2~20.04</openjdk.version>
     <gcc.version>4:9.3.0-1ubuntu2</gcc.version>
     <make.version>4.2.1-1.2</make.version>
-    <libtiff.version>4.1.0+git191117-2ubuntu0.20.04.6</libtiff.version>
+    <libtiff.version>4.1.0+git191117-2ubuntu0.20.04.7</libtiff.version>
     <build.essential.version>12.8ubuntu1.1</build.essential.version>
     <libopenjp2.version>2.3.1-1ubuntu4.20.04.1</libopenjp2.version>
     <libturbojpeg.version>2.0.3-0ubuntu1.20.04.3</libturbojpeg.version>
@@ -609,7 +609,7 @@
   <parent>
     <groupId>info.freelibrary</groupId>
     <artifactId>freelib-parent</artifactId>
-    <version>7.2.2</version>
+    <version>8.0.0</version>
   </parent>
 
 </project>
