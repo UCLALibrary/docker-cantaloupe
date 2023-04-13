@@ -1,0 +1,53 @@
+diff --git a/src/main/java/edu/illinois/library/cantaloupe/image/Metadata.java b/src/main/java/edu/illinois/library/cantaloupe/image/Metadata.java
+index c4e2d413a..2c7d54ddb 100644
+--- a/src/main/java/edu/illinois/library/cantaloupe/image/Metadata.java
++++ b/src/main/java/edu/illinois/library/cantaloupe/image/Metadata.java
+@@ -5,7 +5,9 @@
+ import com.fasterxml.jackson.annotation.JsonInclude;
+ import com.fasterxml.jackson.annotation.JsonProperty;
+ import edu.illinois.library.cantaloupe.Application;
++import edu.illinois.library.cantaloupe.image.exif.DataType;
+ import edu.illinois.library.cantaloupe.image.exif.Directory;
++import edu.illinois.library.cantaloupe.image.exif.Field;
+ import edu.illinois.library.cantaloupe.image.exif.Tag;
+ import edu.illinois.library.cantaloupe.image.iptc.DataSet;
+ import edu.illinois.library.cantaloupe.util.StringUtils;
+@@ -152,9 +154,17 @@ public Orientation getOrientation() {
+     }
+ 
+     private void readOrientationFromEXIF() {
++        Field field = exif.getField(Tag.ORIENTATION);
+         Object value = exif.getValue(Tag.ORIENTATION);
+-        if (value != null) {
+-            orientation = Orientation.forEXIFOrientation((int) value);
++        if (field != null && value != null) {
++            switch (field.getDataType()) {
++              case LONG:
++                orientation = Orientation.forEXIFOrientation(Math.toIntExact((long) value));
++                break;
++              case SHORT:
++                orientation = Orientation.forEXIFOrientation((int) value);
++                break;
++            }
+         }
+     }
+ 
+diff --git a/src/main/java/edu/illinois/library/cantaloupe/image/exif/Directory.java b/src/main/java/edu/illinois/library/cantaloupe/image/exif/Directory.java
+index c421ae259..193397d44 100644
+--- a/src/main/java/edu/illinois/library/cantaloupe/image/exif/Directory.java
++++ b/src/main/java/edu/illinois/library/cantaloupe/image/exif/Directory.java
+@@ -170,6 +170,14 @@ public Object getValue(Tag tag) {
+                 .orElse(null);
+     }
+ 
++    public Field getField(Tag tag) {
++        return fields.keySet()
++                .stream()
++                .filter(f -> f.getTag().equals(tag))
++                .findFirst()
++                .orElse(null);
++    }
++
+     @Override
+     public int hashCode() {
+         final Map<Integer,Integer> codes = new HashMap<>();

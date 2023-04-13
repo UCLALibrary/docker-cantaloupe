@@ -1,0 +1,15 @@
+diff --git a/src/main/java/edu/illinois/library/cantaloupe/image/exif/Reader.java b/src/main/java/edu/illinois/library/cantaloupe/image/exif/Reader.java
+index bc4261823..bafbc4084 100644
+--- a/src/main/java/edu/illinois/library/cantaloupe/image/exif/Reader.java
++++ b/src/main/java/edu/illinois/library/cantaloupe/image/exif/Reader.java
+@@ -157,6 +157,10 @@ private byte[] readBytes(int length) throws IOException {
+         byte[] data = new byte[length];
+         int n, offset = 0;
+         while ((n = inputStream.read(data, offset, data.length - offset)) < offset) {
++            if (n == -1) {
++                LOGGER.trace("readBytes(): No more data to read");
++                break;
++            }
+             offset += n;
+         }
+         return data;
