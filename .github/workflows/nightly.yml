@@ -40,6 +40,13 @@ jobs:
         uses: webfactory/ssh-agent@a6f90b1f127823b31d4d4a8d96047790581349bd # v0.9.1
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
+
       - name: Release with Maven
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
         with:
@@ -58,4 +65,5 @@ jobs:
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
             -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
             -Ddocker.registry.password=${{ secrets.DOCKER_PASSWORD }}
+            -Ddocker.platforms=linux/amd64,linux/arm64
             -Ddocker.noCache

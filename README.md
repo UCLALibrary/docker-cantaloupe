@@ -31,6 +31,10 @@ To apply your own patches to the Cantaloupe source, create patchfiles with a Git
 
 Patching an older version of Cantaloupe is possible as well.
 
+To use Docker BuildKit (i.e., buildx), supply the list of architectures to build:
+
+    mvn verify -Ddocker.platforms=linux/amd64,linux/arm64
+
 _Hint: If you want to run a build without a Docker cache, add `-Ddocker.noCache` to your mvn command; for instance: `mvn verify -Ddocker.noCache`_
 
 ### Run the Cantaloupe container
@@ -125,6 +129,8 @@ and
     mvn docker:stop -Dkakadu.version=v7_A_7-01903E
 
 You do not need to supply the `kakadu.git.repo` argument when just starting or stopping your previously built Kakadu-enabled containers. That's only needed at the point of building them.
+
+Also note: the Kakadu build only currently works with Linux x86_64 builds. We may add support for other platforms when we upgrade our Kakadu version.
 
 ### Deploying with Kubernetes
 
