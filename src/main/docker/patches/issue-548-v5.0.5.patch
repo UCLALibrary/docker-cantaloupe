@@ -25,7 +25,7 @@ index c4e2d413a..2c7d54ddb 100644
 +              case LONG:
 +                orientation = Orientation.forEXIFOrientation(Math.toIntExact((long) value));
 +                break;
-+              case SHORT:
++              default:
 +                orientation = Orientation.forEXIFOrientation((int) value);
 +                break;
 +            }
