@@ -17,7 +17,3 @@ src/test/resources/images/*.gif
 
 # We ignore Maven's build directory
 target/
-
-# IntelliJ files
-.idea
-*.iml
