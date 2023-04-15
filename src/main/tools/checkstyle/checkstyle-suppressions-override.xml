@@ -7,4 +7,5 @@
   <suppress files="src[\\/]main[\\/]generated[\\/]" checks="."/>
   <suppress files="target[\\/]" checks="."/>
   <suppress files="src[\\/]main[\\/]docker[\\/]kakadu[\\/]" checks="."/>
+  <suppress files=".idea[\\/]" checks="."/>
 </suppressions>
