@@ -75,7 +75,7 @@
     <!-- Docker container dependency versions -->
     <!-- https://packages.ubuntu.com/search?keywords=search -->
     <ubuntu.tag>20.04</ubuntu.tag>
-    <openjdk.version>11.0.18+10-0ubuntu1~20.04.1</openjdk.version>
+    <openjdk.version>11.0.19+7~us1-0ubuntu1~20.04.1</openjdk.version>
     <gcc.version>4:9.3.0-1ubuntu2</gcc.version>
     <make.version>4.2.1-1.2</make.version>
     <libtiff.version>4.1.0+git191117-2ubuntu0.20.04.8</libtiff.version>
