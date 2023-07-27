@@ -84,7 +84,7 @@
     <libturbojpeg.version>2.0.3-0ubuntu1.20.04.3</libturbojpeg.version>
     <unzip.version>6.0-25ubuntu1.1</unzip.version>
     <zip.version>3.0-11build1</zip.version>
-    <curl.version>7.68.0-1ubuntu2.18</curl.version>
+    <curl.version>7.68.0-1ubuntu2.19</curl.version>
     <ffmpeg.version>7:4.2.7-0ubuntu0.1</ffmpeg.version>
     <python2.version>2.7.17-2ubuntu4</python2.version>
     <grok.version>9.1.0</grok.version>
