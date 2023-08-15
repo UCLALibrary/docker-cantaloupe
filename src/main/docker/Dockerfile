@@ -89,7 +89,7 @@ RUN if [ ! -z "${kakadu.version}" ]; then \
 FROM ubuntu:${ubuntu.tag}
 
 # The location of the Cantaloupe config file
-ENV CONFIG_FILE="/etc/cantaloupe.properties"
+ENV CONFIG_FILE="/etc/cantaloupe/cantaloupe.properties"
 
 # We're using a percentage of available RAM
 ENV HEAP_PERCENTAGE="80"
@@ -160,16 +160,16 @@ RUN if [ -z "${kakadu.version}" ]; then \
 
 # Set up our config file (and config file override) components
 COPY docker-entrypoint.sh /usr/local/bin/
-COPY "configs/cantaloupe.properties.tmpl-${cantaloupe.version}" /etc/cantaloupe.properties.tmpl
-COPY "configs/cantaloupe.properties.default-${cantaloupe.version}" /etc/cantaloupe.properties.default
+COPY "configs/cantaloupe.properties.tmpl-${cantaloupe.version}" /etc/cantaloupe/cantaloupe.properties.tmpl
+COPY "configs/cantaloupe.properties.default-${cantaloupe.version}" /etc/cantaloupe/cantaloupe.properties.default
 
 # Set up a script to run Cantaloupe
 COPY --chown=cantaloupe:users scripts/run_cantaloupe.sh /usr/local/bin/
 
+# Set up application's sytem directories
 RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe && \
-    touch "$CONFIG_FILE" && \
-    chown -R cantaloupe -L /var/log/cantaloupe /var/cache/cantaloupe "$CONFIG_FILE" \
-      /usr/local/bin/docker-entrypoint.sh /usr/local/cantaloupe/
+    chown -R cantaloupe:users /var/log/cantaloupe /var/cache/cantaloupe /etc/cantaloupe /usr/local/cantaloupe/ \
+      /usr/local/bin/docker-entrypoint.sh
 
 # Install grok JPEG-2000 library and tools
 WORKDIR /tmp
