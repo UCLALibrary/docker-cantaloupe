@@ -88,9 +88,6 @@ RUN if [ ! -z "${kakadu.version}" ]; then \
 # The third and final stage of our multi-stage build pulls all the pieces together
 FROM ubuntu:${ubuntu.tag}
 
-# The location of the Cantaloupe config file
-ENV CONFIG_FILE="/etc/cantaloupe/cantaloupe.properties"
-
 # We're using a percentage of available RAM
 ENV HEAP_PERCENTAGE="80"
 
