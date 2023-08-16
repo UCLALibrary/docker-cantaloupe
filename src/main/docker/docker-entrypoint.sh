@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 # Define locations of our container's property values
-PROPERTIES=/etc/cantaloupe.properties
-PROPERTIES_TMPL=/etc/cantaloupe.properties.tmpl
-PROPERTIES_DEFAULT=/etc/cantaloupe.properties.default
+PROPERTIES_TMPL=/etc/cantaloupe/cantaloupe.properties.tmpl
+PROPERTIES_DEFAULT=/etc/cantaloupe/cantaloupe.properties.default
 
 # Define location of centralized maven repository
 MAVEN_REPO="https://repo1.maven.org/maven2"
@@ -31,7 +30,7 @@ print(template.safe_substitute(properties))
 EOT
 
 # Write our merged properties file to /etc directory
-$PYTHON -c "$SCRIPT" >> $PROPERTIES
+$PYTHON -c "$SCRIPT" >> $CONFIG_FILE
 
 # If we have a DELEGATE_URL, grab it and copy it to the container for us to use
 if [[ -v DELEGATE_URL && ! -z DELEGATE_URL ]]; then
