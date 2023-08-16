@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # Define locations of our container's property values
-PROPERTIES=/etc/cantaloupe/cantaloupe.properties
 PROPERTIES_TMPL=/etc/cantaloupe/cantaloupe.properties.tmpl
 PROPERTIES_DEFAULT=/etc/cantaloupe/cantaloupe.properties.default
 
@@ -31,7 +30,7 @@ print(template.safe_substitute(properties))
 EOT
 
 # Write our merged properties file to /etc directory
-$PYTHON -c "$SCRIPT" >> $PROPERTIES
+$PYTHON -c "$SCRIPT" >> $CONFIG_FILE
 
 # If we have a DELEGATE_URL, grab it and copy it to the container for us to use
 if [[ -v DELEGATE_URL && ! -z DELEGATE_URL ]]; then
