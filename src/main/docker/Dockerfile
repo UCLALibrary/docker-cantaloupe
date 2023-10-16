@@ -174,7 +174,7 @@ RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe && \
 # Install grok JPEG-2000 library and tools
 WORKDIR /tmp
 ARG GROK_RELEASES="https://github.com/GrokImageCompression/grok/releases"
-RUN curl -sL ${GROK_RELEASES}/download/v${grok.version}/grok-ubuntu-latest.zip > grok.zip && \
+RUN curl -sL "${GROK_RELEASES}/download/v${grok.version}/grok-ubuntu-latest.zip" > grok.zip && \
     unzip grok.zip && \
     cp ./grok-ubuntu-latest/bin/grk_* /usr/bin && \
     cp ./grok-ubuntu-latest/lib/*libgrok* /usr/lib && \
