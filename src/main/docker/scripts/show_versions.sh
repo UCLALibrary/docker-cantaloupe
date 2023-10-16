@@ -14,8 +14,8 @@ print_line() {
 }
 
 declare -a DEPENDENCIES=(
-  "openjdk-11-jdk-headless"
-  "openjdk-11-jre-headless"
+  "openjdk-17-jdk-headless"
+  "openjdk-17-jre-headless"
   "gcc"
   "python2"
   "ffmpeg"
