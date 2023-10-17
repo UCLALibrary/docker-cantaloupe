@@ -1,6 +1,6 @@
 
 # We do a multi-stage build; the first stage builds the Cantaloupe code
-FROM maven:3.6.3-jdk-11 AS MAVEN_TOOL_CHAIN
+FROM maven:3.9.4-eclipse-temurin-17 AS MAVEN_TOOL_CHAIN
 
 # Where we find the stable Cantaloupe Jar file
 ENV CANTALOUPE_RELEASES="https://github.com/cantaloupe-project/cantaloupe/releases/download"
@@ -57,14 +57,14 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
 # The second stage of our multi-stage build builds the kakadu libraries and binaries
 FROM ubuntu:${ubuntu.tag} AS KAKADU_TOOL_CHAIN
 
-ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 
 COPY kakadu /build/kakadu/
 RUN if [ ! -z "${kakadu.version}" ]; then \
       cd /build/kakadu/"${kakadu.version}"/make && \
       apt-get update -qq && \
       DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends \
-        openjdk-11-jdk-headless=${openjdk.version}\
+        openjdk-17-jdk-headless=${openjdk.version}\
         gcc=${gcc.version} \
         make=${make.version} \
         libtiff-tools=${libtiff.version} \
@@ -113,7 +113,7 @@ RUN apt-get update -qq && \
     libtiff5-dev=${libtiff.version}  \
     libopenjp2-tools=${libopenjp2.version} \
     libturbojpeg=${libturbojpeg.version} \
-    openjdk-11-jre-headless=${openjdk.version} \
+    openjdk-17-jre-headless=${openjdk.version} \
     unzip=${unzip.version} \
     zip=${zip.version} \
     curl=${curl.version} \
@@ -174,12 +174,12 @@ RUN mkdir -p /var/log/cantaloupe /var/cache/cantaloupe && \
 # Install grok JPEG-2000 library and tools
 WORKDIR /tmp
 ARG GROK_RELEASES="https://github.com/GrokImageCompression/grok/releases"
-RUN curl -sL ${GROK_RELEASES}/download/v${grok.version}/grok-v${grok.version}-linux-amd64.tar.gz > grok.tar.gz && \
-    tar zxfv grok.tar.gz && \
-    cp ./grok-v${grok.version}-linux-amd64/bin/grk_* /usr/bin && \
-    cp ./grok-v${grok.version}-linux-amd64/lib/*libgrok* /usr/lib && \
-    cp -r ./grok-v${grok.version}-linux-amd64/include/grok* /usr/include && \
-    rm -rf /tmp/grok-v${grok.version}-linux-amd64 grok-v${grok.version}-linux-amd64.tar.gz
+RUN curl -sL "${GROK_RELEASES}/download/v${grok.version}/grok-ubuntu-latest.zip" > grok.zip && \
+    unzip grok.zip && \
+    cp ./grok-ubuntu-latest/bin/grk_* /usr/bin && \
+    cp ./grok-ubuntu-latest/lib/*libgrok* /usr/lib && \
+    cp -r ./grok-ubuntu-latest/include/grok* /usr/include && \
+    rm -rf /tmp/grok-ubuntu-latest grok.zip
 
 # Set up logging, keeping a separate log for just the errors (in addition to the full log)
 ENV CANTALOUPE_LOG_APPLICATION_ROLLINGFILEAPPENDER_PATHNAME=/var/log/cantaloupe/application.log
