@@ -44,14 +44,28 @@
     <module name="BooleanExpressionComplexity">
       <property name="max" value="4" />
     </module>
-    <module name="MissingJavadocMethod" />
+    <module name="MissingJavadocMethod">
+      <property name="scope" value="private" />
+    </module>
+    <module name="JavadocMethod">
+      <property name="validateThrows" value="true" />
+      <property name="allowedAnnotations"
+        value="Override, Test, Before, BeforeClass, After, AfterClass, JsonInclude, JsonGetter, JsonSetter, JsonProperty" />
+    </module>
     <module name="JavadocType">
       <property name="excludeScope" value="anoninner" />
-      <property name="allowUnknownTags" value="true" />
     </module>
-    <module name="MissingJavadocType" />
+    <module name="NonEmptyAtclauseDescription"/>
+    <module name="InvalidJavadocPosition"/>
+    <module name="JavadocVariable" />
     <module name="MissingJavadocPackage" />
-    <module name="JavadocMethod" />
+    <module name="SummaryJavadocCheck" />
+    <module name="MissingJavadocType">
+      <property name="scope" value="private" />
+    </module>
+    <module name="JavadocStyle">
+      <property name="checkFirstSentence" value="false"/>
+    </module>
     <module name="NeedBraces" />
     <module name="LeftCurly" />
     <module name="RightCurly" />
