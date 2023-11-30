@@ -24,6 +24,7 @@ import info.freelibrary.util.LoggerFactory;
  */
 public class KakaduIT extends AbstractCantaloupeIT {
 
+    /** A test logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(KakaduIT.class, MessageCodes.BUNDLE);
 
     /**
