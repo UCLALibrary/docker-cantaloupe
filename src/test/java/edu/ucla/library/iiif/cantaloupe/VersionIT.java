@@ -1,7 +1,9 @@
 
 package edu.ucla.library.iiif.cantaloupe;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -19,8 +21,10 @@ import info.freelibrary.util.LoggerFactory;
  */
 public class VersionIT extends AbstractCantaloupeIT {
 
+    /** A test logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionIT.class, MessageCodes.BUNDLE);
 
+    /** The HTML containing the version to be tested. */
     private Document myHTML;
 
     /**

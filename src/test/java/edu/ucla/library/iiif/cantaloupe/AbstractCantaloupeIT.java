@@ -12,16 +12,22 @@ import info.freelibrary.util.StringUtils;
  */
 class AbstractCantaloupeIT {
 
+    /** A URL pattern constant. */
     private static final String URL_PATTERN = "http://localhost:{}";
 
+    /** A default port constant. */
     private static final String DEFAULT_PORT = "8182";
 
+    /** The URL being tested. */
     protected String myURL;
 
+    /** The port being tested. */
     protected int myPort;
 
+    /** Whether the test system has Kakadu installed. */
     protected boolean hasKakaduInstalled;
 
+    /** Whether the test is running in a development environment. */
     protected boolean isDevBuild;
 
     /**
