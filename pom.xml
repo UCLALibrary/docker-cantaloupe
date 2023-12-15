@@ -84,7 +84,7 @@
     <libturbojpeg.version>2.1.2-0ubuntu1</libturbojpeg.version>
     <unzip.version>6.0-26ubuntu3.1</unzip.version>
     <zip.version>3.0-12build2</zip.version>
-    <curl.version>7.81.0-1ubuntu1.14</curl.version>
+    <curl.version>7.81.0-1ubuntu1.15</curl.version>
     <ffmpeg.version>7:4.4.2-0ubuntu0.22.04.1</ffmpeg.version>
     <python2.version>2.7.18-3</python2.version>
     <grok.version>11.0.0</grok.version>
@@ -609,7 +609,7 @@
   <parent>
     <groupId>info.freelibrary</groupId>
     <artifactId>freelib-parent</artifactId>
-    <version>8.0.4</version>
+    <version>8.0.5</version>
   </parent>
 
 </project>
