@@ -44,13 +44,14 @@ fi
 
 # If LOGBACK_URL is defined, download and insert logback.xml file into war file
 if [[ ! -z "${LOGBACK_URL}" ]]; then
-  zip -qd /usr/local/cantaloupe/cantaloupe-*.*ar WEB-INF/classes/logback.xml
+  zip -qd /usr/local/cantaloupe/cantaloupe-*.*ar WEB-INF/classes/logback.xml logback.xml
   cd /tmp
   mkdir -p WEB-INF/classes WEB-INF/lib
   curl -so WEB-INF/classes/logback.xml ${LOGBACK_URL}
+  curl -so logback.xml ${LOGBACK_URL}
 
   # Package up the logback file and dependent jars
-  zip -qur /usr/local/cantaloupe/cantaloupe-*.*ar WEB-INF
+  zip -qur /usr/local/cantaloupe/cantaloupe-*.*ar WEB-INF logback.xml
 
   # Clean up scratch space
   rm -rf /tmp/WEB-INF
