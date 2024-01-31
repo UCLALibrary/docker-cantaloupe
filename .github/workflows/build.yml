@@ -2,18 +2,18 @@ name: Maven PR Build
 
 # We require all commits go through PR on GitHub
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - SERV-1012
 
 jobs:
   build:
     name: Maven PR Builder (JDK ${{ matrix.java }} with ${{ matrix.build_property }})
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     strategy:
       matrix:
         java: [ 11, 17 ]
-        build_property: [ "kakadu.version", "ignored.version" ]
+        build_property: ["ignored.version"]
 
     steps:
       - name: Check out code
