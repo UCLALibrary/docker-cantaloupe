@@ -34,7 +34,10 @@ jobs:
         run: |
           brew install colima 
           colima --version
-          export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+          colima run -d -e DOCKER_HOST=unix:///var/run/docker.sock
+          sleep 5
+      - name: Check Colima Docker version
+        run: docker version
       # - name: Build and run with Colima 
       #   run: | 
       #     colima run -d -n cantaloupe-1 cantaloupe
