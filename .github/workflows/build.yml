@@ -30,6 +30,13 @@ jobs:
         if: ${{ matrix.build_property == 'kakadu.version' && env.KAKADU_PRIVATE_SSH_KEY != null }}
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
+      - name: Set up Docker environment
+        run: |
+          brew install colima 
+          colima --version
+      # - name: Build and run with Colima 
+      #   run: | 
+      #     colima run -d -n cantaloupe-1 cantaloupe
       - name: Build with Maven
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
         env:
@@ -43,3 +50,6 @@ jobs:
           maven_args: >
             -V -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error -DlogLevel=DEBUG -DtestLogLevel=DEBUG
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
+      - name: Cleanup Colima
+        run: |
+          colima rm --all
