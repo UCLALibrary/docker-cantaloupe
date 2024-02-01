@@ -30,14 +30,14 @@ jobs:
         if: ${{ matrix.build_property == 'kakadu.version' && env.KAKADU_PRIVATE_SSH_KEY != null }}
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
-      - name: Workaround for https://github.com/actions/runner-images/issues/8104
-        run: |  
-          brew remove --ignore-dependencies qemu
-          curl -o ./qemu.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/dc0669eca9479e9eeb495397ba3a7480aaa45c2e/Formula/qemu.rb
-          brew install ./qemu.rb
       - name: Set up Docker environment
         run: |
           brew install colima docker
+      - name: Workaround for https://github.com/actions/runner-images/issues/8104
+        run: |  
+          brew remove --ignore-dependencies qemu
+          brew cleanup
+          brew install qemu
       - name: Run Colima
         run: |
           colima start
