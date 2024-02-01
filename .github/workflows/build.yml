@@ -40,6 +40,7 @@ jobs:
           brew install ./qemu.rb
       - name: Start Colima
         run: |
+          colima delete
           colima start
           sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
       - name: Check that Docker functions
