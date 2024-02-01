@@ -32,15 +32,17 @@ jobs:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
       - name: Set up Docker environment
         run: |
-          brew install colima docker
-          colima --version
+          brew install docker
+      - name: Workaround for https://github.com/actions/runner-images/issues/8104
+        run: |  
+          brew remove --ignore-dependencies qemu
+          curl -o ./qemu.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/dc0669eca9479e9eeb495397ba3a7480aaa45c2e/Formula/qemu.rb
+          brew install ./qemu.rb
+      - name: Run Colima
+        run: |
           colima start
-      # - name: Change Docker host to Colima 
-      #   run: |
-      #     export DOCKER_HOST="unix://$HOME/.colima/docker.sock"
-      #     sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
-      #     sleep 5
-      - name: Check Colima Docker
+          sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
+      - name: Check that Docker functions
         run: docker ps
       - name: Build with Maven
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
