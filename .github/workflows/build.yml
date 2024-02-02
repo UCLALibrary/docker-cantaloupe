@@ -39,7 +39,6 @@ jobs:
           arch -arm64 brew install qemu
       - name: Start Colima
         run: |
-          colima delete
           colima start --arch aarch64 --verbose
           sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
       - name: Check that Docker functions
