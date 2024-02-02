@@ -37,10 +37,18 @@ jobs:
         run: |  
           brew uninstall --ignore-dependencies qemu #required to uninstall
           arch -arm64 brew install qemu
-      - name: Start Colima
+          qemu-img --version
+      - name: Start Colima with error logging
+        id: maybe_fails
         run: |
-          colima start --arch aarch64 --verbose
-          sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
+          colima start --arch aarch64 2> errors.txt || true
+          echo ::set-output name=errors::`cat errors.txt`
+          colima start --arch aarch64
+          # sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
+      - name: use error detail on failure
+        if: ${{ failure() }}
+        run: |
+          echo ${{ steps.maybe_fails.outputs.errors }}
       - name: Check that Docker functions
         run: docker ps
       - name: Build with Maven
