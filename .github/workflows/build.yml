@@ -35,9 +35,8 @@ jobs:
           brew install colima docker
       - name: Workaround for https://github.com/abiosoft/colima/issues/777
         run: |  
-          brew remove --ignore-dependencies qemu
-          curl -OSL 'https://raw.githubusercontent.com/Homebrew/homebrew-core/dc0669eca9479e9eeb495397ba3a7480aaa45c2e/Formula/qemu.rb'
-          brew install ./qemu.rb
+          brew uninstall qemu
+          arch -arm64 brew install qemu
       - name: Start Colima
         run: |
           colima delete
