@@ -32,7 +32,7 @@ jobs:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
       - name: Set up Docker environment
         run: |
-          brew install --head colima
+          brew install colima docker
       # - name: Workaround for https://github.com/abiosoft/colima/issues/777
       #   run: |  
       #     # brew uninstall --ignore-dependencies qemu #required to uninstall
@@ -43,14 +43,14 @@ jobs:
         run: |
           colima delete --force
           colima start --arch aarch64 2> errors.txt || true
-          echo ::set-output name=errors::$(cat errors.txt)
-          colima start --arch aarch64
+          # echo ::set-output name=errors::$(cat errors.txt)
+          # colima start --arch aarch64
           sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
-      - name: Display errors on failure
-        if: ${{ failure() }}
-        run: |
-          echo "Error details:"
-          cat errors.txt
+      # - name: Display errors on failure
+      #   if: ${{ failure() }}
+      #   run: |
+      #     echo "Error details:"
+      #     cat errors.txt
       - name: Check that Docker functions
         run: docker ps
       - name: Build with Maven
