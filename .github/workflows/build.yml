@@ -43,7 +43,7 @@ jobs:
         run: |
           colima start --arch aarch64 2> errors.txt || true
           echo ::set-output name=errors::`cat errors.txt`
-          colima start --arch aarch64
+          # colima start --arch aarch64
           # sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
       - name: use error detail on failure
         if: ${{ failure() }}
