@@ -32,15 +32,16 @@ jobs:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
       - name: Set up Docker environment
         run: |
-          brew install colima docker
-      - name: Workaround for https://github.com/abiosoft/colima/issues/777
-        run: |  
-          # brew uninstall --ignore-dependencies qemu #required to uninstall
-          # arch -arm64 brew install qemu
-          qemu-img --version
+          brew install --head colima
+      # - name: Workaround for https://github.com/abiosoft/colima/issues/777
+      #   run: |  
+      #     # brew uninstall --ignore-dependencies qemu #required to uninstall
+      #     # arch -arm64 brew install qemu
+      #     qemu-img --version
       - name: Start Colima with error logging
         id: maybe_fails
         run: |
+          colima delete
           colima start --arch aarch64 2> errors.txt || true
           echo ::set-output name=errors::$(cat errors.txt)
           colima start --arch aarch64
