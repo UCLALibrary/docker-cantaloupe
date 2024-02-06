@@ -42,13 +42,14 @@ jobs:
         id: maybe_fails
         run: |
           colima start --arch aarch64 2> errors.txt || true
-          echo ::set-output name=errors::`cat errors.txt`
-          # colima start --arch aarch64
+          echo ::set-output name=errors::$(cat errors.txt)
+          colima start --arch aarch64
           # sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
-      - name: use error detail on failure
+      - name: Display errors on failure
         if: ${{ failure() }}
         run: |
-          echo ${{ steps.maybe_fails.outputs.errors }}
+          echo "Error details:"
+          cat errors.txt
       - name: Check that Docker functions
         run: docker ps
       - name: Build with Maven
