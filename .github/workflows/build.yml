@@ -41,7 +41,7 @@ jobs:
       - name: Start Colima with error logging
         id: maybe_fails
         run: |
-          colima delete
+          colima delete -y
           colima start --arch aarch64 2> errors.txt || true
           echo ::set-output name=errors::$(cat errors.txt)
           colima start --arch aarch64
