@@ -119,6 +119,7 @@ RUN apt-get update -qq && \
     curl=${curl.version} \
     ffmpeg=${ffmpeg.version} \
     python2=${python2.version} \
+    libperl5.34=${libperl.version} \
     < /dev/null > /dev/null && \
     mkdir -p /opt/libjpeg-turbo/lib && \
     ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib/libturbojpeg.so && \
