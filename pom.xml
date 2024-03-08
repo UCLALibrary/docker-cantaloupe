@@ -344,7 +344,7 @@
             </goals>
             <!-- Download some test images too large to store in GitHub -->
             <configuration>
-              <url>https://s3.amazonaws.com/ksclarke-data/jiiify-image-test-images.zip</url>
+              <url>https://cantaloupe-test-data.s3.amazonaws.com/jiiify-image-test-images.zip</url>
               <unpack>true</unpack>
               <outputDirectory>src/test/resources/images</outputDirectory>
             </configuration>
