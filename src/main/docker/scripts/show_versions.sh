@@ -29,6 +29,7 @@ declare -a DEPENDENCIES=(
   "libtiff-tools"
   "make"
   "build-essential"
+  "libperl5.34"
 )
 
 print_line
