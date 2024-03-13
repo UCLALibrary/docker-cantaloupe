@@ -75,14 +75,14 @@
     <!-- Docker container dependency versions -->
     <!-- https://packages.ubuntu.com/search?keywords=search -->
     <ubuntu.tag>22.04</ubuntu.tag>
-    <openjdk.version>17.0.9+9-1~22.04</openjdk.version>
+    <openjdk.version>17.0.10+7-1~22.04.1</openjdk.version>
     <gcc.version>4:11.2.0-1ubuntu1</gcc.version>
     <make.version>4.3-4.1build1</make.version>
-    <libtiff.version>4.3.0-6ubuntu0.7</libtiff.version>
+    <libtiff.version>4.3.0-6ubuntu0.8</libtiff.version>
     <build.essential.version>12.9ubuntu3</build.essential.version>
     <libopenjp2.version>2.4.0-6</libopenjp2.version>
     <libturbojpeg.version>2.1.2-0ubuntu1</libturbojpeg.version>
-    <unzip.version>6.0-26ubuntu3.1</unzip.version>
+    <unzip.version>6.0-26ubuntu3.2</unzip.version>
     <zip.version>3.0-12build2</zip.version>
     <curl.version>7.81.0-1ubuntu1.15</curl.version>
     <ffmpeg.version>7:4.4.2-0ubuntu0.22.04.1</ffmpeg.version>
@@ -344,7 +344,7 @@
             </goals>
             <!-- Download some test images too large to store in GitHub -->
             <configuration>
-              <url>https://s3.amazonaws.com/ksclarke-data/jiiify-image-test-images.zip</url>
+              <url>https://cantaloupe-test-data.s3.amazonaws.com/jiiify-image-test-images.zip</url>
               <unpack>true</unpack>
               <outputDirectory>src/test/resources/images</outputDirectory>
             </configuration>
