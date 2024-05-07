@@ -19,6 +19,7 @@ WORKDIR /build/cantaloupe
 COPY patches /build/cantaloupe-patches
 RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       git clone --quiet https://github.com/cantaloupe-project/cantaloupe.git . && \
+      git checkout -b 60c3e2bae4fa3458e1df29113172319fcd6102a3 60c3e2bae4fa3458e1df29113172319fcd6102a3;\
       \
       # We can supply a particular commit ref as a defense against a broken upstream
       if [ -n "${cantaloupe.commit.ref}" -a "${cantaloupe.commit.ref}" != "latest" ] ; then \
