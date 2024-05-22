@@ -64,11 +64,8 @@
 
   <properties>
     <!-- What versions of Cantaloupe and Kakadu are we using? -->
-    <!-- Currently the develop branch of Cantaloupe is not up to date with the latest release
-         causing security issues. Until the develop branch is updated, we will use the latest
-         release commit # v5.0.6-->
     <cantaloupe.version>5.0.6</cantaloupe.version>
-    <cantaloupe.commit.ref>60c3e2bae4fa3458e1df29113172319fcd6102a3</cantaloupe.commit.ref>
+    <cantaloupe.commit.ref></cantaloupe.commit.ref>
     <cantaloupe.apply.patchfiles>false</cantaloupe.apply.patchfiles>
     <kakadu.version></kakadu.version>
 

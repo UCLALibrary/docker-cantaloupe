@@ -49,7 +49,7 @@ jobs:
           maven_args: >
             -Drevision=nightly
             -Dcantaloupe.version=dev
-            -Dcantaloupe.commit.ref=${{ secrets.DEV_COMMIT_REF }}
+            -Dcantaloupe.commit.ref=${{ vars.DEV_COMMIT_REF }}
             -Dcantaloupe.apply.patchfiles=${{ secrets.APPLY_PATCHFILES }}
             -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
             -DskipNexusStagingDeployMojo=true

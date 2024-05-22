@@ -71,6 +71,6 @@ jobs:
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
             -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
             -Ddocker.registry.password=${{ secrets.DOCKER_PASSWORD }}
-            -Dcantaloupe.commit.ref=${{ secrets.DEV_COMMIT_REF }}
+            -Dcantaloupe.commit.ref=${{ vars.DEV_COMMIT_REF }}
             -Dcantaloupe.apply.patchfiles=${{ secrets.APPLY_PATCHFILES }}
             -Dcantaloupe.version=dev
