@@ -119,6 +119,7 @@
     <docker.cleanup>remove</docker.cleanup>
     <docker.image>cantaloupe${artifact.qualifier}</docker.image>
     <docker.showLogs>true</docker.showLogs>
+    <docker.platforms></docker.platforms>
 
     <!-- We don't need to build the jar outside of the Docker build -->
     <jar.phase></jar.phase>
@@ -403,6 +404,12 @@
                   <name>${docker.image}</name>
                   <build>
                     <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
+                    <buildx>
+                      <platforms>
+                        <!-- set comma separated list of platforms in ${docker.platforms} to invoke buildkit -->
+                        <platform>${docker.platforms}</platform>
+                      </platforms>
+                    </buildx>
                   </build>
                   <run>
                     <ports>
