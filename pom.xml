@@ -75,10 +75,10 @@
     <!-- Docker container dependency versions -->
     <!-- https://packages.ubuntu.com/search?keywords=search -->
     <ubuntu.tag>22.04</ubuntu.tag>
-    <openjdk.version>17.0.10+7-1~22.04.1</openjdk.version>
+    <openjdk.version>17.0.11+9-1~22.04.1</openjdk.version>
     <gcc.version>4:11.2.0-1ubuntu1</gcc.version>
     <make.version>4.3-4.1build1</make.version>
-    <libtiff.version>4.3.0-6ubuntu0.8</libtiff.version>
+    <libtiff.version>4.3.0-6ubuntu0.9</libtiff.version>
     <build.essential.version>12.9ubuntu3</build.essential.version>
     <libopenjp2.version>2.4.0-6</libopenjp2.version>
     <libturbojpeg.version>2.1.2-0ubuntu1</libturbojpeg.version>
