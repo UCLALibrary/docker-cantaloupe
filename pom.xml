@@ -84,7 +84,7 @@
     <libturbojpeg.version>2.1.2-0ubuntu1</libturbojpeg.version>
     <unzip.version>6.0-26ubuntu3.2</unzip.version>
     <zip.version>3.0-12build2</zip.version>
-    <curl.version>7.81.0-1ubuntu1.16</curl.version>
+    <curl.version>7.81.0-1ubuntu1.17</curl.version>
     <ffmpeg.version>7:4.4.2-0ubuntu0.22.04.1</ffmpeg.version>
     <python2.version>2.7.18-3</python2.version>
     <libperl.version>5.34.0-3ubuntu1.3</libperl.version>
@@ -93,7 +93,7 @@
     <freelib.utils.version>3.0.1</freelib.utils.version>
     <maven.jar.version>3.2.0</maven.jar.version>
     <jsoup.version>1.15.3</jsoup.version>
-    <json.version>20230227</json.version>
+    <json.version>20231013</json.version>
     <scm.plugin.version>1.11.2</scm.plugin.version>
     <deploy.plugin.version>2.8.2</deploy.plugin.version>
     <codacy.plugin.version>1.2.0</codacy.plugin.version>
