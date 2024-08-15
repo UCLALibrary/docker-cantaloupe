@@ -1,6 +1,6 @@
 
 # We do a multi-stage build; the first stage builds the Cantaloupe code
-FROM maven:3.9.4-eclipse-temurin-17 AS MAVEN_TOOL_CHAIN
+FROM maven:3.9-eclipse-temurin-8 AS MAVEN_TOOL_CHAIN
 
 # Where we find the stable Cantaloupe Jar file
 ENV CANTALOUPE_RELEASES="https://github.com/cantaloupe-project/cantaloupe/releases/download"
