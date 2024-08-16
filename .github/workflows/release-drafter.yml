@@ -10,7 +10,7 @@ jobs:
   draft-release-notes:
     runs-on: ubuntu-latest
     steps:
-      - uses: release-drafter/release-drafter@4d1215c66d92eba9557a55da848b2281a1a19235 # v5.13.0
+      - uses: release-drafter/release-drafter@3f0f87098bd6b5c5b9a36d49c41d998ea58f9348 # v6.0.0
         with:
           config-name: configs/release-drafter.yml
         env:
