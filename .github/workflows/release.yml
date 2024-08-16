@@ -19,6 +19,7 @@ jobs:
       - name: Install JDK ${{ matrix.java }}
         uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018 # v1
         with:
+          distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: maven
       - name: Optionally, set artifact qualifier (for private builds that include Kakadu)
