@@ -17,15 +17,16 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v2
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@d202f5dbf7256730fb690ec59f6381650114feb2 # v1
+        uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018 # v1
         with:
+          distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: maven
       - name: Optionally, set artifact qualifier (for private builds that include Kakadu)
         if: matrix.build_property == 'kakadu.version'
         run: echo "ARTIFACT_QUALIFIER=${{ secrets.ARTIFACT_QUALIFIER }}" >> $GITHUB_ENV
       - name: Optionally, login to Docker repository
-        uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a # v1.8.0
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         if: env.DOCKER_USERNAME != null
