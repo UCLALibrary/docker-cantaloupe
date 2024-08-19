@@ -40,7 +40,7 @@ jobs:
           matrix.build_property != 'kakadu.version'
         with:
           maven_goals_phases: "clean verify"
-          maven_profiles: default,${{ secrets.BUILD_PROFILES }}
+          maven_profiles: ${{ secrets.BUILD_PROFILES }}
           maven_args: >
-            -V -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error -DlogLevel=DEBUG -DtestLogLevel=DEBUG
+            -V -ntp -DlogLevel=DEBUG -DtestLogLevel=DEBUG
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
