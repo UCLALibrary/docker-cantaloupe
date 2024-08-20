@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 11 ]
+        java: [ 17 ]
         build_property: [ "kakadu.version", "ignored.version" ]
     steps:
       - name: Check out source code
@@ -47,9 +47,8 @@ jobs:
           nexus_password: ${{ secrets.SONATYPE_PASSWORD }}
           maven_args: >
             -Drevision=${{ github.event.release.tag_name }}
-            -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
+            -ntp -DskipNexusStagingDeployMojo=true
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
-            -DskipNexusStagingDeployMojo=true
             -Ddocker.image=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}cantaloupe${{ env.ARTIFACT_QUALIFIER }}:${{ github.event.release.tag_name }}
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
             -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
