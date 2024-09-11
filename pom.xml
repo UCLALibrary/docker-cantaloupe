@@ -78,7 +78,7 @@
     <openjdk.version>17.0.12+7-1ubuntu2~22.04</openjdk.version>
     <gcc.version>4:11.2.0-1ubuntu1</gcc.version>
     <make.version>4.3-4.1build1</make.version>
-    <libtiff.version>4.3.0-6ubuntu0.9</libtiff.version>
+    <libtiff.version>4.3.0-6ubuntu0.10</libtiff.version>
     <build.essential.version>12.9ubuntu3</build.essential.version>
     <libopenjp2.version>2.4.0-6</libopenjp2.version>
     <libturbojpeg.version>2.1.2-0ubuntu1</libturbojpeg.version>
@@ -203,14 +203,6 @@
     </testResources>
 
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <generatedTestSourcesDirectory>src/main/generated</generatedTestSourcesDirectory>
-        </configuration>
-      </plugin>
-
       <!-- We can skip building the Jar except when Docker runs the build -->
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -224,6 +216,7 @@
 
       <!-- We don't install the Jar but package it up in our Docker image -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
         <configuration>
           <skip>true</skip>
@@ -246,7 +239,7 @@
 
       <!-- Generates a message bundle class for use in the Java tests -->
       <!--<![CDATA[
-        To run the generate-codes plugin manually: mvn info.freelibrary:freelib-utils:generate-codes
+        To run the generate-codes plugin manually: mvn info.freelibrary:freelib-maven-plugins:generate-codes
       ]]>-->
       <plugin>
         <groupId>info.freelibrary</groupId>
