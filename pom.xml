@@ -99,7 +99,7 @@
     <codacy.plugin.version>1.2.0</codacy.plugin.version>
     <xml.maven.plugin.version>1.1.0</xml.maven.plugin.version>
     <docker.maven.plugin.version>0.45.1</docker.maven.plugin.version>
-    <maven.download.plugin.version>1.9.0</maven.download.plugin.version>
+    <maven.download.plugin.version>1.10.0</maven.download.plugin.version>
 
     <!-- What level of logging we want to see, by default, in our tests and default container config -->
     <logLevel>ERROR</logLevel>
