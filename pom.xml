@@ -90,7 +90,7 @@
     <libperl.version>5.34.0-3ubuntu1.3</libperl.version>
 
     <!-- Java dependency versions -->
-    <freelib.utils.version>5.0.7</freelib.utils.version>
+    <freelib.utils.version>5.0.10</freelib.utils.version>
     <maven.jar.version>3.4.2</maven.jar.version>
     <jsoup.version>1.18.3</jsoup.version>
     <json.version>20250107</json.version>
