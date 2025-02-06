@@ -41,5 +41,5 @@ jobs:
         with:
           maven_goals_phases: "clean verify"
           maven_args: >
-            -V -ntp -DlogLevel=DEBUG -DtestLogLevel=DEBUG
+            -V -ntp -DlogLevel=DEBUG -DtestLogLevel=DEBUG -Ddocker.noCache
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
