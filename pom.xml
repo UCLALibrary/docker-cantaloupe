@@ -92,7 +92,7 @@
     <!-- Java dependency versions -->
     <freelib.utils.version>5.0.10</freelib.utils.version>
     <maven.jar.version>3.4.2</maven.jar.version>
-    <jsoup.version>1.18.3</jsoup.version>
+    <jsoup.version>1.19.1</jsoup.version>
     <json.version>20250107</json.version>
     <scm.plugin.version>2.1.0</scm.plugin.version>
     <deploy.plugin.version>3.1.4</deploy.plugin.version>
