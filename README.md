@@ -31,6 +31,10 @@ To apply your own patches to the Cantaloupe source, create patchfiles with a Git
 
 Patching an older version of Cantaloupe is possible as well.
 
+To use Docker buildkit (builx), supply the list of architectures to build:
+
+    mvn verify -Ddocker.platforms=linux/amd64,linux/arm64
+
 _Hint: If you want to run a build without a Docker cache, add `-Ddocker.noCache` to your mvn command; for instance: `mvn verify -Ddocker.noCache`_
 
 ### Run the Cantaloupe container
