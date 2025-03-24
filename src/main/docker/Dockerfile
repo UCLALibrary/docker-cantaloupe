@@ -47,7 +47,7 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
       mvn -q install:install-file -Dfile="/tmp/${JAI_IMAGEIO_JAR}" -DgroupId="javax.media" \
         -DartifactId="jai_imageio" -Dversion="$JAI_IMAGEIO_VERSION" -Dpackaging="jar" && \
       \
-      mvn -DskipTests=true -Djar.phase=package -q clean package && \
+      mvn -ntp -DskipTests=true -Djar.phase=package clean package && \
       mv target/cantaloupe-*.zip "/build/Cantaloupe.zip" ; \
     else \
       curl -o "../Cantaloupe.zip" -s -L \
