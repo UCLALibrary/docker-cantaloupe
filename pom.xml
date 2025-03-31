@@ -75,7 +75,7 @@
     <!-- Docker container dependency versions -->
     <!-- https://packages.ubuntu.com/search?keywords=search -->
     <ubuntu.tag>22.04</ubuntu.tag>
-    <openjdk.version>17.0.13+11-2ubuntu1~22.04</openjdk.version>
+    <openjdk.version>17.0.14+7-1~22.04.1</openjdk.version>
     <gcc.version>4:11.2.0-1ubuntu1</gcc.version>
     <make.version>4.3-4.1build1</make.version>
     <libtiff.version>4.3.0-6ubuntu0.10</libtiff.version>
@@ -90,12 +90,12 @@
     <libperl.version>5.34.0-3ubuntu1.3</libperl.version>
 
     <!-- Java dependency versions -->
-    <freelib.utils.version>5.0.10</freelib.utils.version>
+    <freelib.utils.version>5.1.1</freelib.utils.version>
     <maven.jar.version>3.4.2</maven.jar.version>
-    <jsoup.version>1.18.3</jsoup.version>
+    <jsoup.version>1.19.1</jsoup.version>
     <json.version>20250107</json.version>
     <scm.plugin.version>2.1.0</scm.plugin.version>
-    <deploy.plugin.version>3.1.3</deploy.plugin.version>
+    <deploy.plugin.version>3.1.4</deploy.plugin.version>
     <codacy.plugin.version>1.2.0</codacy.plugin.version>
     <xml.maven.plugin.version>1.1.0</xml.maven.plugin.version>
     <docker.maven.plugin.version>0.45.1</docker.maven.plugin.version>
@@ -607,7 +607,7 @@
   <parent>
     <groupId>info.freelibrary</groupId>
     <artifactId>freelib-parent</artifactId>
-    <version>12.0.3</version>
+    <version>12.0.4</version>
   </parent>
 
 </project>

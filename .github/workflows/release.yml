@@ -17,7 +17,7 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v2
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@7a6d8a8234af8eb26422e24e3006232cccaa061b # v1
+        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v1
         with:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
@@ -26,7 +26,7 @@ jobs:
         if: matrix.build_property == 'kakadu.version'
         run: echo "ARTIFACT_QUALIFIER=${{ secrets.ARTIFACT_QUALIFIER }}" >> $GITHUB_ENV
       - name: Optionally, login to Docker repository
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         if: env.DOCKER_USERNAME != null
@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Install Kakadu SSH key
-        uses: webfactory/ssh-agent@dc588b651fe13675774614f8e6a936a468676387 # v0.9.0
+        uses: webfactory/ssh-agent@a6f90b1f127823b31d4d4a8d96047790581349bd # v0.9.1
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
       - name: Release with Maven (Public)
@@ -66,7 +66,7 @@ jobs:
             -Drevision=${{ github.event.release.tag_name }}
             -ntp -Dorg.slf4j.simpleLogger.log.net.sourceforge.pmd=error
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
-            -DskipNexusStagingDeployMojo=true
+            -DskipNexusStagingDeployMojo=true -Ddocker.noCache
             -Ddocker.image=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}cantaloupe${{ env.ARTIFACT_QUALIFIER }}:${{ github.event.release.tag_name }}
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
             -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
