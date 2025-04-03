@@ -64,7 +64,7 @@
 
   <properties>
     <!-- What versions of Cantaloupe and Kakadu are we using? -->
-    <cantaloupe.version>5.0.6</cantaloupe.version>
+    <cantaloupe.version>5.0.7</cantaloupe.version>
     <cantaloupe.commit.ref></cantaloupe.commit.ref>
     <cantaloupe.apply.patchfiles>false</cantaloupe.apply.patchfiles>
     <kakadu.version></kakadu.version>
@@ -74,7 +74,7 @@
 
     <!-- Docker container dependency versions -->
     <!-- https://packages.ubuntu.com/search?keywords=search -->
-    <ubuntu.tag>22.04</ubuntu.tag>
+    <ubuntu.tag>24.04</ubuntu.tag>
     <openjdk.version>17.0.14+7-1~22.04.1</openjdk.version>
     <gcc.version>4:11.2.0-1ubuntu1</gcc.version>
     <make.version>4.3-4.1build1</make.version>

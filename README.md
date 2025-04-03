@@ -66,7 +66,7 @@ In addition to running a test Cantaloupe server using the Maven Docker plugin, y
     docker run -d -p 8182:8182 \
       -e "CANTALOUPE_ENDPOINT_ADMIN_SECRET=secret" \
       -e "CANTALOUPE_ENDPOINT_ADMIN_ENABLED=true" \
-      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.3-0  # or latest version
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.7-0  # or latest version
 
 Here is another, more complex, example:
 
@@ -81,7 +81,7 @@ Here is another, more complex, example:
       -e "CANTALOUPE_S3SOURCE_ENDPOINT=s3.amazonaws.com" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_ENABLED=true" \
       -e "CANTALOUPE_LOG_APPLICATION_FILEAPPENDER_PATHNAME=/var/log/cantaloupe/cantaloupe.log" \
-      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.3-0  # or latest version
+      --name melon -v /path/to/your/images:/imageroot cantaloupe:5.0.7-0  # or latest version
 
 You may also pass the `JAVA_OPTS` variable to fine-tune JVM options. This will be passed to the `java` command as-is.
 
