@@ -64,7 +64,7 @@
 
   <properties>
     <!-- What versions of Cantaloupe and Kakadu are we using? -->
-    <cantaloupe.version>5.0.6</cantaloupe.version>
+    <cantaloupe.version>5.0.7</cantaloupe.version>
     <cantaloupe.commit.ref></cantaloupe.commit.ref>
     <cantaloupe.apply.patchfiles>false</cantaloupe.apply.patchfiles>
     <kakadu.version></kakadu.version>
@@ -87,7 +87,7 @@
     <curl.version>7.81.0-1ubuntu1.20</curl.version>
     <ffmpeg.version>7:4.4.2-0ubuntu0.22.04.1</ffmpeg.version>
     <python2.version>2.7.18-3</python2.version>
-    <libperl.version>5.34.0-3ubuntu1.3</libperl.version>
+    <libperl.version>5.34.0-3ubuntu1.4</libperl.version>
 
     <!-- Java dependency versions -->
     <freelib.utils.version>5.2.0</freelib.utils.version>
@@ -416,7 +416,7 @@
                         <status>200</status>
                       </http>
                       <!-- Below depends on 'info' logging being set -->
-                      <log>Started @</log>
+                      <log>Started Server@</log>
                     </wait>
                   </run>
                 </image>
