@@ -119,6 +119,7 @@
     <docker.cleanup>remove</docker.cleanup>
     <docker.image>cantaloupe${artifact.qualifier}</docker.image>
     <docker.showLogs>true</docker.showLogs>
+    <docker.platforms></docker.platforms>
 
     <!-- We don't need to build the jar outside of the Docker build -->
     <jar.phase></jar.phase>
@@ -134,6 +135,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>info.freelibrary</groupId>
@@ -203,9 +205,18 @@
     </testResources>
 
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <generatedTestSourcesDirectory>src/main/generated</generatedTestSourcesDirectory>
+        </configuration>
+      </plugin>
+
       <!-- We can skip building the Jar except when Docker runs the build -->
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven.jar.version}</version>
         <executions>
           <execution>
             <id>default-jar</id>
@@ -394,6 +405,12 @@
                   <name>${docker.image}</name>
                   <build>
                     <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
+                    <buildx>
+                      <platforms>
+                        <!-- set comma separated list of platforms in ${docker.platforms} to invoke buildkit -->
+                        <platform>${docker.platforms}</platform>
+                      </platforms>
+                    </buildx>
                   </build>
                   <run>
                     <ports>
