@@ -57,7 +57,7 @@ RUN if [ "${cantaloupe.version}" = "dev" ] ; then \
 # The second stage of our multi-stage build builds the kakadu libraries and binaries
 FROM ubuntu:${ubuntu.tag} AS KAKADU_TOOL_CHAIN
 
-ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-${TARGETARCH}"
+ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 
 COPY kakadu /build/kakadu/
 RUN if [ ! -z "${kakadu.version}" ]; then \
@@ -71,13 +71,13 @@ RUN if [ ! -z "${kakadu.version}" ]; then \
         libtiff5=${libtiff.version} \
         libtiff5-dev=${libtiff.version} \
         build-essential=${build.essential.version} && \
-      make -f Makefile-Linux-$(uname -m)-gcc && \
+      make -f Makefile-Linux-x86-64-gcc && \
       mkdir /build/kakadu/lib && \
       mkdir /build/kakadu/bin && \
-      cp ../lib/Linux-$(uname -m)-gcc/*.so /build/kakadu/lib && \
-      cp ../bin/Linux-$(uname -m)-gcc/kdu_compress /build/kakadu/bin && \
-      cp ../bin/Linux-$(uname -m)-gcc/kdu_expand /build/kakadu/bin && \
-      cp ../bin/Linux-$(uname -m)-gcc/kdu_jp2info /build/kakadu/bin ; \
+      cp ../lib/Linux-x86-64-gcc/*.so /build/kakadu/lib && \
+      cp ../bin/Linux-x86-64-gcc/kdu_compress /build/kakadu/bin && \
+      cp ../bin/Linux-x86-64-gcc/kdu_expand /build/kakadu/bin && \
+      cp ../bin/Linux-x86-64-gcc/kdu_jp2info /build/kakadu/bin ; \
     else \
       mkdir -p /build/kakadu/lib && \
       mkdir -p /build/kakadu/bin && \
@@ -122,7 +122,7 @@ RUN apt-get update -qq && \
     libperl5.34=${libperl.version} \
     < /dev/null > /dev/null && \
     mkdir -p /opt/libjpeg-turbo/lib && \
-    ln -s /usr/lib/$(uname -m)-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib/libturbojpeg.so && \
+    ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib/libturbojpeg.so && \
     rm -rf /var/lib/apt/lists/*
 
 # Run Cantaloupe non-privileged

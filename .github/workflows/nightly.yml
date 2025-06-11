@@ -1,6 +1,6 @@
 name: Maven Build for Snapshot
 
-# Performs a Maven release using JDK 11 on a schedule
+# Performs a Maven release using JDK 17 on a schedule
 on:
   release:
     types: [ published ]
