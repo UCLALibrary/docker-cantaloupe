@@ -1,6 +1,6 @@
 name: Maven Build for Snapshot
 
-# Performs a Maven release using JDK 11 on a schedule
+# Performs a Maven release using JDK 17 on a schedule
 on:
   release:
     types: [ published ]
@@ -20,7 +20,7 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v2
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v1
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v1
         with:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
@@ -40,6 +40,13 @@ jobs:
         uses: webfactory/ssh-agent@a6f90b1f127823b31d4d4a8d96047790581349bd # v0.9.1
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+
       - name: Release with Maven
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
         with:
@@ -58,4 +65,5 @@ jobs:
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
             -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
             -Ddocker.registry.password=${{ secrets.DOCKER_PASSWORD }}
+            -Ddocker.platforms=linux/amd64
             -Ddocker.noCache
