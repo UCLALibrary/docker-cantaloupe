@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>cantaloupe</artifactId>
@@ -75,7 +75,7 @@
     <!-- Docker container dependency versions -->
     <!-- https://packages.ubuntu.com/search?keywords=search -->
     <ubuntu.tag>22.04</ubuntu.tag>
-    <openjdk.version>17.0.14+7-1~22.04.1</openjdk.version>
+    <openjdk.version>17.0.16+8~us1-0ubuntu1~22.04.1</openjdk.version>
     <gcc.version>4:11.2.0-1ubuntu1</gcc.version>
     <make.version>4.3-4.1build1</make.version>
     <libtiff.version>4.3.0-6ubuntu0.10</libtiff.version>
@@ -87,7 +87,7 @@
     <curl.version>7.81.0-1ubuntu1.20</curl.version>
     <ffmpeg.version>7:4.4.2-0ubuntu0.22.04.1</ffmpeg.version>
     <python2.version>2.7.18-3</python2.version>
-    <libperl.version>5.34.0-3ubuntu1.4</libperl.version>
+    <libperl.version>5.34.0-3ubuntu1.5</libperl.version>
 
     <!-- Java dependency versions -->
     <freelib.utils.version>5.1.1</freelib.utils.version>
