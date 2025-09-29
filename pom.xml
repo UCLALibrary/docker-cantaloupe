@@ -94,7 +94,7 @@
     <maven.jar.version>3.4.2</maven.jar.version>
     <jsoup.version>1.21.1</jsoup.version>
     <json.version>20250517</json.version>
-    <scm.plugin.version>2.1.0</scm.plugin.version>
+    <scm.plugin.version>2.2.1</scm.plugin.version>
     <deploy.plugin.version>3.1.4</deploy.plugin.version>
     <codacy.plugin.version>1.2.0</codacy.plugin.version>
     <xml.maven.plugin.version>1.1.0</xml.maven.plugin.version>
