@@ -1,8 +1,8 @@
 diff --git a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
-index 20181b298..364f94e96 100644
+index 23c7b1818..d6350fd39 100644
 --- a/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
 +++ b/src/main/java/edu/illinois/library/cantaloupe/resource/AbstractResource.java
-@@ -364,6 +364,9 @@ public abstract class AbstractResource {
+@@ -365,6 +365,9 @@ public abstract class AbstractResource {
              if (code == 401) {
                  getResponse().setHeader("WWW-Authenticate",
                          info.getChallengeValue());
@@ -13,20 +13,42 @@ index 20181b298..364f94e96 100644
              throw new ResourceException(new Status(code));
          }
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageAPIResourceTester.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageAPIResourceTester.java
-index ef04a9365..236d17ced 100644
+index 183b002f0..6e04e3265 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageAPIResourceTester.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageAPIResourceTester.java
-@@ -51,7 +51,7 @@ public class ImageAPIResourceTester {
+@@ -57,6 +57,12 @@ public class ImageAPIResourceTester {
          assertStatus(200, uri);
      }
  
--    public void testAuthorizationWhenUnauthorized(URI uri) {
 +    public void testAuthorizationWhenUnauthorized(URI uri, String endpointPath) {
-         // This may vary depending on the return value of a delegate method,
-         // but the way the tests are set up, it's 401.
-         assertStatus(401, uri);
++        // This may vary depending on the return value of a delegate method,
++        // but the way the tests are set up, it's 401.
++        assertStatus(401, uri);
++    }
++
+     public void testAuthorizationWhenNotAuthorizedWhenAccessingCachedResource(URI uri)
+             throws Exception {
+         initializeFilesystemCache();
+diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageResourceTester.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageResourceTester.java
+index 6f8029790..f02b2c72e 100644
+--- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageResourceTester.java
++++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/ImageResourceTester.java
+@@ -30,10 +30,9 @@ import static org.junit.jupiter.api.Assertions.*;
+  */
+ public class ImageResourceTester extends ImageAPIResourceTester {
+ 
+-    public void testAuthorizationWhenUnauthorized(URI uri) {
+-        // This may vary depending on the return value of a delegate method,
+-        // but the test delegate script returns 403.
+-        assertStatus(401, uri);
++    @Override
++    public void testAuthorizationWhenUnauthorized(URI uri, String endpointPath) {
++        super.testAuthorizationWhenUnauthorized(uri, endpointPath);
+         assertRepresentationContains("401 Unauthorized", uri);
+     }
+ 
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/InformationResourceTester.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/InformationResourceTester.java
-index 9d3928dcf..effdd5ca7 100644
+index 5be8e5511..eb07ca460 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/InformationResourceTester.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/InformationResourceTester.java
 @@ -10,6 +10,7 @@ import edu.illinois.library.cantaloupe.http.ResourceException;
@@ -55,11 +77,11 @@ index 9d3928dcf..effdd5ca7 100644
 +        assertRepresentationContains(requiredJsonLdContent, uri);
 +    }
 +
-     public void testCacheWithDerivativeCacheEnabledAndInfoCacheEnabledAndResolveFirstEnabled(
-             URI uri, Path sourceFile) throws Exception {
-         final Path cacheDir = initializeFilesystemCache();
+     public void testAuthorizationWhenForbidden(URI uri) {
+         // This may vary depending on the return value of a delegate method,
+         // but the test delegate script returns 401.
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/ImageResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/ImageResourceTest.java
-index 40eb7924d..aa7f7b100 100644
+index b83580287..5876cbca5 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/ImageResourceTest.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/ImageResourceTest.java
 @@ -47,7 +47,7 @@ public class ImageResourceTest extends ResourceTest {
@@ -72,20 +94,28 @@ index 40eb7924d..aa7f7b100 100644
  
      @Test
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/InformationResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/InformationResourceTest.java
-index a37df660a..d6675a2f9 100644
+index 251d2526d..67ffe3f1a 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/InformationResourceTest.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v1/InformationResourceTest.java
-@@ -51,7 +51,7 @@ public class InformationResourceTest extends ResourceTest {
+@@ -51,15 +51,7 @@ public class InformationResourceTest extends ResourceTest {
      @Test
      void testGETAuthorizationWhenUnauthorized() {
          URI uri = getHTTPURI("/unauthorized.jpg/info.json");
--        tester.testAuthorizationWhenUnauthorized(uri);
+-        // This may vary depending on the return value of a delegate method,
+-        // but the test delegate script returns 401.
+-        assertStatus(401, uri);
+-        assertRepresentationEquals(
+-                "{\"@context\":\"http://library.stanford.edu/iiif/image-api/1.1/context.json\","+
+-                "\"@id\":\"" + uri.toString().replace("/info.json", "") + "\"," +
+-                "\"status\":401," +
+-                "\"message\":\"Unauthorized\"" +
+-                "}", uri);
 +        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
      }
  
      @Test
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/ImageResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/ImageResourceTest.java
-index d2f6008ea..0478df5a2 100644
+index a2af81120..959f82f24 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/ImageResourceTest.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/ImageResourceTest.java
 @@ -47,7 +47,7 @@ public class ImageResourceTest extends ResourceTest {
@@ -98,20 +128,35 @@ index d2f6008ea..0478df5a2 100644
  
      @Test
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/InformationResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/InformationResourceTest.java
-index c8f879830..8a922528e 100644
+index a8b6e2b0a..86430ece7 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/InformationResourceTest.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v2/InformationResourceTest.java
-@@ -51,7 +51,7 @@ public class InformationResourceTest extends ResourceTest {
+@@ -51,22 +51,7 @@ public class InformationResourceTest extends ResourceTest {
      @Test
      void testGETAuthorizationWhenUnauthorized() {
          URI uri = getHTTPURI("/unauthorized.jpg/info.json");
--        tester.testAuthorizationWhenUnauthorized(uri);
+-        // This may vary depending on the return value of a delegate method,
+-        // but the test delegate script returns 401.
+-        assertStatus(401, uri);
+-        assertRepresentationEquals("{\"@context\":\"http://iiif.io/api/image/2/context.json\","+
+-                "\"@id\":\"" + uri.toString().replace("/info.json", "") + "\"," +
+-                "\"protocol\":\"http://iiif.io/api/image\"," +
+-                "\"status\":401," +
+-                "\"message\":\"Unauthorized\"," +
+-                "\"attribution\":\"Copyright My Great Organization. All rights reserved.\"," +
+-                "\"license\":\"http://example.org/license.html\"," +
+-                "\"service\":{" +
+-                    "\"@context\":\"http://iiif.io/api/annex/services/physdim/1/context.json\"," +
+-                    "\"profile\":\"http://iiif.io/api/annex/services/physdim\"," +
+-                    "\"physicalScale\":0.0025," +
+-                    "\"physicalUnits\":\"in\"}" +
+-                "}", uri);
 +        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
      }
  
      @Test
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/ImageResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/ImageResourceTest.java
-index 2b834f61b..551ae202d 100644
+index fa9445d54..97ea48322 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/ImageResourceTest.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/ImageResourceTest.java
 @@ -45,7 +45,7 @@ public class ImageResourceTest extends ResourceTest {
@@ -124,14 +169,31 @@ index 2b834f61b..551ae202d 100644
  
      @Test
 diff --git a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/InformationResourceTest.java b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/InformationResourceTest.java
-index e3bfc5d53..4194922ba 100644
+index 687fc9263..c8bd7a098 100644
 --- a/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/InformationResourceTest.java
 +++ b/src/test/java/edu/illinois/library/cantaloupe/resource/iiif/v3/InformationResourceTest.java
-@@ -51,7 +51,7 @@ public class InformationResourceTest extends ResourceTest {
+@@ -51,24 +51,7 @@ public class InformationResourceTest extends ResourceTest {
      @Test
      void testGETAuthorizationWhenUnauthorized() {
          URI uri = getHTTPURI("/unauthorized.jpg/info.json");
--        tester.testAuthorizationWhenUnauthorized(uri);
+-        // This may vary depending on the return value of a delegate method,
+-        // but the test delegate script returns 401.
+-        assertStatus(401, uri);
+-        assertRepresentationEquals("{\"@context\":\"http://iiif.io/api/image/3/context.json\","+
+-                "\"id\":\"" + uri.toString().replace("/info.json", "") + "\"," +
+-                "\"type\":\"ImageService3\"," +
+-                "\"protocol\":\"http://iiif.io/api/image\"," +
+-                "\"profile\":\"level2\"," +
+-                "\"status\":401," +
+-                "\"message\":\"Unauthorized\"," +
+-                "\"attribution\":\"Copyright My Great Organization. All rights reserved.\"," +
+-                "\"license\":\"http://example.org/license.html\"," +
+-                "\"service\":{" +
+-                    "\"@context\":\"http://iiif.io/api/annex/services/physdim/1/context.json\"," +
+-                    "\"profile\":\"http://iiif.io/api/annex/services/physdim\"," +
+-                    "\"physicalScale\":0.0025," +
+-                    "\"physicalUnits\":\"in\"}" +
+-                "}", uri);
 +        tester.testAuthorizationWhenUnauthorized(uri, getEndpointPath());
      }
  
