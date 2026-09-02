@@ -64,13 +64,13 @@ RUN if [ ! -z "${kakadu.version}" ]; then \
       cd /build/kakadu/"${kakadu.version}"/make && \
       apt-get update -qq && \
       DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends \
-        openjdk-17-jdk-headless \
-        gcc \
-        make \
-        libtiff-tools \
-        libtiff5 \
-        libtiff5-dev \
-        build-essential && \
+        openjdk-17-jdk-headless=${openjdk.version} \
+        gcc=${gcc.version} \
+        make=${make.version} \
+        libtiff-tools=${libtiff.version} \
+        libtiff5=${libtiff.version} \
+        libtiff5-dev=${libtiff.version} \
+        build-essential=${build.essential.version} && \
       make -f Makefile-Linux-x86-64-gcc && \
       mkdir /build/kakadu/lib && \
       mkdir /build/kakadu/bin && \
@@ -108,18 +108,18 @@ VOLUME /imageroot
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -qq --no-install-recommends \
-    libtiff-tools  \
-    libtiff5  \
-    libtiff5-dev  \
-    libopenjp2-tools \
-    libturbojpeg \
-    openjdk-17-jre-headless \
-    unzip \
-    zip \
-    curl \
-    ffmpeg \
-    python2 \
-    libperl5.34 \
+    libtiff-tools=${libtiff.version} \
+    libtiff5=${libtiff.version} \
+    libtiff5-dev=${libtiff.version} \
+    libopenjp2-tools=${libopenjp2.version} \
+    libturbojpeg=${libturbojpeg.version} \
+    openjdk-17-jre-headless=${openjdk.version} \
+    unzip=${unzip.version} \
+    zip=${zip.version} \
+    curl=${curl.version} \
+    ffmpeg=${ffmpeg.version} \
+    python2=${python2.version} \
+    libperl5.34=${libperl.version} \
     < /dev/null > /dev/null && \
     mkdir -p /opt/libjpeg-turbo/lib && \
     ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /opt/libjpeg-turbo/lib/libturbojpeg.so && \
