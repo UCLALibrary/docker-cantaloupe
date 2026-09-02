@@ -17,13 +17,15 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v2
+
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v1
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v1
         with:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: maven
+
       - name: Install Kakadu SSH key
         uses: webfactory/ssh-agent@a6f90b1f127823b31d4d4a8d96047790581349bd # v0.9.1
         env:
@@ -31,6 +33,7 @@ jobs:
         if: ${{ matrix.build_property == 'kakadu.version' && env.KAKADU_PRIVATE_SSH_KEY != null }}
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
+
       - name: Build with Maven
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
         env:
