@@ -1,6 +1,6 @@
 
 # We do a multi-stage build; the first stage builds the Cantaloupe code
-FROM maven:3-eclipse-temurin-24 AS MAVEN_TOOL_CHAIN
+FROM maven:3-eclipse-temurin-25 AS MAVEN_TOOL_CHAIN
 
 # Where we find the stable Cantaloupe Jar file
 ENV CANTALOUPE_RELEASES="https://github.com/cantaloupe-project/cantaloupe/releases/download"
@@ -13,7 +13,7 @@ ENV JAI_VERSION="1.1.3"
 ENV JAI_IMAGEIO_VERSION="1.1"
 
 # It's not great to use a third party repo but we pick a reputable one if we have to
-ENV JAI_REPO="https://nexus.geomatys.com/repository/geotoolkit/javax/media"
+ENV JAI_REPO="https://repo.osgeo.org/repository/release/javax/media"
 
 WORKDIR /build/cantaloupe
 COPY patches /build/cantaloupe-patches
@@ -64,7 +64,7 @@ RUN if [ ! -z "${kakadu.version}" ]; then \
       cd /build/kakadu/"${kakadu.version}"/make && \
       apt-get update -qq && \
       DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends \
-        openjdk-17-jdk-headless=${openjdk.version}\
+        openjdk-17-jdk-headless=${openjdk.version} \
         gcc=${gcc.version} \
         make=${make.version} \
         libtiff-tools=${libtiff.version} \
@@ -108,9 +108,9 @@ VOLUME /imageroot
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -qq --no-install-recommends \
-    libtiff-tools=${libtiff.version}  \
-    libtiff5=${libtiff.version}  \
-    libtiff5-dev=${libtiff.version}  \
+    libtiff-tools=${libtiff.version} \
+    libtiff5=${libtiff.version} \
+    libtiff5-dev=${libtiff.version} \
     libopenjp2-tools=${libopenjp2.version} \
     libturbojpeg=${libturbojpeg.version} \
     openjdk-17-jre-headless=${openjdk.version} \

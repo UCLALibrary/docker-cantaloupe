@@ -15,28 +15,33 @@ jobs:
         build_property: [ "kakadu.version", "ignored.version" ]
     steps:
       - name: Check out source code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v2
+
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v1
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v1
         with:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: maven
+
       - name: Optionally, set artifact qualifier (for private builds that include Kakadu)
         if: matrix.build_property == 'kakadu.version'
         run: echo "ARTIFACT_QUALIFIER=${{ secrets.ARTIFACT_QUALIFIER }}" >> $GITHUB_ENV
+
       - name: Optionally, login to Docker repository
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         if: env.DOCKER_USERNAME != null
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Install Kakadu SSH key
         uses: webfactory/ssh-agent@a6f90b1f127823b31d4d4a8d96047790581349bd # v0.9.1
         with:
           ssh-private-key: ${{ secrets.KAKADU_PRIVATE_SSH_KEY }}
+
       - name: Release with Maven (Public)
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
         if: env.ARTIFACT_QUALIFIER != '-ucla'
@@ -53,6 +58,7 @@ jobs:
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
             -Ddocker.registry.account=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}
             -Ddocker.registry.password=${{ secrets.DOCKER_PASSWORD }}
+
       # Temporary divergence of our build so we can add some IIIF Auth related patches
       - name: Release with Maven (UCLA)
         uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709 # v1.4.0
