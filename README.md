@@ -1,5 +1,5 @@
 ## A Docker image for the Cantaloupe IIIF image server
-[![Maven Build](https://github.com/uclalibrary/docker-cantaloupe/actions/workflows/nightly.yml/badge.svg)](https://github.com/UCLALibrary/docker-cantaloupe/actions) [![Known Vulnerabilities](https://snyk.io/test/github/uclalibrary/docker-cantaloupe/badge.svg)](https://snyk.io/test/github/uclalibrary/docker-cantaloupe)
+[![Maven Build](https://github.com/uclalibrary/docker-cantaloupe/actions/workflows/nightly.yml/badge.svg)](https://github.com/UCLALibrary/docker-cantaloupe/actions)
 
 This project builds a Docker image for the [Cantaloupe IIIF image server](https://cantaloupe-project.github.io/cantaloupe). If you're interested in using a prebuilt image, you can find one on [UCLA Library's DockerHub account](https://hub.docker.com/repository/docker/uclalibrary/cantaloupe).
 
