@@ -100,8 +100,14 @@ ENV JAVA_OPTS=""
 # The port we expose the Cantaloupe service on
 EXPOSE 8182
 
-# The container's file system location for images
-VOLUME /imageroot
+# The container's file system location for images.
+# Mount a host directory here with `-v /path/to/images:/imageroot`, or point
+# Cantaloupe elsewhere with the setting `FilesystemSource.BasicLookupStrategy.path_prefix`.
+# The directory is created here according to the default configuration.
+#
+# Don't use a VOLUME: the directive can't be undone by the user and a deployment
+# whose sources are mounted elsewhere still create a useless anonymous volume.
+RUN mkdir -p /imageroot
 
 # Update packages and install tools
 #  Removing /var/lib/apt/lists/* prevents using `apt` unless you do `apt update` first
