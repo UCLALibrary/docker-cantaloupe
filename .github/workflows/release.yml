@@ -29,7 +29,7 @@ jobs:
         run: echo "ARTIFACT_QUALIFIER=${{ secrets.ARTIFACT_QUALIFIER }}" >> $GITHUB_ENV
 
       - name: Optionally, login to Docker repository
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         if: env.DOCKER_USERNAME != null
