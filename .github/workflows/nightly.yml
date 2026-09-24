@@ -59,11 +59,7 @@ jobs:
           nexus_username: ${{ secrets.SONATYPE_USERNAME }} # These are placeholders; we're publishing a Docker image
           nexus_password: ${{ secrets.SONATYPE_PASSWORD }}
           maven_args: >
-            -Drevision=nightly
-            -Dcantaloupe.version=dev
-            -Dcantaloupe.commit.ref=${{ vars.DEV_COMMIT_REF }}
-            -Dcantaloupe.apply.patchfiles=${{ secrets.APPLY_PATCHFILES }}
-            -ntp -DskipNexusStagingDeployMojo=true
+            -Drevision=nightly -ntp -DskipNexusStagingDeployMojo=true
             -D${{ matrix.build_property }}=${{ secrets.KAKADU_VERSION }}
             -Ddocker.image=${{ secrets.DOCKER_REGISTRY_ACCOUNT}}cantaloupe${{ env.ARTIFACT_QUALIFIER }}:nightly
             -Ddocker.registry.username=${{ secrets.DOCKER_USERNAME }}
