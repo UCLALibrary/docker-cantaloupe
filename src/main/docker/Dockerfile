@@ -95,7 +95,8 @@ ENV CONFIG_FILE="/etc/cantaloupe/cantaloupe.properties"
 ENV HEAP_PERCENTAGE="80"
 
 # Use this to pass any additional JVM options to the start script
-ENV JAVA_OPTS=""
+# These two are temporary mitigations for CVE-2026-114938 (Java4Shell)
+ENV JAVA_OPTS="-XX:+UnlockDiagnosticVMOptions -XX:-UseBASE64Intrinsics"
 
 # The port we expose the Cantaloupe service on
 EXPOSE 8182
