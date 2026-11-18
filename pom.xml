@@ -75,7 +75,7 @@
     <!-- Docker container dependency versions -->
     <!-- https://packages.ubuntu.com/search?keywords=search -->
     <ubuntu.tag>22.04</ubuntu.tag>
-    <openjdk.version>17.0.20.1+1-1~22.04</openjdk.version>
+    <openjdk.version>17.0.21.0.3+1-1~22.04.1</openjdk.version>
     <gcc.version>4:11.2.0-1ubuntu1</gcc.version>
     <make.version>4.3-4.1build1</make.version>
     <libtiff.version>4.3.0-6ubuntu0.13</libtiff.version>
@@ -84,20 +84,20 @@
     <libturbojpeg.version>2.1.2-0ubuntu1</libturbojpeg.version>
     <unzip.version>6.0-26ubuntu3.2</unzip.version>
     <zip.version>3.0-12build2</zip.version>
-    <curl.version>7.81.0-1ubuntu1.29</curl.version>
+    <curl.version>7.81.0-1ubuntu1.30</curl.version>
     <ffmpeg.version>7:4.4.2-0ubuntu0.22.04.1</ffmpeg.version>
     <python2.version>2.7.18-3</python2.version>
-    <libperl.version>5.34.0-3ubuntu1.9</libperl.version>
+    <libperl.version>5.34.0-3ubuntu1.10</libperl.version>
 
     <!-- Java dependency versions -->
     <freelib.utils.version>5.3.2</freelib.utils.version>
     <maven.jar.version>3.5.1</maven.jar.version>
-    <jsoup.version>1.23.2</jsoup.version>
+    <jsoup.version>1.24.1</jsoup.version>
     <json.version>20260814</json.version>
     <scm.plugin.version>2.2.1</scm.plugin.version>
     <deploy.plugin.version>3.2.0</deploy.plugin.version>
     <codacy.plugin.version>1.2.0</codacy.plugin.version>
-    <xml.maven.plugin.version>1.2.2</xml.maven.plugin.version>
+    <xml.maven.plugin.version>1.4.0</xml.maven.plugin.version>
     <docker.maven.plugin.version>0.49.0</docker.maven.plugin.version>
     <maven.download.plugin.version>1.13.0</maven.download.plugin.version>
 
